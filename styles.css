@@ -6,7 +6,11 @@
 
 body {
     font-family: 'Arial', sans-serif;
-    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    background-image: url('https://pbs.twimg.com/media/GUNvBM9WQAAwIAp?format=jpg&name=4096x4096');
+    background-size: cover;
+    background-position: center;
+    background-attachment: fixed;
+    background-repeat: no-repeat;
     min-height: 100vh;
     padding: 20px;
     color: #333;
