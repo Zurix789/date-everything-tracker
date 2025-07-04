@@ -281,16 +281,26 @@ function setCharacterRelationshipUnified(charId, relationship) {
         state.characters[charId].statGiven = true;
     }
     
+    console.log('Character relationship changed:', charId, relationship); // Debug log
+    console.log('Character state:', state.characters[charId]); // Debug log
+    
     recalculateStatsUnified();
     saveStateUnified();
+    updateStats(); // Add explicit update
+    updateSummaryStats(); // Add explicit update
     renderCharacters();
 }
 
 function setChosenStatUnified(charId, stat) {
     const state = getCurrentGameState();
     state.characters[charId].chosenStat = stat;
+    
+    console.log('Chosen stat changed:', charId, stat); // Debug log
+    
     recalculateStatsUnified();
     saveStateUnified();
+    updateStats(); // Add explicit update
+    updateSummaryStats(); // Add explicit update
     renderCharacters();
 }
 
@@ -333,8 +343,14 @@ function recalculateStatsUnified() {
     const state = getCurrentGameState();
     
     if (isNgPlus) {
-        // Reset to starting stats for NG+
-        state.stats = { ...state.startingStats };
+        // Reset to starting stats for NG+ - make sure to copy the object properly
+        state.stats = {
+            smarts: state.startingStats.smarts || 0,
+            poise: state.startingStats.poise || 0,
+            empathy: state.startingStats.empathy || 0,
+            charm: state.startingStats.charm || 0,
+            sass: state.startingStats.sass || 0
+        };
     } else {
         // Reset to zero for main game
         state.stats = { smarts: 0, poise: 0, empathy: 0, charm: 0, sass: 0 };
@@ -343,8 +359,12 @@ function recalculateStatsUnified() {
     // Add stats from relationships
     characters.forEach(char => {
         const charState = state.characters[char.id];
-        if (charState && charState.relationship && charState.statGiven && charState.chosenStat) {
-            state.stats[charState.chosenStat] += 5;
+        if (charState && charState.relationship && charState.statGiven) {
+            // For choosable characters, use chosenStat; for others, use the character's default stat
+            const statToIncrease = char.stat === 'choosable' ? charState.chosenStat : char.stat;
+            if (statToIncrease) {
+                state.stats[statToIncrease] += 5;
+            }
         }
     });
     

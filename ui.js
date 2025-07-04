@@ -1,5 +1,7 @@
 // Tab switching function
 function switchTab(tabName) {
+    console.log('Switching to tab:', tabName); // Debug log
+    
     // Remove active class from all tabs
     document.querySelectorAll('.tab-button').forEach(btn => btn.classList.remove('active'));
     document.querySelectorAll('.tab-content').forEach(content => content.classList.remove('active'));
@@ -12,6 +14,12 @@ function switchTab(tabName) {
     currentTab = tabName;
     isNgPlus = (tabName === 'ngplus');
     
+    console.log('isNgPlus set to:', isNgPlus); // Debug log
+    console.log('Current state:', getCurrentGameState()); // Debug log
+    
+    // Force recalculation when switching tabs
+    recalculateStatsUnified();
+    
     // Update displays when switching tabs
     updateStats();
     updateSummaryStats();
@@ -22,25 +30,39 @@ function switchTab(tabName) {
 // Update stats display - fixed to work with both states
 function updateStats() {
     const state = getCurrentGameState();
-    const prefix = isNgPlus ? 'ng' : '';
     
-    const smartsEl = document.getElementById(`${prefix}smartsValue`);
-    const poiseEl = document.getElementById(`${prefix}poiseValue`);
-    const empathyEl = document.getElementById(`${prefix}empathyValue`);
-    const charmEl = document.getElementById(`${prefix}charmValue`);
-    const sassEl = document.getElementById(`${prefix}sassValue`);
-    
-    if (smartsEl) smartsEl.textContent = state.stats.smarts;
-    if (poiseEl) poiseEl.textContent = state.stats.poise;
-    if (empathyEl) empathyEl.textContent = state.stats.empathy;
-    if (charmEl) charmEl.textContent = state.stats.charm;
-    if (sassEl) sassEl.textContent = state.stats.sass;
+    if (isNgPlus) {
+        // NG+ stat elements
+        const smartsEl = document.getElementById('ngSmartsValue');
+        const poiseEl = document.getElementById('ngPoiseValue');
+        const empathyEl = document.getElementById('ngEmpathyValue');
+        const charmEl = document.getElementById('ngCharmValue');
+        const sassEl = document.getElementById('ngSassValue');
+        
+        if (smartsEl) smartsEl.textContent = state.stats.smarts;
+        if (poiseEl) poiseEl.textContent = state.stats.poise;
+        if (empathyEl) empathyEl.textContent = state.stats.empathy;
+        if (charmEl) charmEl.textContent = state.stats.charm;
+        if (sassEl) sassEl.textContent = state.stats.sass;
+    } else {
+        // Main game stat elements
+        const smartsEl = document.getElementById('smartsValue');
+        const poiseEl = document.getElementById('poiseValue');
+        const empathyEl = document.getElementById('empathyValue');
+        const charmEl = document.getElementById('charmValue');
+        const sassEl = document.getElementById('sassValue');
+        
+        if (smartsEl) smartsEl.textContent = state.stats.smarts;
+        if (poiseEl) poiseEl.textContent = state.stats.poise;
+        if (empathyEl) empathyEl.textContent = state.stats.empathy;
+        if (charmEl) charmEl.textContent = state.stats.charm;
+        if (sassEl) sassEl.textContent = state.stats.sass;
+    }
 }
 
 // Update summary stats - fixed to work with both states
 function updateSummaryStats() {
     const state = getCurrentGameState();
-    const prefix = isNgPlus ? 'ng' : '';
     
     const metCount = Object.values(state.characters).filter(c => c.met).length;
     const storiesComplete = Object.values(state.characters).filter(c => c.storyComplete).length;
@@ -48,21 +70,34 @@ function updateSummaryStats() {
     const totalCharacters = characters.length;
     const completionRate = Math.round((realizedCount / totalCharacters) * 100);
 
-    const metEl = document.getElementById(`${prefix}metCount`);
-    const storiesEl = document.getElementById(`${prefix}storiesComplete`);
-    const realizedEl = document.getElementById(`${prefix}realizedCount`);
-    const completionEl = document.getElementById(`${prefix}completionRate`);
-    
-    if (metEl) metEl.textContent = metCount;
-    if (storiesEl) storiesEl.textContent = storiesComplete;
-    if (realizedEl) realizedEl.textContent = realizedCount;
-    if (completionEl) completionEl.textContent = `${completionRate}%`;
+    if (isNgPlus) {
+        // NG+ summary elements
+        const metEl = document.getElementById('ngMetCount');
+        const storiesEl = document.getElementById('ngStoriesComplete');
+        const realizedEl = document.getElementById('ngRealizedCount');
+        const completionEl = document.getElementById('ngCompletionRate');
+        
+        if (metEl) metEl.textContent = metCount;
+        if (storiesEl) storiesEl.textContent = storiesComplete;
+        if (realizedEl) realizedEl.textContent = realizedCount;
+        if (completionEl) completionEl.textContent = `${completionRate}%`;
+    } else {
+        // Main game summary elements
+        const metEl = document.getElementById('metCount');
+        const storiesEl = document.getElementById('storiesComplete');
+        const realizedEl = document.getElementById('realizedCount');
+        const completionEl = document.getElementById('completionRate');
+        
+        if (metEl) metEl.textContent = metCount;
+        if (storiesEl) storiesEl.textContent = storiesComplete;
+        if (realizedEl) realizedEl.textContent = realizedCount;
+        if (completionEl) completionEl.textContent = `${completionRate}%`;
+    }
 }
 
 // Update time slots dropdown - fixed to work with both states
 function updateTimeSlots() {
     const state = getCurrentGameState();
-    const prefix = isNgPlus ? 'ng' : '';
     const slots = ['9am', '12pm', '3pm', '6pm', '9pm'];
     
     const availableCharacters = characters.filter(char => {
@@ -71,7 +106,8 @@ function updateTimeSlots() {
     });
 
     slots.forEach(slot => {
-        const select = document.getElementById(`${prefix}slot${slot}`);
+        const selectId = isNgPlus ? `ngSlot${slot}` : `slot${slot}`;
+        const select = document.getElementById(selectId);
         if (select) {
             select.innerHTML = '<option value="">Select Character</option>';
             
@@ -90,19 +126,44 @@ function updateTimeSlots() {
 
 // Update starting stats for NG+ - ensure recalculation happens
 function updateStartingStats() {
+    // Get the current values from the input fields
+    const smartsInput = document.getElementById('ngPlusSmarts');
+    const poiseInput = document.getElementById('ngPlusPoise');
+    const empathyInput = document.getElementById('ngPlusEmpathy');
+    const charmInput = document.getElementById('ngPlusCharm');
+    const sassInput = document.getElementById('ngPlusSass');
+    
+    // Update the starting stats
     ngPlusGameState.startingStats = {
-        smarts: parseInt(document.getElementById('ngPlusSmarts').value) || 0,
-        poise: parseInt(document.getElementById('ngPlusPoise').value) || 0,
-        empathy: parseInt(document.getElementById('ngPlusEmpathy').value) || 0,
-        charm: parseInt(document.getElementById('ngPlusCharm').value) || 0,
-        sass: parseInt(document.getElementById('ngPlusSass').value) || 0
+        smarts: parseInt(smartsInput.value) || 0,
+        poise: parseInt(poiseInput.value) || 0,
+        empathy: parseInt(empathyInput.value) || 0,
+        charm: parseInt(charmInput.value) || 0,
+        sass: parseInt(sassInput.value) || 0
     };
     
-    // Recalculate stats if we're in NG+ mode
+    // Force immediate recalculation and display update
     if (isNgPlus) {
-        recalculateStatsUnified();
+        // Copy starting stats to current stats
+        ngPlusGameState.stats = { ...ngPlusGameState.startingStats };
+        
+        // Add relationship bonuses
+        characters.forEach(char => {
+            const charState = ngPlusGameState.characters[char.id];
+            if (charState && charState.relationship && charState.statGiven) {
+                const statToIncrease = char.stat === 'choosable' ? charState.chosenStat : char.stat;
+                if (statToIncrease) {
+                    ngPlusGameState.stats[statToIncrease] += 5;
+                }
+            }
+        });
+        
+        // Update the display immediately
+        updateStats();
+        updateSummaryStats();
     }
     
+    // Save the state
     saveNgPlusState();
 }
 

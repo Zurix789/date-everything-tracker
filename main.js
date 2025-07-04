@@ -104,9 +104,13 @@ function setupEventListeners() {
         }
     });
 
-    // NG+ starting stats
-    document.querySelectorAll('#ngPlusSmarts, #ngPlusPoise, #ngPlusEmpathy, #ngPlusCharm, #ngPlusSass').forEach(input => {
-        input.addEventListener('input', updateStartingStats);
+    // NG+ starting stats - Add both 'input' and 'change' events
+    ['ngPlusSmarts', 'ngPlusPoise', 'ngPlusEmpathy', 'ngPlusCharm', 'ngPlusSass'].forEach(inputId => {
+        const input = document.getElementById(inputId);
+        if (input) {
+            input.addEventListener('input', updateStartingStats);
+            input.addEventListener('change', updateStartingStats);
+        }
     });
 }
 
@@ -135,10 +139,8 @@ function updateUIStates() {
     document.getElementById('ngPlusCharm').value = ngPlusGameState.startingStats.charm;
     document.getElementById('ngPlusSass').value = ngPlusGameState.startingStats.sass;
     
-    // Initialize NG+ stats properly
-    if (isNgPlus) {
-        recalculateStatsUnified();
-    }
+    // Initialize stats properly for both tabs
+    recalculateStatsUnified();
 }
 
 // Make functions global for onclick handlers
