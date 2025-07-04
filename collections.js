@@ -3,6 +3,11 @@
 // Global spoiler toggle state - DEFAULT TO ON
 let collectionsShowSpoilers = false;
 
+// Function to check if character has been met in either main or NG+ mode
+function hasBeenMetInEitherMode(characterId) {
+    return gameState.characters[characterId].met || ngPlusGameState.characters[characterId].met;
+}
+
 // Function to initialize collections spoiler toggle
 function initializeCollectionsSpoilers() {
     const spoilerBtn = document.getElementById('collectionsSpoilerToggle');
@@ -29,12 +34,20 @@ function renderCollections() {
         // Skip characters with no collectables
         if (charCollectables.length === 0) return;
 
-        const card = document.createElement('div');
-        card.className = `collection-character-card ${charState.met ? 'met' : ''}`;
+        // Skip characters that can't be met and haven't been met (only when spoilers are OFF)
+        if (!collectionsShowSpoilers && !canMeetCharacterUnified(char) && !hasBeenMetInEitherMode(char.id)) {
+            return;
+        }
 
-        // Get display name based on spoiler settings
+        // Check if character has been met in either mode for styling
+        const hasBeenMet = hasBeenMetInEitherMode(char.id);
+
+        const card = document.createElement('div');
+        card.className = `collection-character-card ${hasBeenMet ? 'met' : ''}`;
+
+        // Get display name based on spoiler settings and met status
         let displayName;
-        if (!collectionsShowSpoilers) {
+        if (!collectionsShowSpoilers && !hasBeenMet) {
             displayName = `${char.id}. ???`;
         } else {
             displayName = `${char.id}. ${char.name}`;
@@ -45,8 +58,8 @@ function renderCollections() {
         if (characterPortraitMap[char.id] && characterPortraitUrls[char.id]) {
             let portraitClasses = `character-portrait ${characterPortraitMap[char.id]}`;
             
-            // Only apply not-met filter if character hasn't been met
-            if (!collectionsShowSpoilers) {
+            // Only apply not-met filter if character hasn't been met in either mode
+            if (!collectionsShowSpoilers && !hasBeenMet) {
                 portraitClasses += ' not-met';
             }
             
@@ -56,9 +69,9 @@ function renderCollections() {
             characterPortrait = `<div class="${portraitClasses}" style="${portraitStyle}"></div>`;
         }
 
-        // Add content warning if applicable and spoilers are shown
+        // Add content warning if applicable and spoilers are shown OR character has been met
         let contentWarning = '';
-        if (collectionsShowSpoilers && contentWarnings[char.id]) {
+        if ((collectionsShowSpoilers || hasBeenMet) && contentWarnings[char.id]) {
             contentWarning = `
                 <div class="content-warning">
                     <div class="content-warning-header">
