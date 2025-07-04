@@ -1,0 +1,3170 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Date Everything - Enhanced Game Tracker</title>
+    
+    <!-- 
+    ================================================================
+    CSS SECTION - Copy and paste contents of styles.css here
+    Replace the link tag below with a <style> tag containing the CSS
+    ================================================================
+    -->
+    <style>
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: 'Arial', sans-serif;
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    min-height: 100vh;
+    padding: 20px;
+    color: #333;
+}
+
+.container {
+    max-width: 1400px;
+    margin: 0 auto;
+    background: rgba(255, 255, 255, 0.95);
+    border-radius: 20px;
+    padding: 30px;
+    box-shadow: 0 20px 40px rgba(0, 0, 0, 0.1);
+}
+
+h1 {
+    text-align: center;
+    color: #764ba2;
+    margin-bottom: 30px;
+    font-size: 2.5rem;
+    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.main-controls {
+    display: flex;
+    justify-content: center;
+    gap: 20px;
+    margin-bottom: 30px;
+    flex-wrap: wrap;
+}
+
+.control-group {
+    background: white;
+    padding: 15px;
+    border-radius: 10px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+.stats-display {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
+    gap: 15px;
+    margin-bottom: 30px;
+    background: white;
+    padding: 20px;
+    border-radius: 15px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+.stat-item {
+    text-align: center;
+    padding: 15px;
+    border-radius: 10px;
+    color: white;
+    font-weight: bold;
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 10px;
+    text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.3);
+}
+
+.stat-item::before {
+    content: '';
+    width: 40px;
+    height: 40px;
+    background-size: contain;
+    background-repeat: no-repeat;
+    background-position: center;
+    margin-bottom: 5px;
+}
+
+/* Smarts - Blue gradient to match the brain/book badge */
+.stat-item:nth-child(1) {
+    background: linear-gradient(135deg, #FF7010 0%, #FF7010 100%);
+}
+
+.stat-item:nth-child(1)::before {
+    background-image: url('https://dateeverything.wiki.gg/images/2/29/Badge_Smarts.png');
+}
+
+/* Poise - Purple gradient to match the elegance badge */
+.stat-item:nth-child(2) {
+    background: linear-gradient(135deg, #9F59E1 0%, #9F59E1 100%);
+}
+
+.stat-item:nth-child(2)::before {
+    background-image: url('https://dateeverything.wiki.gg/images/b/b3/Badge_Poise.png');
+}
+
+/* Empathy - Pink gradient to match the heart badge */
+.stat-item:nth-child(3) {
+    background: linear-gradient(135deg, #36A7E3 0%, #36A7E3 100%);
+}
+
+.stat-item:nth-child(3)::before {
+    background-image: url('https://dateeverything.wiki.gg/images/6/6e/Badge_Empathy.png');
+}
+
+/* Charm - Orange/red gradient to match the charm badge */
+.stat-item:nth-child(4) {
+    background: linear-gradient(135deg, #E42552 0%, #E42552 100%);
+}
+
+.stat-item:nth-child(4)::before {
+    background-image: url('https://dateeverything.wiki.gg/images/d/d1/Badge_Charm.png');
+}
+
+/* Sass - Yellow/gold gradient to match the lightning badge */
+.stat-item:nth-child(5) {
+    background: linear-gradient(135deg, #559F2C 0%, #559F2C 100%);
+}
+
+.stat-item:nth-child(5)::before {
+    background-image: url('https://dateeverything.wiki.gg/images/2/24/Badge_Sass.png');
+}
+
+.stat-value {
+    font-size: 1.5rem;
+    display: block;
+    margin-top: 5px;
+}
+
+.time-slots {
+    background: white;
+    padding: 20px;
+    border-radius: 15px;
+    margin-bottom: 30px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+.time-slot {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+    margin-bottom: 15px;
+    padding: 10px;
+    background: #f8f9fa;
+    border-radius: 8px;
+}
+
+.time-label {
+    font-weight: bold;
+    min-width: 80px;
+    color: #764ba2;
+}
+
+.character-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(400px, 1fr));
+    gap: 10px;
+    margin-bottom: 30px;
+}
+
+.character-card {
+    background: white;
+    border-radius: 15px;
+    padding: 20px;
+    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.1);
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+    z-index: 0;
+    min-height: 350px;
+}
+
+.character-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 12px 24px rgba(0, 0, 0, 0.15);
+}
+
+.character-card.met {
+    border-left: 5px solid #4CAF50;
+}
+
+.character-card.realized {
+    border-left: 5px solid #FFD700;
+    background: linear-gradient(135deg, #fff9c4 0%, #fff 100%);
+}
+
+.character-name {
+    font-size: 1.2rem;
+    font-weight: bold;
+    margin-bottom: 10px;
+    color: #764ba2;
+    z-index: 1;
+}
+
+.character-icon {
+    position: relative;
+    width: 35%;
+    min-width: 100px;
+    height: 250px; /* Match portrait height */
+}
+
+.character-icon.not-met {
+    filter: brightness(0) saturate(100%);
+}
+
+.character-icon.love {
+    filter: hue-rotate(320deg) saturate(150%);
+}
+
+.character-icon.friend {
+    filter: hue-rotate(60deg) saturate(120%);
+}
+
+.character-icon.hate {
+    filter: hue-rotate(0deg) saturate(200%) brightness(0.8);
+}
+
+.character-icon.realized {
+    filter: hue-rotate(45deg) saturate(150%) brightness(1.2);
+}
+
+.character-card.realized {
+    background: linear-gradient(135deg, #ffd700 0%, #ffed4e 25%, #ffd700 50%, #ffed4e 75%, #ffd700 100%);
+    background-size: 200% 200%;
+    animation: shimmer 2s ease-in-out infinite;
+    border-left: 5px solid #ffd700;
+}
+
+@keyframes shimmer {
+    0% { background-position: 0% 50%; }
+    50% { background-position: 100% 50%; }
+    100% { background-position: 0% 50%; }
+}
+
+.character-portrait {
+    width: 200px; /* Larger than container */
+    height: 300px;
+    background-size: contain;
+    background-position: top left;
+    background-repeat: no-repeat;
+    position: absolute;
+    top: -5px; /* Extend beyond card */
+    left: -5px;
+    z-index: -1;
+    background-image: var(--portrait-url);
+}
+
+.character-portrait.not-met {
+    filter: brightness(0) saturate(100%);
+}
+
+.character-portrait.love {
+    background-image: var(--portrait-love-url, var(--portrait-url));
+}
+
+.character-portrait.friend {
+    background-image: var(--portrait-friend-url, var(--portrait-url));
+}
+
+.character-portrait.hate {
+    background-image: var(--portrait-hate-url, var(--portrait-url));
+}
+
+.character-portrait.realized {
+    background-image: var(--portrait-realized-url, var(--portrait-url));
+}
+
+.character-controls {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+    margin-bottom: 15px;
+    z-index: 1;
+}
+
+.btn {
+    padding: 8px 16px;
+    border: none;
+    border-radius: 6px;
+    cursor: pointer;
+    font-size: 0.9rem;
+    transition: all 0.2s ease;
+    z-index: 1;
+}
+
+.btn-primary {
+    background: #667eea;
+    color: white;
+    z-index: 1;
+}
+
+.btn-primary:hover {
+    background: #5a6fd8;
+    z-index: 1;
+}
+
+.btn-success {
+    background: #4CAF50;
+    color: white;
+    z-index: 1;
+}
+
+.btn-success:hover {
+    background: #45a049;
+    z-index: 1;
+}
+
+.btn-warning {
+    background: #ff9800;
+    color: white;
+    z-index: 1;
+}
+
+.btn-warning:hover {
+    background: #e68900;
+    z-index: 1;
+}
+
+.btn-danger {
+    background: #f44336;
+    color: white;
+    z-index: 1;
+}
+
+.btn-danger:hover {
+    background: #da190b;
+    z-index: 1;
+}
+
+.relationship-buttons {
+    display: flex;
+    gap: 5px;
+    z-index: 1;
+}
+
+.relationship-btn {
+    padding: 5px 10px;
+    border: 2px solid #ddd;
+    background: white;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    color: #333;
+    font-weight: bold;
+    z-index: 1;
+}
+
+.relationship-btn.active.love {
+    background: linear-gradient(135deg, #ff6b6b 0%, #ffd93d 100%);
+    color: white;
+    border-color: #ff6b6b;
+    text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.3);
+}
+
+.relationship-btn.active.friend {
+    background: linear-gradient(135deg, #ffa726 0%, #fff176 100%);
+    color: #333;
+    border-color: #ffa726;
+    text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.2);
+}
+
+.relationship-btn.active.hate {
+    background: linear-gradient(135deg, #212121 0%, #d32f2f 100%);
+    color: white;
+    border-color: #212121;
+    text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.5);
+}
+
+.relationship-btn:hover {
+    transform: translateY(-1px);
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+}
+
+.relationship-btn.active {
+    background: #764ba2;
+    color: white;
+    border-color: #764ba2;
+}
+
+.location-tracker {
+    background: #f8f9fa;
+    padding: 15px;
+    border-radius: 10px;
+    margin-top: 15px;
+}
+
+.location-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+    gap: 10px;
+}
+
+.location-item {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    padding: 8px;
+    background: white;
+    border-radius: 6px;
+    font-size: 0.9rem;
+}
+
+.checkbox {
+    margin-right: 8px;
+}
+
+select {
+    padding: 8px;
+    border: 2px solid #ddd;
+    border-radius: 6px;
+    font-size: 0.9rem;
+    flex: 1;
+}
+
+.toggle-btn {
+    background: #764ba2;
+    color: white;
+    border: none;
+    padding: 10px 20px;
+    border-radius: 8px;
+    cursor: pointer;
+    font-size: 1rem;
+    transition: background 0.2s ease;
+    z-index: 1;
+}
+
+.toggle-btn:hover {
+    background: #5a4b8a;
+}
+
+.toggle-btn.active {
+    background: #4CAF50;
+}
+
+.progress-bar {
+    width: 100%;
+    height: 8px;
+    background: #e0e0e0;
+    border-radius: 4px;
+    overflow: hidden;
+    margin-top: 10px;
+}
+
+.progress-fill {
+    height: 100%;
+    background: linear-gradient(90deg, #667eea, #764ba2);
+    transition: width 0.3s ease;
+}
+
+.summary-stats {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 20px;
+    margin-bottom: 30px;
+}
+
+.summary-card {
+    background: white;
+    padding: 20px;
+    border-radius: 15px;
+    text-align: center;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+.summary-number {
+    font-size: 2rem;
+    font-weight: bold;
+    color: #764ba2;
+    display: block;
+}
+
+.requirements-list {
+    background: #fff3cd;
+    padding: 10px;
+    border-radius: 6px;
+    margin-top: 10px;
+    border-left: 4px solid #ffc107;
+    z-index: 1;
+}
+
+.requirements-list ul {
+    margin-left: 20px;
+}
+
+.requirements-list li {
+    margin: 5px 0;
+    font-size: 0.9rem;
+}
+
+.met-requirement {
+    color: #4CAF50;
+    text-decoration: line-through;
+}
+
+.unmet-requirement {
+    color: #f44336;
+}
+
+.story-requirements {
+    background: #e3f2fd;
+    padding: 10px;
+    border-radius: 6px;
+    margin-top: 10px;
+    border-left: 4px solid #2196F3;
+    z-index: 1;
+}
+
+.dependency-requirements {
+    background: #f3e5f5;
+    padding: 10px;
+    border-radius: 6px;
+    margin-top: 10px;
+    border-left: 4px solid #9c27b0;
+    z-index: 1;
+}
+
+.disabled {
+    opacity: 0.5;
+    cursor: not-allowed !important;
+}
+
+.disabled:hover {
+    background: #6c757d !important;
+}
+
+.character-dependencies {
+    margin-top: 10px;
+    padding: 10px;
+    background: #f8f9fa;
+    border-radius: 6px;
+    border-left: 4px solid #9c27b0;
+}
+
+.dependency-item {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    margin: 5px 0;
+    font-size: 0.9rem;
+}
+
+.dependency-met {
+    color: #4CAF50;
+}
+
+.dependency-unmet {
+    color: #f44336;
+}
+
+.manual-dependency {
+    margin-top: 10px;
+    padding: 10px;
+    background: #fff3cd;
+    border-radius: 6px;
+    border-left: 4px solid #ffc107;
+}
+
+.manual-dependency input {
+    margin-right: 8px;
+}
+
+.manual-dependency label {
+    font-size: 0.9rem;
+}
+    </style>
+    <!-- Alternative: <link rel="stylesheet" href="styles.css"> -->
+    
+</head>
+<body>
+    <div class="container">
+        <h1>Date Everything - Enhanced Game Tracker</h1>
+        
+        <div class="main-controls">
+            <div class="control-group">
+                <button id="hintMode" class="toggle-btn">Hint Mode: OFF</button>
+            </div>
+            <div class="control-group">
+                <button id="atticUnlocked" class="toggle-btn">Attic: Locked</button>
+            </div>
+            <div class="control-group">
+                <button id="dlcPurchased" class="toggle-btn">DLC: Not Purchased</button>
+            </div>
+            <div class="control-group">
+                <button id="resetData" class="btn btn-danger">Reset All Data</button>
+            </div>
+        </div>
+
+        <div class="stats-display">
+            <div class="stat-item">
+                <div>Smarts</div>
+                <span class="stat-value" id="smartsValue">0</span>
+            </div>
+            <div class="stat-item">
+                <div>Poise</div>
+                <span class="stat-value" id="poiseValue">0</span>
+            </div>
+            <div class="stat-item">
+                <div>Empathy</div>
+                <span class="stat-value" id="empathyValue">0</span>
+            </div>
+            <div class="stat-item">
+                <div>Charm</div>
+                <span class="stat-value" id="charmValue">0</span>
+            </div>
+            <div class="stat-item">
+                <div>Sass</div>
+                <span class="stat-value" id="sassValue">0</span>
+            </div>
+        </div>
+
+        <div class="summary-stats">
+            <div class="summary-card">
+                <span class="summary-number" id="metCount">0</span>
+                <div>Characters Met</div>
+            </div>
+            <div class="summary-card">
+                <span class="summary-number" id="storiesComplete">0</span>
+                <div>Stories Complete</div>
+            </div>
+            <div class="summary-card">
+                <span class="summary-number" id="realizedCount">0</span>
+                <div>Characters Realized</div>
+            </div>
+            <div class="summary-card">
+                <span class="summary-number" id="completionRate">0%</span>
+                <div>Completion Rate</div>
+            </div>
+        </div>
+
+        <div class="time-slots">
+            <h3>Daily Time Slots</h3>
+            <div class="time-slot">
+                <div class="time-label">9am:</div>
+                <select id="slot9am">
+                    <option value="">Select Character</option>
+                </select>
+            </div>
+            <div class="time-slot">
+                <div class="time-label">12pm:</div>
+                <select id="slot12pm">
+                    <option value="">Select Character</option>
+                </select>
+            </div>
+            <div class="time-slot">
+                <div class="time-label">3pm:</div>
+                <select id="slot3pm">
+                    <option value="">Select Character</option>
+                </select>
+            </div>
+            <div class="time-slot">
+                <div class="time-label">6pm:</div>
+                <select id="slot6pm">
+                    <option value="">Select Character</option>
+                </select>
+            </div>
+            <div class="time-slot">
+                <div class="time-label">9pm:</div>
+                <select id="slot9pm">
+                    <option value="">Select Character</option>
+                </select>
+            </div>
+        </div>
+
+        <div class="character-grid" id="characterGrid">
+            <!-- Characters will be populated here -->
+        </div>
+    </div>
+
+    <!-- 
+    ================================================================
+    JAVASCRIPT SECTION - Copy and paste JavaScript files here in order
+    Replace the script tags below with a single <script> tag containing all JS
+    ================================================================
+    -->
+    <script>
+// Location data for special characters
+const locationData = {
+    7: { // Dorian
+        name: 'Dorian Tracker',
+        locations: [
+            'Front Door', 'Office Door', 'Office Closet Door', 'Trap Door',
+            'Bathroom Door', 'Tiny Door', 'Laundry Room Door', 'Laundry Room Closet Door',
+            'Back Door', 'Bedroom Door', 'Upstairs Bathroom Door (Bedroom Side)',
+            'Upstairs Bathroom Door (Gym Side)', 'Bedroom Closet Door', 'Gymnasium Door',
+            'Gymnasium Closet Door', 'Electrical Closet Door', 'Attic Door'
+        ]
+    },
+    8: { // Wyndolyn
+        name: 'Wyndolyn Tracker',
+        locations: [
+            'Attic Window', 'Window behind Sofa and Piano',
+            'Front Window facing Street', 'Window beside the Back Door'
+        ]
+    },
+    9: { // Curt & Rod
+        name: 'Curt & Rod Tracker',
+        locations: [
+            'Bedroom', 'Gym', 'Office', 'Living Room',
+            'Dining Room', 'Kitchen', 'Laundry', 'Front Door'
+        ]
+    }
+};
+
+// Character data with enhanced requirements
+const characters = [
+    { 
+        id: 1, name: 'Skylar', object: 'Dateviators', stat: 'charm', 
+        requirements: { smarts: 60, poise: 60, empathy: 60, charm: 40, sass: 30 }, 
+        locationRequirement: 'none',
+        storyRequirements: {},
+        realizationDependencies: [], // Can be realized anytime, but for best ending needs everyone else realized first
+        bidirectionalDependencies: []
+    },
+    { 
+        id: 2, name: 'Phoenicia', object: 'Phone', stat: 'charm', 
+        requirements: { smarts: 30, poise: 0, empathy: 100, charm: 30, sass: 90 }, 
+        locationRequirement: 'none',
+        storyRequirements: {},
+        realizationDependencies: [], // Freddy
+        bidirectionalDependencies: []
+    },
+    { 
+        id: 3, name: 'Wallace', object: 'Wall', stat: 'poise', 
+        requirements: { smarts: 20, poise: 100, empathy: 80, charm: 50, sass: 0 }, 
+        locationRequirement: 'none',
+        storyRequirements: {},
+        realizationDependencies: [], // Further testing required
+        bidirectionalDependencies: []
+    },
+    { 
+        id: 4, name: 'Florence', object: 'Floor', stat: 'charm', 
+        requirements: { smarts: 20, poise: 50, empathy: 90, charm: 50, sass: 20 }, 
+        locationRequirement: 'none',
+        storyRequirements: {},
+        realizationDependencies: [], // Celia
+        bidirectionalDependencies: []
+    },
+    { 
+        id: 5, name: 'Celia', object: 'Ceiling', stat: 'smarts', 
+        requirements: { smarts: 20, poise: 50, empathy: 90, charm: 50, sass: 20 }, 
+        locationRequirement: 'none',
+        storyRequirements: {},
+        realizationDependencies: [], // Wallace, Mateo, Beverly
+        bidirectionalDependencies: []
+    },
+    { 
+        id: 6, name: 'Stella', object: 'Stairs', stat: 'charm', 
+        requirements: { smarts: 20, poise: 50, empathy: 90, charm: 50, sass: 20 }, 
+        locationRequirement: 'none',
+        storyRequirements: {},
+        realizationDependencies: [], // Further testing required
+        bidirectionalDependencies: []
+    },
+    { 
+        id: 7, name: 'Dorian', object: 'Door', stat: 'poise', 
+        requirements: { smarts: 75, poise: 100, empathy: 75, charm: 0, sass: 0 }, 
+        locationRequirement: 'none',
+        storyRequirements: {},
+        realizationDependencies: [], // Bobby, Keith
+        bidirectionalDependencies: [],
+        hasLocations: true 
+    },
+    { 
+        id: 8, name: 'Wyndolyn', object: 'Window', stat: 'empathy', 
+        requirements: { smarts: 45, poise: 55, empathy: 85, charm: 35, sass: 30 }, 
+        locationRequirement: 'none',
+        storyRequirements: { attic: true },
+        realizationDependencies: [], // Further testing required
+        bidirectionalDependencies: [],
+        hasLocations: true 
+    },
+    { 
+        id: 9, name: 'Curt & Rod', object: 'Curtain', stat: 'sass', 
+        requirements: { smarts: 40, poise: 85, empathy: 0, charm: 40, sass: 85 }, 
+        locationRequirement: 'none',
+        storyRequirements: {},
+        realizationDependencies: [], // Wyndolyn, Cabrizzio, Fantina
+        bidirectionalDependencies: [],
+        hasLocations: true 
+    },
+    { 
+        id: 10, name: 'Shelley', object: 'Shelf', stat: 'charm', 
+        requirements: { smarts: 50, poise: 50, empathy: 50, charm: 50, sass: 50 }, 
+        locationRequirement: 'none',
+        storyRequirements: {},
+        realizationDependencies: [], // Dasha
+        bidirectionalDependencies: []
+    },
+    { 
+        id: 11, name: 'Abel', object: 'Table', stat: 'poise', 
+        requirements: { smarts: 65, poise: 0, empathy: 75, charm: 65, sass: 40 }, 
+        locationRequirement: 'none',
+        storyRequirements: {},
+        realizationDependencies: [], // Further testing required
+        bidirectionalDependencies: []
+    },
+    { 
+        id: 12, name: 'Chairemi', object: 'Chair', stat: 'charm', 
+        requirements: { smarts: 70, poise: 70, empathy: 0, charm: 70, sass: 40 }, 
+        locationRequirement: 'none',
+        storyRequirements: {},
+        realizationDependencies: [], // Florence, Celia
+        bidirectionalDependencies: []
+    },
+    { 
+        id: 13, name: 'Lux', object: 'Lamp', stat: 'sass', 
+        requirements: { smarts: 0, poise: 50, empathy: 0, charm: 100, sass: 100 }, 
+        locationRequirement: 'none',
+        storyRequirements: {},
+        realizationDependencies: [], // Further testing required
+        bidirectionalDependencies: []
+    },
+    { 
+        id: 14, name: 'Hector', object: 'HVAC', stat: 'empathy', 
+        requirements: { smarts: 25, poise: 35, empathy: 85, charm: 75, sass: 30 }, 
+        locationRequirement: 'none',
+        storyRequirements: { attic: true },
+        realizationDependencies: [], // No one required
+        bidirectionalDependencies: []
+    },
+    { 
+        id: 15, name: 'Prissy', object: 'Plant', stat: 'charm', 
+        requirements: { smarts: 65, poise: 80, empathy: 30, charm: 20, sass: 55 }, 
+        locationRequirement: 'attic',
+        storyRequirements: {},
+        realizationDependencies: [], // Further testing required
+        bidirectionalDependencies: []
+    },
+    { 
+        id: 16, name: 'Timothy', object: 'Clock', stat: 'smarts', 
+        requirements: { smarts: 90, poise: 15, empathy: 45, charm: 65, sass: 35 }, 
+        locationRequirement: 'none',
+        storyRequirements: {},
+        realizationDependencies: [], // No one required
+        bidirectionalDependencies: []
+    },
+    { 
+        id: 17, name: 'Artt', object: 'Art', stat: 'smarts', 
+        requirements: { smarts: 100, poise: 0, empathy: 100, charm: 50, sass: 0 }, 
+        locationRequirement: 'attic',
+        storyRequirements: {},
+        realizationDependencies: [], // Further testing required
+        bidirectionalDependencies: []
+    },
+    { 
+        id: 18, name: 'River', object: 'Water', stat: 'empathy', 
+        requirements: { smarts: 45, poise: 45, empathy: 45, charm: 65, sass: 50 }, 
+        locationRequirement: 'none',
+        storyRequirements: {},
+        realizationDependencies: [], // Further testing required
+        bidirectionalDependencies: []
+    },
+    { 
+        id: 19, name: 'Eddie & Volt', object: 'Electricity', stat: 'empathy', 
+        requirements: { smarts: 65, poise: 0, empathy: 85, charm: 15, sass: 85 }, 
+        locationRequirement: 'none',
+        storyRequirements: {},
+        realizationDependencies: [], // Jean Loo, Johnny Splash, Cam
+        bidirectionalDependencies: []
+    },
+    { 
+        id: 20, name: 'Koa', object: 'Couch', stat: 'empathy', 
+        requirements: { smarts: 10, poise: 80, empathy: 100, charm: 40, sass: 20 }, 
+        locationRequirement: 'none',
+        storyRequirements: {},
+        realizationDependencies: [], // No one required
+        bidirectionalDependencies: []
+    },
+    { 
+        id: 21, name: 'Dolly', object: 'Dust Bunny', stat: 'smarts', 
+        requirements: { smarts: 100, poise: 0, empathy: 70, charm: 0, sass: 80 }, 
+        locationRequirement: 'none',
+        storyRequirements: {},
+        realizationDependencies: [], // Further testing required
+        bidirectionalDependencies: []
+    },
+    { 
+        id: 22, name: 'Dante', object: 'Fire Place', stat: 'sass', 
+        requirements: { smarts: 0, poise: 50, empathy: 0, charm: 100, sass: 100 }, 
+        locationRequirement: 'none',
+        storyRequirements: {},
+        realizationDependencies: [], // Further testing required
+        bidirectionalDependencies: []
+    },
+    { 
+        id: 23, name: 'Telly', object: 'TV', stat: 'sass', 
+        requirements: { smarts: 40, poise: 45, empathy: 50, charm: 15, sass: 100 }, 
+        locationRequirement: 'none',
+        storyRequirements: {},
+        realizationDependencies: [], // No one required
+        bidirectionalDependencies: []
+    },
+    { 
+        id: 24, name: 'Luna', object: 'Video Game Console', stat: 'empathy', 
+        requirements: { smarts: 75, poise: 100, empathy: 25, charm: 10, sass: 45 }, 
+        locationRequirement: 'none',
+        storyRequirements: {},
+        realizationDependencies: [], // No one required
+        bidirectionalDependencies: []
+    },
+    { 
+        id: 25, name: 'Keyes', object: 'Grand Piano', stat: 'smarts', 
+        requirements: { smarts: 85, poise: 85, empathy: 20, charm: 35, sass: 25 }, 
+        locationRequirement: 'none',
+        storyRequirements: {},
+        realizationDependencies: [], // Further testing required
+        bidirectionalDependencies: []
+    },
+    { 
+        id: 26, name: 'Gaia', object: 'Globe', stat: 'smarts', 
+        requirements: { smarts: 85, poise: 20, empathy: 65, charm: 20, sass: 60 }, 
+        locationRequirement: 'none',
+        storyRequirements: {},
+        realizationDependencies: [], // Further testing required
+        bidirectionalDependencies: []
+    },
+    { 
+        id: 27, name: 'Captain Jaques Pierrot', object: 'Ship-in-a-Bottle', stat: 'poise', 
+        requirements: { smarts: 0, poise: 90, empathy: 0, charm: 90, sass: 70 }, 
+        locationRequirement: 'none',
+        storyRequirements: {},
+        realizationDependencies: [], // Further testing required
+        bidirectionalDependencies: []
+    },
+    { 
+        id: 28, name: 'Parker', object: 'Board Games', stat: 'charm', 
+        requirements: { smarts: 10, poise: 10, empathy: 50, charm: 80, sass: 100 }, 
+        locationRequirement: 'attic',
+        storyRequirements: {},
+        realizationDependencies: [], // Chance
+        bidirectionalDependencies: []
+    },
+    { 
+        id: 29, name: 'Mateo', object: 'Blanket', stat: 'empathy', 
+        requirements: { smarts: 5, poise: 45, empathy: 100, charm: 100, sass: 0 }, 
+        locationRequirement: 'none',
+        storyRequirements: {},
+        realizationDependencies: [], // Further testing required
+        bidirectionalDependencies: []
+    },
+    { 
+        id: 30, name: 'Tina', object: 'Musical Triangle', stat: 'charm', 
+        requirements: { smarts: 80, poise: 50, empathy: 60, charm: 40, sass: 20 }, 
+        locationRequirement: 'none',
+        storyRequirements: {},
+        realizationDependencies: [], // Further testing required
+        bidirectionalDependencies: []
+    },
+    { 
+        id: 31, name: 'Beverly', object: 'Beverage', stat: 'charm', 
+        requirements: { smarts: 60, poise: 60, empathy: 0, charm: 60, sass: 70 }, 
+        locationRequirement: 'none',
+        storyRequirements: {},
+        realizationDependencies: [], // Further testing required
+        bidirectionalDependencies: []
+    },
+    { 
+        id: 32, name: 'Mitchell Linn', object: 'Food', stat: 'smarts', 
+        requirements: { smarts: 75, poise: 25, empathy: 30, charm: 70, sass: 50 }, 
+        locationRequirement: 'none',
+        storyRequirements: {},
+        realizationDependencies: [], // Koa, Daisuke, Freddy
+        bidirectionalDependencies: []
+    },
+    { 
+        id: 33, name: 'Cabrizzio', object: 'Cabinet', stat: 'empathy', 
+        requirements: { smarts: 60, poise: 50, empathy: 40, charm: 100, sass: 0 }, 
+        locationRequirement: 'none',
+        storyRequirements: {},
+        realizationDependencies: [], // Further testing required
+        bidirectionalDependencies: []
+    },
+    { 
+        id: 34, name: 'Sinclaire', object: 'Sink', stat: 'smarts', 
+        requirements: { smarts: 0, poise: 0, empathy: 0, charm: 0, sass: 5 }, 
+        locationRequirement: 'none',
+        storyRequirements: {},
+        realizationDependencies: [], // Maggie
+        bidirectionalDependencies: []
+    },
+    { 
+        id: 35, name: 'Freddy', object: 'Refrigerator', stat: 'charm', 
+        requirements: { smarts: 45, poise: 65, empathy: 20, charm: 40, sass: 80 }, 
+        locationRequirement: 'none',
+        storyRequirements: {},
+        realizationDependencies: [], // Further testing required
+        bidirectionalDependencies: []
+    },
+    { 
+        id: 36, name: 'Stefan', object: 'Stove', stat: 'poise', 
+        requirements: { smarts: 90, poise: 50, empathy: 80, charm: 15, sass: 15 }, 
+        locationRequirement: 'none',
+        storyRequirements: {},
+        realizationDependencies: [], // Further testing required
+        bidirectionalDependencies: []
+    },
+    { 
+        id: 37, name: 'Luke Nuke\'m', object: 'Microwave', stat: 'poise', 
+        requirements: { smarts: 80, poise: 80, empathy: 80, charm: 5, sass: 5 }, 
+        locationRequirement: 'none',
+        storyRequirements: {},
+        realizationDependencies: [], // No one required
+        bidirectionalDependencies: []
+    },
+    { 
+        id: 38, name: 'Miranda Dulce Tostadora', object: 'Toaster', stat: 'charm', 
+        requirements: { smarts: 0, poise: 0, empathy: 70, charm: 90, sass: 90 }, 
+        locationRequirement: 'none',
+        storyRequirements: {},
+        realizationDependencies: [], // Further testing required
+        bidirectionalDependencies: []
+    },
+    { 
+        id: 39, name: 'Dishy', object: 'Dishwasher', stat: 'sass', 
+        requirements: { smarts: 100, poise: 0, empathy: 0, charm: 50, sass: 100 }, 
+        locationRequirement: 'none',
+        storyRequirements: {},
+        realizationDependencies: [], // Further testing required
+        bidirectionalDependencies: []
+    },
+    { 
+        id: 40, name: 'Daisuke', object: 'Dishware', stat: 'poise', 
+        requirements: { smarts: 10, poise: 100, empathy: 90, charm: 25, sass: 25 }, 
+        locationRequirement: 'none',
+        storyRequirements: {},
+        realizationDependencies: [], // Beverly, Kopi, Mitchell Linn
+        bidirectionalDependencies: []
+    },
+    { 
+        id: 41, name: 'Friar Errol', object: 'Air Fryer', stat: 'smarts', 
+        requirements: { smarts: 70, poise: 70, empathy: 70, charm: 40, sass: 0 }, 
+        locationRequirement: 'none',
+        storyRequirements: {},
+        realizationDependencies: [], // Further testing required
+        bidirectionalDependencies: []
+    },
+    { 
+        id: 42, name: 'Kopi', object: 'Coffeepot', stat: 'charm', 
+        requirements: { smarts: 80, poise: 15, empathy: 85, charm: 60, sass: 10 }, 
+        locationRequirement: 'none',
+        storyRequirements: {},
+        realizationDependencies: [], // No one required
+        bidirectionalDependencies: []
+    },
+    { 
+        id: 43, name: 'Cam', object: 'Trash Can', stat: 'poise', 
+        requirements: { smarts: 70, poise: 80, empathy: 80, charm: 10, sass: 10 }, 
+        locationRequirement: 'none',
+        storyRequirements: {},
+        realizationDependencies: [], // Further testing required
+        bidirectionalDependencies: []
+    },
+    { 
+        id: 44, name: 'I, Ronaldini', object: 'Fold-out Ironing Board', stat: 'sass', 
+        requirements: { smarts: 75, poise: 20, empathy: 55, charm: 50, sass: 50 }, 
+        locationRequirement: 'none',
+        storyRequirements: {},
+        realizationDependencies: [], // Bobby
+        bidirectionalDependencies: []
+    },
+    { 
+        id: 45, name: 'Amir', object: 'Mirror', stat: 'sass', 
+        requirements: { smarts: 20, poise: 40, empathy: 60, charm: 80, sass: 50 }, 
+        locationRequirement: 'none',
+        storyRequirements: {},
+        realizationDependencies: [], // Further testing required
+        bidirectionalDependencies: []
+    },
+    { 
+        id: 46, name: 'Jean Loo', object: 'Toilet', stat: 'sass', 
+        requirements: { smarts: 50, poise: 100, empathy: 0, charm: 0, sass: 100 }, 
+        locationRequirement: 'none',
+        storyRequirements: {},
+        realizationDependencies: [], // No one required
+        bidirectionalDependencies: []
+    },
+    { 
+        id: 47, name: 'Johnny Splash', object: 'Shower', stat: 'sass', 
+        requirements: { smarts: 0, poise: 75, empathy: 100, charm: 50, sass: 25 }, 
+        locationRequirement: 'none',
+        storyRequirements: {},
+        realizationDependencies: [], // Further testing required
+        bidirectionalDependencies: []
+    },
+    { 
+        id: 48, name: 'Bathsheba', object: 'Bathtub', stat: 'charm', 
+        requirements: { smarts: 0, poise: 40, empathy: 60, charm: 50, sass: 100 }, 
+        locationRequirement: 'none',
+        storyRequirements: {},
+        realizationDependencies: [], // Further testing required
+        bidirectionalDependencies: []
+    },
+    { 
+        id: 49, name: 'Rebel', object: 'Rubber Ducky', stat: 'sass', 
+        requirements: { smarts: 0, poise: 70, empathy: 40, charm: 40, sass: 100 }, 
+        locationRequirement: 'none',
+        storyRequirements: {},
+        realizationDependencies: [], // Further testing required
+        bidirectionalDependencies: []
+    },
+    { 
+        id: 50, name: 'Barry', object: 'Beauty Supplies', stat: 'empathy', 
+        requirements: { smarts: 0, poise: 50, empathy: 90, charm: 20, sass: 90 }, 
+        locationRequirement: 'none',
+        storyRequirements: {},
+        realizationDependencies: [], // Further testing required
+        bidirectionalDependencies: []
+    },
+    { 
+        id: 51, name: 'Tyrell', object: 'Towel', stat: 'empathy', 
+        requirements: { smarts: 50, poise: 25, empathy: 80, charm: 60, sass: 35 }, 
+        locationRequirement: 'none',
+        storyRequirements: {},
+        realizationDependencies: [], // Further testing required
+        bidirectionalDependencies: []
+    },
+    { 
+        id: 52, name: 'Farya', object: 'First Aid Kit', stat: 'smarts', 
+        requirements: { smarts: 100, poise: 0, empathy: 75, charm: 75, sass: 0 }, 
+        locationRequirement: 'none',
+        storyRequirements: {},
+        realizationDependencies: [], // Further testing required
+        bidirectionalDependencies: []
+    },
+    { 
+        id: 53, name: 'Dasha', object: 'Desk', stat: 'poise', 
+        requirements: { smarts: 35, poise: 100, empathy: 25, charm: 35, sass: 55 }, 
+        locationRequirement: 'none',
+        storyRequirements: {},
+        realizationDependencies: [], // Further testing required
+        bidirectionalDependencies: []
+    },
+    { 
+        id: 54, name: 'Jerry', object: 'Junk Drawer', stat: 'empathy', 
+        requirements: { smarts: 10, poise: 55, empathy: 100, charm: 65, sass: 20 }, 
+        locationRequirement: 'none',
+        storyRequirements: {},
+        realizationDependencies: [], // No one required
+        bidirectionalDependencies: []
+    },
+    { 
+        id: 55, name: 'Penelope', object: 'Office Supplies', stat: 'empathy', 
+        requirements: { smarts: 80, poise: 20, empathy: 70, charm: 40, sass: 40 }, 
+        locationRequirement: 'none',
+        storyRequirements: {},
+        realizationDependencies: [], // Further testing required
+        bidirectionalDependencies: []
+    },
+    { 
+        id: 56, name: 'Mac', object: 'Computer', stat: 'smarts', 
+        requirements: { smarts: 90, poise: 20, empathy: 70, charm: 30, sass: 40 }, 
+        locationRequirement: 'none',
+        storyRequirements: {},
+        realizationDependencies: [], // Further testing required
+        bidirectionalDependencies: []
+    },
+    { 
+        id: 57, name: 'Willi', object: 'Work', stat: 'sass', 
+        requirements: { smarts: 70, poise: 40, empathy: 25, charm: 60, sass: 55 }, 
+        locationRequirement: 'none',
+        storyRequirements: {},
+        realizationDependencies: [], // Further testing required
+        bidirectionalDependencies: []
+    },
+    { 
+        id: 58, name: 'Lyric', object: 'Literature', stat: 'smarts', 
+        requirements: { smarts: 100, poise: 40, empathy: 0, charm: 40, sass: 70 }, 
+        locationRequirement: 'none',
+        storyRequirements: {},
+        realizationDependencies: [], // Wallace, Florence, Celia
+        bidirectionalDependencies: []
+    },
+    { 
+        id: 59, name: 'Rongomaiwhenua', object: 'Geode', stat: 'smarts', 
+        requirements: { smarts: 80, poise: 70, empathy: 60, charm: 40, sass: 0 }, 
+        locationRequirement: 'none',
+        storyRequirements: {},
+        realizationDependencies: [], // Further testing required
+        bidirectionalDependencies: []
+    },
+    { 
+        id: 60, name: 'Chance', object: 'D20', stat: 'charm', 
+        requirements: { smarts: 80, poise: 0, empathy: 60, charm: 80, sass: 30 }, 
+        locationRequirement: 'none',
+        storyRequirements: {},
+        realizationDependencies: [], // Further testing required
+        bidirectionalDependencies: []
+    },
+    { 
+        id: 61, name: 'Maggie', object: 'Magnifying Glass', stat: 'smarts', 
+        requirements: { smarts: 100, poise: 45, empathy: 0, charm: 75, sass: 30 }, 
+        locationRequirement: 'none',
+        storyRequirements: {},
+        realizationDependencies: [], // Further testing required
+        bidirectionalDependencies: []
+    },
+    { 
+        id: 62, name: 'Winnifred', object: 'Water Heater', stat: 'empathy', 
+        requirements: { smarts: 80, poise: 20, empathy: 55, charm: 60, sass: 35 }, 
+        locationRequirement: 'none',
+        storyRequirements: {},
+        realizationDependencies: [], // Further testing required
+        bidirectionalDependencies: []
+    },
+    { 
+        id: 63, name: 'Rainey', object: 'Record Player', stat: 'empathy', 
+        requirements: { smarts: 80, poise: 20, empathy: 70, charm: 30, sass: 50 }, 
+        locationRequirement: 'none',
+        storyRequirements: {},
+        realizationDependencies: [], // Further testing required
+        bidirectionalDependencies: []
+    },
+    { 
+        id: 64, name: 'Scandalabra', object: 'Wick', stat: 'sass', 
+        requirements: { smarts: 25, poise: 15, empathy: 20, charm: 90, sass: 100 }, 
+        locationRequirement: 'none',
+        storyRequirements: {},
+        realizationDependencies: [], // Further testing required
+        bidirectionalDependencies: []
+    },
+    { 
+        id: 65, name: 'Arma', object: 'Smoke Alarm', stat: 'empathy', 
+        requirements: { smarts: 80, poise: 80, empathy: 65, charm: 0, sass: 25 }, 
+        locationRequirement: 'none',
+        storyRequirements: {},
+        realizationDependencies: [], // Further testing required
+        bidirectionalDependencies: []
+    },
+    { 
+        id: 66, name: 'Betty', object: 'Bed', stat: 'empathy', 
+        requirements: { smarts: 0, poise: 0, empathy: 100, charm: 75, sass: 75 }, 
+        locationRequirement: 'none',
+        storyRequirements: {},
+        realizationDependencies: [], // Nightmare, Ben-Hwa
+        bidirectionalDependencies: []
+    },
+    { 
+        id: 67, name: 'Diana', object: 'Diary', stat: 'poise', 
+        requirements: { smarts: 65, poise: 65, empathy: 65, charm: 55, sass: 0 }, 
+        locationRequirement: 'none',
+        storyRequirements: {},
+        realizationDependencies: [], // Further testing required
+        bidirectionalDependencies: []
+    },
+    { 
+        id: 68, name: 'Daemon', object: 'Unknown (Glitch)', stat: 'smarts', 
+        requirements: { smarts: 1, poise: 1, empathy: 1, charm: 1, sass: 1 }, 
+        locationRequirement: 'none',
+        storyRequirements: {},
+        realizationDependencies: [], // No one required
+        bidirectionalDependencies: []
+    },
+    { 
+        id: 69, name: 'Ben-Hwa', object: 'Mysterious Objects', stat: 'sass', 
+        requirements: { smarts: 0, poise: 100, empathy: 0, charm: 50, sass: 100 }, 
+        locationRequirement: 'none',
+        storyRequirements: {},
+        realizationDependencies: [], // Further testing required
+        bidirectionalDependencies: []
+    },
+    { 
+        id: 70, name: 'Hero Hime', object: 'Anime Figurine', stat: 'poise', 
+        requirements: { smarts: 35, poise: 65, empathy: 35, charm: 65, sass: 50 }, 
+        locationRequirement: 'none',
+        storyRequirements: {},
+        realizationDependencies: [], // Further testing required
+        bidirectionalDependencies: []
+    },
+    { 
+        id: 71, name: 'Teddy', object: 'Teddy Bear', stat: 'empathy', 
+        requirements: { smarts: 0, poise: 20, empathy: 90, charm: 90, sass: 50 }, 
+        locationRequirement: 'none',
+        storyRequirements: {},
+        realizationDependencies: [], // Further testing required
+        bidirectionalDependencies: []
+    },
+    { 
+        id: 72, name: 'Hank(s)', object: 'Hangers', stat: 'poise', 
+        requirements: { smarts: 0, poise: 50, empathy: 0, charm: 100, sass: 100 }, 
+        locationRequirement: 'none',
+        storyRequirements: {},
+        realizationDependencies: [], // Further testing required
+        bidirectionalDependencies: []
+    },
+    { 
+        id: 73, name: 'Washford', object: 'Washer', stat: 'smarts', 
+        requirements: { smarts: 15, poise: 100, empathy: 100, charm: 10, sass: 25 }, 
+        locationRequirement: 'none',
+        storyRequirements: {},
+        realizationDependencies: [], // Further testing required
+        bidirectionalDependencies: []
+    },
+    { 
+        id: 74, name: 'Drysdale', object: 'Dryer', stat: 'charm', 
+        requirements: { smarts: 85, poise: 0, empathy: 0, charm: 90, sass: 75 }, 
+        locationRequirement: 'none',
+        storyRequirements: {},
+        realizationDependencies: [], // Further testing required
+        bidirectionalDependencies: []
+    },
+    { 
+        id: 75, name: 'Harper', object: 'Hamper', stat: 'poise', 
+        requirements: { smarts: 50, poise: 70, empathy: 25, charm: 55, sass: 50 }, 
+        locationRequirement: 'none',
+        storyRequirements: {},
+        realizationDependencies: [], // Further testing required
+        bidirectionalDependencies: []
+    },
+    { 
+        id: 76, name: 'Dirk', object: 'Dirty Laundry', stat: 'sass', 
+        requirements: { smarts: 80, poise: 0, empathy: 0, charm: 80, sass: 90 }, 
+        locationRequirement: 'none',
+        storyRequirements: {},
+        realizationDependencies: [], // Further testing required
+        bidirectionalDependencies: []
+    },
+    { 
+        id: 77, name: 'Tydus', object: 'Detergent', stat: 'poise', 
+        requirements: { smarts: 90, poise: 95, empathy: 20, charm: 40, sass: 5 }, 
+        locationRequirement: 'none',
+        storyRequirements: {},
+        realizationDependencies: [], // Further testing required
+        bidirectionalDependencies: []
+    },
+    { 
+        id: 78, name: 'Henry Hoove', object: 'Vacuum Cleaner', stat: 'empathy', 
+        requirements: { smarts: 70, poise: 20, empathy: 70, charm: 70, sass: 20 }, 
+        locationRequirement: 'none',
+        storyRequirements: {},
+        realizationDependencies: [], // Further testing required
+        bidirectionalDependencies: []
+    },
+    { 
+        id: 79, name: 'Bobby', object: 'Bobby Pin', stat: 'sass', 
+        requirements: { smarts: 40, poise: 40, empathy: 40, charm: 65, sass: 65 }, 
+        locationRequirement: 'none',
+        storyRequirements: { attic: true},
+        realizationDependencies: [], // Sophia, Betty, Harper, Willi
+        bidirectionalDependencies: []
+    },
+    { 
+        id: 80, name: 'Kristof', object: 'Crosstrainer', stat: 'poise', 
+        requirements: { smarts: 70, poise: 100, empathy: 80, charm: 0, sass: 0 }, 
+        locationRequirement: 'none',
+        storyRequirements: {},
+        realizationDependencies: [], // Further testing required
+        bidirectionalDependencies: []
+    },
+    { 
+        id: 81, name: 'Dunk', object: 'Sporting Goods', stat: 'charm', 
+        requirements: { smarts: 30, poise: 30, empathy: 70, charm: 80, sass: 40 }, 
+        locationRequirement: 'none',
+        storyRequirements: {},
+        realizationDependencies: [], // Further testing required
+        bidirectionalDependencies: []
+    },
+    { 
+        id: 82, name: 'Fantina', object: 'Fan', stat: 'poise', 
+        requirements: { smarts: 25, poise: 25, empathy: 50, charm: 80, sass: 70 }, 
+        locationRequirement: 'none',
+        storyRequirements: {},
+        realizationDependencies: [], // Further testing required
+        bidirectionalDependencies: []
+    },
+    { 
+        id: 83, name: 'Stepford', object: 'Trophy', stat: 'charm', 
+        requirements: { smarts: 65, poise: 70, empathy: 10, charm: 90, sass: 15 }, 
+        locationRequirement: 'none',
+        storyRequirements: {},
+        realizationDependencies: [], // Further testing required
+        bidirectionalDependencies: []
+    },
+    { 
+        id: 84, name: 'Tony', object: 'Toolbox', stat: 'charm', 
+        requirements: { smarts: 20, poise: 50, empathy: 40, charm: 60, sass: 80 }, 
+        locationRequirement: 'none',
+        storyRequirements: {},
+        realizationDependencies: [], // Further testing required
+        bidirectionalDependencies: []
+    },
+    { 
+        id: 85, name: 'Beau', object: 'Box', stat: 'poise', 
+        requirements: { smarts: 60, poise: 90, empathy: 0, charm: 70, sass: 30 }, 
+        locationRequirement: 'none',
+        storyRequirements: {},
+        realizationDependencies: [], // Further testing required
+        bidirectionalDependencies: []
+    },
+    { 
+        id: 86, name: 'Keith', object: 'Skeleton Key', stat: 'empathy', 
+        requirements: { smarts: 50, poise: 50, empathy: 50, charm: 50, sass: 50 }, 
+        locationRequirement: 'none',
+        storyRequirements: {},
+        realizationDependencies: [], // Further testing required
+        bidirectionalDependencies: []
+    },
+    { 
+        id: 87, name: 'Bodhi', object: 'Time Capsule', stat: 'sass', 
+        requirements: { smarts: 25, poise: 15, empathy: 10, charm: 100, sass: 100 }, 
+        locationRequirement: 'none',
+        storyRequirements: {},
+        realizationDependencies: [], // Further testing required
+        bidirectionalDependencies: []
+    },
+    { 
+        id: 88, name: 'Vaughn', object: 'Rat Trap', stat: 'sass', 
+        requirements: { smarts: 50, poise: 25, empathy: 80, charm: 60, sass: 35 }, 
+        locationRequirement: 'none',
+        storyRequirements: {},
+        realizationDependencies: [], // Further testing required
+        bidirectionalDependencies: []
+    },
+    { 
+        id: 89, name: 'Sophia', object: 'Safe', stat: 'sass', 
+        requirements: { smarts: 30, poise: 85, empathy: 20, charm: 15, sass: 100 }, 
+        locationRequirement: 'attic',
+        storyRequirements: {},
+        realizationDependencies: [], // No one required
+        bidirectionalDependencies: []
+    },
+    { 
+        id: 90, name: 'Monique', object: 'Money', stat: 'smarts', 
+        requirements: { smarts: 80, poise: 80, empathy: 0, charm: 80, sass: 10 }, 
+        locationRequirement: 'attic',
+        storyRequirements: {},
+        realizationDependencies: [], // Further testing required
+        bidirectionalDependencies: []
+    },
+    { 
+        id: 91, name: 'Memoria', object: 'Memories', stat: 'poise', 
+        requirements: { smarts: 0, poise: 80, empathy: 80, charm: 30, sass: 60 }, 
+        locationRequirement: 'attic',
+        storyRequirements: {},
+        realizationDependencies: [], // Further testing required
+        bidirectionalDependencies: []
+    },
+    { 
+        id: 92, name: 'Holly', object: 'Holidays', stat: 'charm', 
+        requirements: { smarts: 60, poise: 60, empathy: 60, charm: 40, sass: 30 }, 
+        locationRequirement: 'none',
+        storyRequirements: {},
+        realizationDependencies: [], // Further testing required
+        bidirectionalDependencies: []
+    },
+    { 
+        id: 93, name: 'Airyn', object: 'Air', stat: 'poise', 
+        requirements: { smarts: 65, poise: 100, empathy: 85, charm: 0, sass: 0 }, 
+        locationRequirement: 'none',
+        storyRequirements: {},
+        realizationDependencies: [], // No one required
+        bidirectionalDependencies: []
+    },
+    { 
+        id: 94, name: 'Textbox-Chan', object: 'U.I.', stat: 'smarts', 
+        requirements: { smarts: 95, poise: 5, empathy: 100, charm: 0, sass: 50 }, 
+        locationRequirement: 'none',
+        storyRequirements: {},
+        realizationDependencies: [], // No one required
+        bidirectionalDependencies: [],
+        specialRequirement: 'met80Characters'
+    },
+    { 
+        id: 95, name: 'The Sassy Chap', object: 'The Developers', stat: 'sass', 
+        requirements: { smarts: 45, poise: 30, empathy: 30, charm: 45, sass: 100 }, 
+        locationRequirement: 'none',
+        storyRequirements: {},
+        realizationDependencies: [], // No one required
+        bidirectionalDependencies: []
+    },
+    { 
+        id: 96, name: 'Zoey Bennett', object: 'Ghost', stat: 'empathy', 
+        requirements: { smarts: 5, poise: 70, empathy: 70, charm: 75, sass: 30 }, 
+        locationRequirement: 'attic',
+        storyRequirements: {},
+        realizationDependencies: [], // Reggie, Nightmare, Doug, xxXShadowl0rd420Xxx, The Sassy Chap, Textbox-Chan, Willi, Daemon
+        bidirectionalDependencies: [],
+        specialRequirement: 'storyRequiredCharacters'
+    },
+    { 
+        id: 97, name: 'xxXShadowl0rd420Xxx', object: 'Darkness', stat: 'smarts', 
+        requirements: { smarts: 70, poise: 60, empathy: 40, charm: 10, sass: 70 }, 
+        locationRequirement: 'none',
+        storyRequirements: {},
+        realizationDependencies: [], // Further testing required
+        bidirectionalDependencies: []
+    },
+    { 
+        id: 98, name: 'Doug', object: 'Overwhelming Sense of Existential Dread', stat: 'smarts', 
+        requirements: { smarts: 20, poise: 100, empathy: 30, charm: 20, sass: 80 }, 
+        locationRequirement: 'none',
+        storyRequirements: {},
+        realizationDependencies: [], // Further testing required
+        bidirectionalDependencies: []
+    },
+    { 
+        id: 99, name: 'Nightmare', object: 'Nightmare', stat: 'poise', 
+        requirements: { smarts: 45, poise: 100, empathy: 35, charm: 70, sass: 0 }, 
+        locationRequirement: 'none',
+        storyRequirements: {},
+        realizationDependencies: [], // No one required
+        bidirectionalDependencies: []
+    },
+    { 
+        id: 100, name: 'Reggie', object: 'Rejection', stat: 'sass', 
+        requirements: { smarts: 80, poise: 80, empathy: 0, charm: 0, sass: 90 }, 
+        locationRequirement: 'none',
+        storyRequirements: {},
+        realizationDependencies: [], // No one required
+        bidirectionalDependencies: []
+    },
+    { 
+        id: 102, name: 'Lucinda', object: 'Lavish Edition', stat: 'choosable', 
+        requirements: { smarts: 1, poise: 1, empathy: 1, charm: 1, sass: 1 }, 
+        locationRequirement: 'dlc',
+        storyRequirements: {},
+        realizationDependencies: [], // Further testing required
+        bidirectionalDependencies: []
+    },
+    { 
+        id: 101, name: 'Michael Transaction', object: 'Microtransactions', stat: 'choosable', 
+        requirements: { smarts: 100, poise: 100, empathy: 100, charm: 100, sass: 100 }, 
+        locationRequirement: 'dlc',
+        storyRequirements: {},
+        realizationDependencies: [], // Further testing required
+        bidirectionalDependencies: []
+    }
+];
+        
+        
+// Game state
+let gameState = {
+    hintMode: false,
+    atticUnlocked: false,
+    dlcPurchased: false,
+    stats: {
+        smarts: 0,
+        poise: 0,
+        empathy: 0,
+        charm: 0,
+        sass: 0
+    },
+    characters: {},
+    timeSlots: {
+        '9am': '',
+        '12pm': '',
+        '3pm': '',
+        '6pm': '',
+        '9pm': ''
+    }
+};
+
+// Initialize character state
+function initializeCharacters() {
+    characters.forEach(char => {
+        if (!gameState.characters[char.id]) {
+            gameState.characters[char.id] = {
+                met: false,
+                relationship: null,
+                storyComplete: false,
+                realized: false,
+                statGiven: false,
+                chosenStat: char.stat === 'choosable' ? null : char.stat,
+                locations: char.hasLocations ? {} : null,
+                manualDependencies: {}
+            };
+            
+            // Initialize location tracking for special characters
+            if (char.hasLocations && locationData[char.id]) {
+                locationData[char.id].locations.forEach(loc => {
+                    gameState.characters[char.id].locations[loc] = false;
+                });
+            }
+            
+            // Initialize manual dependencies for characters with empty realizationDependencies
+            if (char.realizationDependencies.length === 0 && char.id > 2) {
+                gameState.characters[char.id].manualDependencies = {};
+            }
+        }
+    });
+}
+
+// Save state to localStorage
+function saveState() {
+    localStorage.setItem('dateEverythingTracker', JSON.stringify(gameState));
+}
+
+// Load state from localStorage
+function loadState() {
+    const saved = localStorage.getItem('dateEverythingTracker');
+    if (saved) {
+        gameState = { ...gameState, ...JSON.parse(saved) };
+    }
+}
+
+// Update stats display
+function updateStats() {
+    document.getElementById('smartsValue').textContent = gameState.stats.smarts;
+    document.getElementById('poiseValue').textContent = gameState.stats.poise;
+    document.getElementById('empathyValue').textContent = gameState.stats.empathy;
+    document.getElementById('charmValue').textContent = gameState.stats.charm;
+    document.getElementById('sassValue').textContent = gameState.stats.sass;
+}
+
+// Update summary stats
+function updateSummaryStats() {
+    const metCount = Object.values(gameState.characters).filter(c => c.met).length;
+    const storiesComplete = Object.values(gameState.characters).filter(c => c.storyComplete).length;
+    const realizedCount = Object.values(gameState.characters).filter(c => c.realized).length;
+    const totalCharacters = characters.length;
+    const completionRate = Math.round((realizedCount / totalCharacters) * 100);
+
+    document.getElementById('metCount').textContent = metCount;
+    document.getElementById('storiesComplete').textContent = storiesComplete;
+    document.getElementById('realizedCount').textContent = realizedCount;
+    document.getElementById('completionRate').textContent = `${completionRate}%`;
+}
+
+// Check if character can be met
+function canMeetCharacter(char) {
+    if (char.locationRequirement === 'attic' && !gameState.atticUnlocked) return false;
+    if (char.locationRequirement === 'dlc' && !gameState.dlcPurchased) return false;
+    return true;
+}
+
+// Check if character can complete story
+function canCompleteStory(char) {
+    const charState = gameState.characters[char.id];
+    if (!charState.met) return false;
+    
+    // Check attic requirement
+    if (char.storyRequirements.attic && !gameState.atticUnlocked) return false;
+    
+    // Check stat requirements for story completion
+    if (char.storyRequirements.smarts && gameState.stats.smarts < char.storyRequirements.smarts) return false;
+    if (char.storyRequirements.poise && gameState.stats.poise < char.storyRequirements.poise) return false;
+    if (char.storyRequirements.empathy && gameState.stats.empathy < char.storyRequirements.empathy) return false;
+    if (char.storyRequirements.charm && gameState.stats.charm < char.storyRequirements.charm) return false;
+    if (char.storyRequirements.sass && gameState.stats.sass < char.storyRequirements.sass) return false;
+    
+    // Check special requirements for Zoey
+    if (char.id === 96) {
+        const requiredCharacters = [100, 99, 98, 97, 95, 94, 57, 68];
+        return requiredCharacters.every(id => gameState.characters[id].met);
+    }
+    
+    // Check special requirement for Textbox-Chan
+    if (char.id === 94) {
+        const metCount = Object.values(gameState.characters).filter(c => c.met).length;
+        return metCount >= 80;
+    }
+    
+    // Check requirement for I, Ronaldini
+    if (char.id === 44) {
+        return gameState.characters[79].storyComplete; // Bobby's story complete
+    }
+    
+    return true;
+}
+
+// Check if character can be realized (with bidirectional dependencies)
+function canBeRealized(char) {
+    const charState = gameState.characters[char.id];
+    if (!charState.met || !charState.storyComplete) return false;
+    
+    // Check stat requirements
+    if (gameState.stats.smarts < char.requirements.smarts ||
+        gameState.stats.poise < char.requirements.poise ||
+        gameState.stats.empathy < char.requirements.empathy ||
+        gameState.stats.charm < char.requirements.charm ||
+        gameState.stats.sass < char.requirements.sass) {
+        return false;
+    }
+    
+    // Check bidirectional dependencies - all characters that appear in each other's stories must have completed stories
+    if (char.bidirectionalDependencies.length > 0) {
+        const bidirectionalDependenciesMet = char.bidirectionalDependencies.every(depId => 
+            gameState.characters[depId].storyComplete
+        );
+        if (!bidirectionalDependenciesMet) return false;
+    }
+    
+    // Check realization dependencies (one-way)
+    if (char.realizationDependencies.length > 0) {
+        const dependenciesMet = char.realizationDependencies.every(depId => 
+            gameState.characters[depId].storyComplete
+        );
+        if (!dependenciesMet) return false;
+    }
+    
+    // Check manual dependencies for characters with empty realizationDependencies
+    if (char.realizationDependencies.length === 0 && char.id > 2) {
+        const manualDeps = charState.manualDependencies || {};
+        // At least one dependency must be checked to proceed, unless it's a "no one required" character
+        const noOneRequired = [14, 16, 20, 23, 24, 37, 42, 46, 54, 68, 89, 93, 94, 95, 99, 100].includes(char.id);
+        if (!noOneRequired && Object.keys(manualDeps).length === 0) return false;
+        
+        // Check that all manually selected dependencies have completed stories
+        for (const depName in manualDeps) {
+            if (manualDeps[depName]) {
+                const depChar = characters.find(c => c.name === depName);
+                if (depChar && !gameState.characters[depChar.id].storyComplete) {
+                    return false;
+                }
+            }
+        }
+    }
+    
+    return true;
+}
+
+// Get story requirements status
+function getStoryRequirementsStatus(char) {
+    const requirements = [];
+    
+    if (char.storyRequirements.attic) {
+        requirements.push({
+            text: 'Attic must be unlocked',
+            met: gameState.atticUnlocked
+        });
+    }
+    
+    if (char.storyRequirements.smarts) {
+        requirements.push({
+            text: `Smarts: ${char.storyRequirements.smarts}`,
+            met: gameState.stats.smarts >= char.storyRequirements.smarts
+        });
+    }
+    
+    if (char.storyRequirements.poise) {
+        requirements.push({
+            text: `Poise: ${char.storyRequirements.poise}`,
+            met: gameState.stats.poise >= char.storyRequirements.poise
+        });
+    }
+    
+    if (char.storyRequirements.empathy) {
+        requirements.push({
+            text: `Empathy: ${char.storyRequirements.empathy}`,
+            met: gameState.stats.empathy >= char.storyRequirements.empathy
+        });
+    }
+    
+    if (char.storyRequirements.charm) {
+        requirements.push({
+            text: `Charm: ${char.storyRequirements.charm}`,
+            met: gameState.stats.charm >= char.storyRequirements.charm
+        });
+    }
+    
+    if (char.storyRequirements.sass) {
+        requirements.push({
+            text: `Sass: ${char.storyRequirements.sass}`,
+            met: gameState.stats.sass >= char.storyRequirements.sass
+        });
+    }
+    
+    // Special requirements
+    if (char.id === 96) { // Zoey
+        const requiredCharacters = [100, 99, 98, 97, 95, 94, 57, 68];
+        const requiredNames = ['Reggie', 'Nightmare', 'Doug', 'xxXShadowl0rd420Xxx', 'The Sassy Chap', 'Textbox-Chan', 'Willi', 'Daemon'];
+        const allMet = requiredCharacters.every(id => gameState.characters[id].met);
+        requirements.push({
+            text: `Must have met: ${requiredNames.join(', ')}`,
+            met: allMet
+        });
+    }
+    
+    if (char.id === 94) { // Textbox-Chan
+        const metCount = Object.values(gameState.characters).filter(c => c.met).length;
+        requirements.push({
+            text: `Must have met 80 other characters (${metCount}/80)`,
+            met: metCount >= 80
+        });
+    }
+    
+    if (char.id === 44) { // I, Ronaldini
+        requirements.push({
+            text: 'Bobby\'s story must be completed',
+            met: gameState.characters[79].storyComplete
+        });
+    }
+    
+    return requirements;
+}
+
+// Get realization dependencies status
+function getRealizationDependenciesStatus(char) {
+    const dependencies = [];
+    
+    if (char.bidirectionalDependencies.length > 0) {
+        char.bidirectionalDependencies.forEach(depId => {
+            const depChar = characters.find(c => c.id === depId);
+            if (depChar) {
+                dependencies.push({
+                    id: depId,
+                    name: depChar.name,
+                    met: gameState.characters[depId].storyComplete,
+                    type: 'bidirectional'
+                });
+            }
+        });
+    }
+    
+    if (char.realizationDependencies.length > 0) {
+        char.realizationDependencies.forEach(depId => {
+            const depChar = characters.find(c => c.id === depId);
+            if (depChar && !char.bidirectionalDependencies.includes(depId)) {
+                dependencies.push({
+                    id: depId,
+                    name: depChar.name,
+                    met: gameState.characters[depId].storyComplete,
+                    type: 'oneway'
+                });
+            }
+        });
+    }
+    
+    return dependencies;
+}
+
+// Get requirements status for display
+// Get requirements status for display
+function getRequirementsStatus(char) {
+    const requirements = [];
+    if (char.requirements.smarts > 0) {
+        const met = gameState.stats.smarts >= char.requirements.smarts;
+        requirements.push({
+            text: `Smarts: ${char.requirements.smarts}`,
+            met: met,
+            current: !met ? gameState.stats.smarts : undefined
+        });
+    }
+    if (char.requirements.poise > 0) {
+        const met = gameState.stats.poise >= char.requirements.poise;
+        requirements.push({
+            text: `Poise: ${char.requirements.poise}`,
+            met: met,
+            current: !met ? gameState.stats.poise : undefined
+        });
+    }
+    if (char.requirements.empathy > 0) {
+        const met = gameState.stats.empathy >= char.requirements.empathy;
+        requirements.push({
+            text: `Empathy: ${char.requirements.empathy}`,
+            met: met,
+            current: !met ? gameState.stats.empathy : undefined
+        });
+    }
+    if (char.requirements.charm > 0) {
+        const met = gameState.stats.charm >= char.requirements.charm;
+        requirements.push({
+            text: `Charm: ${char.requirements.charm}`,
+            met: met,
+            current: !met ? gameState.stats.charm : undefined
+        });
+    }
+    if (char.requirements.sass > 0) {
+        const met = gameState.stats.sass >= char.requirements.sass;
+        requirements.push({
+            text: `Sass: ${char.requirements.sass}`,
+            met: met,
+            current: !met ? gameState.stats.sass : undefined
+        });
+    }
+    return requirements;
+}
+
+// Get character display name
+function getCharacterDisplayName(char) {
+    if (!gameState.characters[char.id].met) {
+        if (gameState.hintMode) {
+            return `${char.id}. ${char.object}`;
+        } else {
+            return `${char.id}. ???`;
+        }
+    }
+    return `${char.id}. ${char.name}`;
+}
+
+// Toggle manual dependency
+function toggleManualDependency(charId, dependencyName) {
+    if (!gameState.characters[charId].manualDependencies) {
+        gameState.characters[charId].manualDependencies = {};
+    }
+    
+    const current = gameState.characters[charId].manualDependencies[dependencyName];
+    gameState.characters[charId].manualDependencies[dependencyName] = !current;
+    
+    saveState();
+    renderCharacters();
+}
+
+// Toggle character met status
+function toggleCharacterMet(charId) {
+    const char = characters.find(c => c.id === charId);
+    
+    // Prevent meeting characters that can't be met yet
+    if (!gameState.characters[charId].met && !canMeetCharacter(char)) {
+        return;
+    }
+    
+    if (!gameState.characters[charId].met) {
+        gameState.characters[charId].met = true;
+    } else {
+        gameState.characters[charId].met = false;
+        gameState.characters[charId].relationship = null;
+        gameState.characters[charId].storyComplete = false;
+        gameState.characters[charId].realized = false;
+        gameState.characters[charId].statGiven = false;
+        recalculateStats();
+    }
+    saveState();
+    updateTimeSlots();
+    renderCharacters();
+    updateSummaryStats();
+}
+
+// Set character relationship
+function setCharacterRelationship(charId, relationship) {
+    const char = characters.find(c => c.id === charId);
+    const oldRelationship = gameState.characters[charId].relationship;
+    
+    if (oldRelationship === relationship) {
+        gameState.characters[charId].relationship = null;
+        gameState.characters[charId].statGiven = false;
+    } else {
+        gameState.characters[charId].relationship = relationship;
+        gameState.characters[charId].statGiven = true;
+    }
+    
+    recalculateStats();
+    saveState();
+    renderCharacters();
+}
+
+// Set chosen stat for choosable characters
+function setChosenStat(charId, stat) {
+    gameState.characters[charId].chosenStat = stat;
+    recalculateStats();
+    saveState();
+    renderCharacters();
+}
+
+// Recalculate stats based on relationships
+function recalculateStats() {
+    // Reset stats
+    gameState.stats = { smarts: 0, poise: 0, empathy: 0, charm: 0, sass: 0 };
+    
+    // Add stats from relationships
+    characters.forEach(char => {
+        const charState = gameState.characters[char.id];
+        if (charState.relationship && charState.statGiven && charState.chosenStat) {
+            gameState.stats[charState.chosenStat] += 5;
+        }
+    });
+    
+    updateStats();
+}
+
+// Toggle story complete
+function toggleStoryComplete(charId) {
+    const char = characters.find(c => c.id === charId);
+    
+    // Check if story can be completed
+    if (!gameState.characters[charId].storyComplete && !canCompleteStory(char)) {
+        return;
+    }
+    
+    gameState.characters[charId].storyComplete = !gameState.characters[charId].storyComplete;
+    saveState();
+    updateTimeSlots();
+    renderCharacters();
+    updateSummaryStats();
+}
+
+// Toggle realized status
+function toggleRealized(charId) {
+    const char = characters.find(c => c.id === charId);
+    
+    // Prevent realizing characters that can't be realized yet
+    if (!gameState.characters[charId].realized && !canBeRealized(char)) {
+        return;
+    }
+    
+    gameState.characters[charId].realized = !gameState.characters[charId].realized;
+    saveState();
+    renderCharacters();
+    updateSummaryStats();
+}
+
+// Update time slots dropdown
+function updateTimeSlots() {
+    const slots = ['9am', '12pm', '3pm', '6pm', '9pm'];
+    const availableCharacters = characters.filter(char => {
+        const charState = gameState.characters[char.id];
+        return charState.met && !charState.storyComplete && canMeetCharacter(char);
+    });
+
+    slots.forEach(slot => {
+        const select = document.getElementById(`slot${slot}`);
+        select.innerHTML = '<option value="">Select Character</option>';
+        
+        availableCharacters.forEach(char => {
+            const option = document.createElement('option');
+            option.value = char.id;
+            option.textContent = char.name;
+            if (gameState.timeSlots[slot] == char.id) {
+                option.selected = true;
+            }
+            select.appendChild(option);
+        });
+    });
+}
+
+// Toggle location for special characters
+function toggleLocation(charId, location) {
+    gameState.characters[charId].locations[location] = !gameState.characters[charId].locations[location];
+    saveState();
+}
+        
+        
+// Render characters
+function renderCharacters() {
+    const grid = document.getElementById('characterGrid');
+    grid.innerHTML = '';
+
+    characters.forEach(char => {
+        if (!canMeetCharacter(char) && !gameState.characters[char.id].met) {
+            return; // Skip characters that can't be met yet
+        }
+
+        const charState = gameState.characters[char.id];
+        const card = document.createElement('div');
+        card.className = `character-card ${charState.met ? 'met' : ''} ${charState.realized ? 'realized' : ''}`;
+
+        const displayName = getCharacterDisplayName(char);
+        
+// Character portrait mapping - add character class names for those with images
+const characterPortraitMap = {
+    1: 'skylar',
+    2: 'phoenicia',
+    3: 'wallace',
+    4: 'florence',
+    5: 'celia',
+    6: 'stella',
+    7: 'dorian',
+    8: 'wyndolyn',
+    9: 'curt-rod',
+    10: 'shelley',
+    11: 'abel',
+    12: 'chairemi',
+    13: 'lux',
+    14: 'hector',
+    15: 'prissy',
+    16: 'timothy',
+    17: 'artt',
+    18: 'river',
+    19: 'eddie-volt',
+    20: 'koa',
+    21: 'dolly',
+    22: 'dante',
+    23: 'telly',
+    24: 'luna',
+    25: 'keyes',
+    26: 'gaia',
+    27: 'captain-jaques-pierrot',
+    28: 'parker',
+    29: 'mateo',
+    30: 'tina',
+    31: 'beverly',
+    32: 'mitchell-linn',
+    33: 'cabrizzio',
+    34: 'sinclaire',
+    35: 'freddy',
+    36: 'stefan',
+    37: 'luke-nukem',
+    38: 'miranda-dulce-tostadora',
+    39: 'dishy',
+    40: 'daisuke',
+    41: 'friar-errol',
+    42: 'kopi',
+    43: 'cam',
+    44: 'i-ronaldini',
+    45: 'amir',
+    46: 'jean-loo',
+    47: 'johnny-splash',
+    48: 'bathsheba',
+    49: 'rebel',
+    50: 'barry',
+    51: 'tyrell',
+    52: 'farya',
+    53: 'dasha',
+    54: 'jerry',
+    55: 'penelope',
+    56: 'mac',
+    57: 'willi',
+    58: 'lyric',
+    59: 'rongomaiwhenua',
+    60: 'chance',
+    61: 'maggie',
+    62: 'winnifred',
+    63: 'rainey',
+    64: 'scandalabra',
+    65: 'arma',
+    66: 'betty',
+    67: 'diana',
+    68: 'daemon',
+    69: 'ben-hwa',
+    70: 'hero-hime',
+    71: 'teddy',
+    72: 'hanks',
+    73: 'washford',
+    74: 'drysdale',
+    75: 'harper',
+    76: 'dirk',
+    77: 'tydus',
+    78: 'henry-hoove',
+    79: 'bobby',
+    80: 'kristof',
+    81: 'dunk',
+    82: 'fantina',
+    83: 'stepford',
+    84: 'tony',
+    85: 'beau',
+    86: 'keith',
+    87: 'bodhi',
+    88: 'vaughn',
+    89: 'sophia',
+    90: 'monique',
+    91: 'memoria',
+    92: 'holly',
+    93: 'airyn',
+    94: 'textbox-chan',
+    95: 'the-sassy-chap',
+    96: 'zoey-bennett',
+    97: 'xxxshadowl0rd420xxx',
+    98: 'doug',
+    99: 'nightmare',
+    100: 'reggie',
+    102: 'lucinda',
+    101: 'michael-transaction'
+};
+
+// Character portrait URLs
+const characterPortraitUrls = {
+    1: { // Skylar
+        default: 'https://dateeverything.wiki.gg/images/thumb/6/6b/Skylar_Pose_A.png/299px-Skylar_Pose_A.png',
+        love: 'https://dateeverything.wiki.gg/images/thumb/3/38/Skylar_Pose_B.png/393px-Skylar_Pose_B.png',
+        friend: 'https://dateeverything.wiki.gg/images/thumb/6/6e/Skylar_Pose_C.png/425px-Skylar_Pose_C.png',
+        hate: 'https://dateeverything.wiki.gg/images/thumb/4/4f/Skylar_Pose_D.png/406px-Skylar_Pose_D.png',
+        realized: 'https://dateeverything.wiki.gg/images/thumb/b/b9/Skylar_Realized.png/505px-Skylar_Realized.png'
+    },
+    2: { // Phoenicia
+        default: 'https://dateeverything.wiki.gg/images/thumb/2/2d/Phoenicia_Pose_A.png/800px-Phoenicia_Pose_A.png',
+        love: 'https://dateeverything.wiki.gg/images/thumb/2/2d/Phoenicia_Pose_A.png/800px-Phoenicia_Pose_A.png',
+        friend: 'https://dateeverything.wiki.gg/images/thumb/2/2d/Phoenicia_Pose_A.png/800px-Phoenicia_Pose_A.png',
+        hate: 'https://dateeverything.wiki.gg/images/thumb/2/2d/Phoenicia_Pose_A.png/800px-Phoenicia_Pose_A.png',
+        realized: 'https://dateeverything.wiki.gg/images/0/02/Phoenicia_Realized.png'
+    },
+    3: { // Wallace
+        default: 'https://dateeverything.wiki.gg/images/2/22/Wallace_Pose_A.png',
+        love: 'https://dateeverything.wiki.gg/images/2/22/Wallace_Pose_A.png',
+        friend: 'https://dateeverything.wiki.gg/images/2/22/Wallace_Pose_A.png',
+        hate: 'https://dateeverything.wiki.gg/images/2/22/Wallace_Pose_A.png',
+        realized: 'https://dateeverything.wiki.gg/images/1/19/Wallace_Realized.png'
+    },
+    4: { // Florence
+        default: 'https://dateeverything.wiki.gg/images/d/d4/Florence_Pose_A.png',
+        love: 'https://dateeverything.wiki.gg/images/d/d4/Florence_Pose_A.png',
+        friend: 'https://dateeverything.wiki.gg/images/d/d4/Florence_Pose_A.png',
+        hate: 'https://dateeverything.wiki.gg/images/d/d4/Florence_Pose_A.png',
+        realized: 'https://dateeverything.wiki.gg/images/thumb/e/ef/Florence_Realized.png/800px-Florence_Realized.png'
+    },
+    5: { // Celia
+        default: 'https://dateeverything.wiki.gg/images/2/27/Celia_Pose_A.png',
+        love: 'https://dateeverything.wiki.gg/images/2/27/Celia_Pose_A.png',
+        friend: 'https://dateeverything.wiki.gg/images/2/27/Celia_Pose_A.png',
+        hate: 'https://dateeverything.wiki.gg/images/2/27/Celia_Pose_A.png',
+        realized: 'https://dateeverything.wiki.gg/images/thumb/a/a6/Celia_Realized.png/320px-Celia_Realized.png'
+    },
+    6: { // Stella
+        default: 'https://dateeverything.wiki.gg/images/thumb/d/d0/Stella_Pose_A.png/320px-Stella_Pose_A.png',
+        love: 'https://dateeverything.wiki.gg/images/thumb/d/d0/Stella_Pose_A.png/320px-Stella_Pose_A.png',
+        friend: 'https://dateeverything.wiki.gg/images/thumb/d/d0/Stella_Pose_A.png/320px-Stella_Pose_A.png',
+        hate: 'https://dateeverything.wiki.gg/images/thumb/d/d0/Stella_Pose_A.png/320px-Stella_Pose_A.png',
+        realized: 'https://dateeverything.wiki.gg/images/5/58/Stella_Realized.png'
+    },
+    7: { // Dorian
+        default: 'https://dateeverything.wiki.gg/images/thumb/4/42/Dorian_Pose_A.png/320px-Dorian_Pose_A.png',
+        love: 'https://dateeverything.wiki.gg/images/thumb/4/42/Dorian_Pose_A.png/320px-Dorian_Pose_A.png',
+        friend: 'https://dateeverything.wiki.gg/images/thumb/4/42/Dorian_Pose_A.png/320px-Dorian_Pose_A.png',
+        hate: 'https://dateeverything.wiki.gg/images/thumb/4/42/Dorian_Pose_A.png/320px-Dorian_Pose_A.png',
+        realized: 'https://dateeverything.wiki.gg/images/2/2c/Dorian_Realized.png'
+    },
+    8: { // Wyndolyn
+        default: 'https://dateeverything.wiki.gg/images/9/99/Wyndolyn_Pose_A.png',
+        love: 'https://dateeverything.wiki.gg/images/9/99/Wyndolyn_Pose_A.png',
+        friend: 'https://dateeverything.wiki.gg/images/9/99/Wyndolyn_Pose_A.png',
+        hate: 'https://dateeverything.wiki.gg/images/9/99/Wyndolyn_Pose_A.png',
+        realized: 'https://dateeverything.wiki.gg/images/2/23/Wyndolyn_Realized.png'
+    },
+    9: { // Curt & Rod
+        default: 'https://dateeverything.wiki.gg/images/thumb/4/4c/Curt_%26_Rod_Pose_A.png/800px-Curt_%26_Rod_Pose_A.png',
+        love: 'https://dateeverything.wiki.gg/images/thumb/4/4c/Curt_%26_Rod_Pose_A.png/800px-Curt_%26_Rod_Pose_A.png',
+        friend: 'https://dateeverything.wiki.gg/images/thumb/4/4c/Curt_%26_Rod_Pose_A.png/800px-Curt_%26_Rod_Pose_A.png',
+        hate: 'https://dateeverything.wiki.gg/images/thumb/4/4c/Curt_%26_Rod_Pose_A.png/800px-Curt_%26_Rod_Pose_A.png',
+        realized: 'https://dateeverything.wiki.gg/images/thumb/4/4c/Curt_%26_Rod_Pose_A.png/800px-Curt_%26_Rod_Pose_A.png'
+    },
+    10: { // Shelley
+        default: 'https://dateeverything.wiki.gg/images/3/3e/Shelley_Pose_A.png',
+        love: 'https://dateeverything.wiki.gg/images/3/3e/Shelley_Pose_A.png',
+        friend: 'https://dateeverything.wiki.gg/images/3/3e/Shelley_Pose_A.png',
+        hate: 'https://dateeverything.wiki.gg/images/3/3e/Shelley_Pose_A.png',
+        realized: 'https://dateeverything.wiki.gg/images/7/72/Shelley_Realized_Happy.png'
+    },
+    11: { // Abel
+        default: 'https://dateeverything.wiki.gg/images/9/93/AbelBody.png',
+        love: 'https://dateeverything.wiki.gg/images/9/93/AbelBody.png',
+        friend: 'https://dateeverything.wiki.gg/images/9/93/AbelBody.png',
+        hate: 'https://dateeverything.wiki.gg/images/9/93/AbelBody.png',
+        realized: 'https://dateeverything.wiki.gg/images/b/b5/Abel_Realized.png'
+    },
+    12: { // Chairemi
+        default: 'https://dateeverything.wiki.gg/images/9/99/Chairemi_Pose_A.png',
+        love: 'https://dateeverything.wiki.gg/images/9/99/Chairemi_Pose_A.png',
+        friend: 'https://dateeverything.wiki.gg/images/9/99/Chairemi_Pose_A.png',
+        hate: 'https://dateeverything.wiki.gg/images/9/99/Chairemi_Pose_A.png',
+        realized: 'https://dateeverything.wiki.gg/images/8/8a/Chairemi_Realized.png'
+    },
+    13: { // Lux
+        default: 'https://dateeverything.wiki.gg/images/b/b7/Lux_Pose_A.png',
+        love: 'https://dateeverything.wiki.gg/images/b/b7/Lux_Pose_A.png',
+        friend: 'https://dateeverything.wiki.gg/images/b/b7/Lux_Pose_A.png',
+        hate: 'https://dateeverything.wiki.gg/images/b/b7/Lux_Pose_A.png',
+        realized: 'https://dateeverything.wiki.gg/images/d/d9/Lux_Realized.png'
+    },
+    14: { // Hector
+        default: 'https://dateeverything.wiki.gg/images/7/78/Hector_Pose_A.png',
+        love: 'https://dateeverything.wiki.gg/images/7/78/Hector_Pose_A.png',
+        friend: 'https://dateeverything.wiki.gg/images/7/78/Hector_Pose_A.png',
+        hate: 'https://dateeverything.wiki.gg/images/7/78/Hector_Pose_A.png',
+        realized: 'https://dateeverything.wiki.gg/images/thumb/b/ba/Hector_Realized.png/320px-Hector_Realized.png'
+    },
+    15: { // Prissy
+        default: 'https://dateeverything.wiki.gg/images/6/66/Prissy_Pose_A.png',
+        love: 'https://dateeverything.wiki.gg/images/6/66/Prissy_Pose_A.png',
+        friend: 'https://dateeverything.wiki.gg/images/6/66/Prissy_Pose_A.png',
+        hate: 'https://dateeverything.wiki.gg/images/6/66/Prissy_Pose_A.png',
+        realized: 'https://dateeverything.wiki.gg/images/4/49/Prissy_Realized.png'
+    },
+    16: { // Timothy
+        default: 'https://dateeverything.wiki.gg/images/3/3e/Tim_Pose_A.png',
+        love: 'https://dateeverything.wiki.gg/images/3/3e/Tim_Pose_A.png',
+        friend: 'https://dateeverything.wiki.gg/images/3/3e/Tim_Pose_A.png',
+        hate: 'https://dateeverything.wiki.gg/images/3/3e/Tim_Pose_A.png',
+        realized: 'https://dateeverything.wiki.gg/images/0/00/Tim_Realized.png'
+    },
+    17: { // Artt
+        default: 'https://dateeverything.wiki.gg/images/b/b6/Artt_Pose_A.png',
+        love: 'https://dateeverything.wiki.gg/images/b/b6/Artt_Pose_A.png',
+        friend: 'https://dateeverything.wiki.gg/images/b/b6/Artt_Pose_A.png',
+        hate: 'https://dateeverything.wiki.gg/images/b/b6/Artt_Pose_A.png',
+        realized: 'https://dateeverything.wiki.gg/images/4/47/Artt_Realized.png'
+    },
+    18: { // River
+        default: 'https://dateeverything.wiki.gg/images/thumb/9/94/River_Pose_A.png/800px-River_Pose_A.png',
+        love: 'https://dateeverything.wiki.gg/images/thumb/9/94/River_Pose_A.png/800px-River_Pose_A.png',
+        friend: 'https://dateeverything.wiki.gg/images/thumb/9/94/River_Pose_A.png/800px-River_Pose_A.png',
+        hate: 'https://dateeverything.wiki.gg/images/thumb/9/94/River_Pose_A.png/800px-River_Pose_A.png',
+        realized: 'https://dateeverything.wiki.gg/images/thumb/a/a7/River_Realized.png/800px-River_Realized.png'
+    },
+    19: { // Eddie & Volt
+        default: 'https://dateeverything.wiki.gg/images/thumb/7/72/Eddie_%26_Volt_Pose_A.png/300px-Eddie_%26_Volt_Pose_A.png',
+        love: 'https://dateeverything.wiki.gg/images/thumb/7/72/Eddie_%26_Volt_Pose_A.png/300px-Eddie_%26_Volt_Pose_A.png',
+        friend: 'https://dateeverything.wiki.gg/images/thumb/7/72/Eddie_%26_Volt_Pose_A.png/300px-Eddie_%26_Volt_Pose_A.png',
+        hate: 'https://dateeverything.wiki.gg/images/thumb/7/72/Eddie_%26_Volt_Pose_A.png/300px-Eddie_%26_Volt_Pose_A.png',
+        realized: 'https://dateeverything.wiki.gg/images/thumb/7/72/Eddie_%26_Volt_Pose_A.png/300px-Eddie_%26_Volt_Pose_A.png'
+    },
+    20: { // Koa
+        default: 'https://dateeverything.wiki.gg/images/2/2c/Koa_Pose_A.png',
+        love: 'https://dateeverything.wiki.gg/images/2/2c/Koa_Pose_A.png',
+        friend: 'https://dateeverything.wiki.gg/images/2/2c/Koa_Pose_A.png',
+        hate: 'https://dateeverything.wiki.gg/images/2/2c/Koa_Pose_A.png',
+        realized: 'https://dateeverything.wiki.gg/images/9/96/Koa_Realized.png'
+    },
+    21: { // Dolly
+        default: 'https://dateeverything.wiki.gg/images/d/dd/Dolly_Pose_A.png',
+        love: 'https://dateeverything.wiki.gg/images/d/dd/Dolly_Pose_A.png',
+        friend: 'https://dateeverything.wiki.gg/images/d/dd/Dolly_Pose_A.png',
+        hate: 'https://dateeverything.wiki.gg/images/d/dd/Dolly_Pose_A.png',
+        realized: 'https://dateeverything.wiki.gg/images/f/f8/Dolly_Realized.png'
+    },
+    22: { // Dante
+        default: 'https://dateeverything.wiki.gg/images/5/5d/Dante_Pose_A.png',
+        love: 'https://dateeverything.wiki.gg/images/5/5d/Dante_Pose_A.png',
+        friend: 'https://dateeverything.wiki.gg/images/5/5d/Dante_Pose_A.png',
+        hate: 'https://dateeverything.wiki.gg/images/5/5d/Dante_Pose_A.png',
+        realized: 'https://dateeverything.wiki.gg/images/d/d3/Dante_Realized.png'
+    },
+    23: { // Telly
+        default: 'https://dateeverything.wiki.gg/images/d/de/Telly_Pose_A.png',
+        love: 'https://dateeverything.wiki.gg/images/d/de/Telly_Pose_A.png',
+        friend: 'https://dateeverything.wiki.gg/images/d/de/Telly_Pose_A.png',
+        hate: 'https://dateeverything.wiki.gg/images/d/de/Telly_Pose_A.png',
+        realized: 'https://dateeverything.wiki.gg/images/e/eb/Telly_Realized.png'
+    },
+    24: { // Luna
+        default: 'https://dateeverything.wiki.gg/images/4/46/Connie_Pose_A.png',
+        love: 'https://dateeverything.wiki.gg/images/4/46/Connie_Pose_A.png',
+        friend: 'https://dateeverything.wiki.gg/images/4/46/Connie_Pose_A.png',
+        hate: 'https://dateeverything.wiki.gg/images/4/46/Connie_Pose_A.png',
+        realized: 'https://dateeverything.wiki.gg/images/b/be/Connie_Realized.png'
+    },
+    25: { // Keyes
+        default: 'https://dateeverything.wiki.gg/images/4/43/Keyes_Pose_A.png',
+        love: 'https://dateeverything.wiki.gg/images/4/43/Keyes_Pose_A.png',
+        friend: 'https://dateeverything.wiki.gg/images/4/43/Keyes_Pose_A.png',
+        hate: 'https://dateeverything.wiki.gg/images/4/43/Keyes_Pose_A.png',
+        realized: 'https://dateeverything.wiki.gg/images/thumb/6/6e/Keyes_Realized.png/800px-Keyes_Realized.png'
+    },
+    26: { // Gaia
+        default: 'https://dateeverything.wiki.gg/images/f/fb/Gaia_Pose_A.png',
+        love: 'https://dateeverything.wiki.gg/images/f/fb/Gaia_Pose_A.png',
+        friend: 'https://dateeverything.wiki.gg/images/f/fb/Gaia_Pose_A.png',
+        hate: 'https://dateeverything.wiki.gg/images/f/fb/Gaia_Pose_A.png',
+        realized: 'https://dateeverything.wiki.gg/images/4/40/Gaia_Realized.png'
+    },
+    27: { // Captain Jaques Pierrot
+        default: 'https://dateeverything.wiki.gg/images/5/55/Captain_Jacques_Pose_A.png',
+        love: 'https://dateeverything.wiki.gg/images/5/55/Captain_Jacques_Pose_A.png',
+        friend: 'https://dateeverything.wiki.gg/images/5/55/Captain_Jacques_Pose_A.png',
+        hate: 'https://dateeverything.wiki.gg/images/5/55/Captain_Jacques_Pose_A.png',
+        realized: 'https://dateeverything.wiki.gg/images/3/37/Captain_Jacques_Realized.png'
+    },
+    28: { // Parker
+        default: 'https://dateeverything.wiki.gg/images/c/ce/Parker_Pose_A.png',
+        love: 'https://dateeverything.wiki.gg/images/c/ce/Parker_Pose_A.png',
+        friend: 'https://dateeverything.wiki.gg/images/c/ce/Parker_Pose_A.png',
+        hate: 'https://dateeverything.wiki.gg/images/c/ce/Parker_Pose_A.png',
+        realized: 'https://dateeverything.wiki.gg/images/thumb/d/dc/Parker_Realized.png/320px-Parker_Realized.png'
+    },
+    29: { // Mateo
+        default: 'https://dateeverything.wiki.gg/images/d/d7/Mateo_Pose_A.png',
+        love: 'https://dateeverything.wiki.gg/images/d/d7/Mateo_Pose_A.png',
+        friend: 'https://dateeverything.wiki.gg/images/d/d7/Mateo_Pose_A.png',
+        hate: 'https://dateeverything.wiki.gg/images/d/d7/Mateo_Pose_A.png',
+        realized: 'https://dateeverything.wiki.gg/images/d/df/Mateo_Realized.png'
+    },
+    30: { // Tina
+        default: 'https://dateeverything.wiki.gg/images/0/07/Tina_Pose_A.png',
+        love: 'https://dateeverything.wiki.gg/images/0/07/Tina_Pose_A.png',
+        friend: 'https://dateeverything.wiki.gg/images/0/07/Tina_Pose_A.png',
+        hate: 'https://dateeverything.wiki.gg/images/0/07/Tina_Pose_A.png',
+        realized: 'https://dateeverything.wiki.gg/images/7/77/Tina_Realized.png'
+    },
+    31: { // Beverly
+        default: 'https://dateeverything.wiki.gg/images/1/18/Beverly_Pose_A.png',
+        love: 'https://dateeverything.wiki.gg/images/1/18/Beverly_Pose_A.png',
+        friend: 'https://dateeverything.wiki.gg/images/1/18/Beverly_Pose_A.png',
+        hate: 'https://dateeverything.wiki.gg/images/1/18/Beverly_Pose_A.png',
+        realized: 'https://dateeverything.wiki.gg/images/7/77/Beverly_Realized.png'
+    },
+    32: { // Mitchell Linn
+        default: 'https://dateeverything.wiki.gg/images/e/e0/Mitchell_Pose_A.png',
+        love: 'https://dateeverything.wiki.gg/images/e/e0/Mitchell_Pose_A.png',
+        friend: 'https://dateeverything.wiki.gg/images/e/e0/Mitchell_Pose_A.png',
+        hate: 'https://dateeverything.wiki.gg/images/e/e0/Mitchell_Pose_A.png',
+        realized: 'https://dateeverything.wiki.gg/images/c/c0/Mitchell_Realized.png'
+    },
+    33: { // Cabrizzio
+        default: 'https://dateeverything.wiki.gg/images/c/c4/Cabrizzio_Pose_A.png',
+        love: 'https://dateeverything.wiki.gg/images/c/c4/Cabrizzio_Pose_A.png',
+        friend: 'https://dateeverything.wiki.gg/images/c/c4/Cabrizzio_Pose_A.png',
+        hate: 'https://dateeverything.wiki.gg/images/c/c4/Cabrizzio_Pose_A.png',
+        realized: 'https://dateeverything.wiki.gg/images/d/d3/Cabrizzio_Realized.png'
+    },
+    34: { // Sinclaire
+        default: 'https://dateeverything.wiki.gg/images/9/97/Sinclaire_Pose_A.png',
+        love: 'https://dateeverything.wiki.gg/images/9/97/Sinclaire_Pose_A.png',
+        friend: 'https://dateeverything.wiki.gg/images/9/97/Sinclaire_Pose_A.png',
+        hate: 'https://dateeverything.wiki.gg/images/9/97/Sinclaire_Pose_A.png',
+        realized: 'https://dateeverything.wiki.gg/images/d/d6/Sinclaire_Realized.png'
+    },
+    35: { // Freddy
+        default: 'https://dateeverything.wiki.gg/images/thumb/7/73/Freddy_Pose_A.png/800px-Freddy_Pose_A.png',
+        love: 'https://dateeverything.wiki.gg/images/thumb/7/73/Freddy_Pose_A.png/800px-Freddy_Pose_A.png',
+        friend: 'https://dateeverything.wiki.gg/images/thumb/7/73/Freddy_Pose_A.png/800px-Freddy_Pose_A.png',
+        hate: 'https://dateeverything.wiki.gg/images/thumb/7/73/Freddy_Pose_A.png/800px-Freddy_Pose_A.png',
+        realized: 'https://dateeverything.wiki.gg/images/thumb/6/6c/Freddy_Realized.png/800px-Freddy_Realized.png'
+    },
+    36: { // Stefan
+        default: 'https://dateeverything.wiki.gg/images/b/bc/Stefan_Pose_A.png',
+        love: 'https://dateeverything.wiki.gg/images/b/bc/Stefan_Pose_A.png',
+        friend: 'https://dateeverything.wiki.gg/images/b/bc/Stefan_Pose_A.png',
+        hate: 'https://dateeverything.wiki.gg/images/b/bc/Stefan_Pose_A.png',
+        realized: 'https://dateeverything.wiki.gg/images/1/11/Stefan_Realized.png'
+    },
+    37: { // Luke Nuke'm
+        default: 'https://dateeverything.wiki.gg/images/3/3f/Luke_Nukem_Pose_A.png',
+        love: 'https://dateeverything.wiki.gg/images/3/3f/Luke_Nukem_Pose_A.png',
+        friend: 'https://dateeverything.wiki.gg/images/3/3f/Luke_Nukem_Pose_A.png',
+        hate: 'https://dateeverything.wiki.gg/images/3/3f/Luke_Nukem_Pose_A.png',
+        realized: 'https://dateeverything.wiki.gg/images/f/f3/Luke_Realized.png'
+    },
+    38: { // Miranda Dulce Tostadora
+        default: 'https://dateeverything.wiki.gg/images/0/00/Miranda_Pose_A.png',
+        love: 'https://dateeverything.wiki.gg/images/0/00/Miranda_Pose_A.png',
+        friend: 'https://dateeverything.wiki.gg/images/0/00/Miranda_Pose_A.png',
+        hate: 'https://dateeverything.wiki.gg/images/0/00/Miranda_Pose_A.png',
+        realized: 'https://dateeverything.wiki.gg/images/thumb/2/2b/Miranda_Realized.png/800px-Miranda_Realized.png'
+    },
+    39: { // Dishy
+        default: 'https://dateeverything.wiki.gg/images/thumb/4/47/Dishy_Pose_A.png/800px-Dishy_Pose_A.png',
+        love: 'https://dateeverything.wiki.gg/images/thumb/4/47/Dishy_Pose_A.png/800px-Dishy_Pose_A.png',
+        friend: 'https://dateeverything.wiki.gg/images/thumb/4/47/Dishy_Pose_A.png/800px-Dishy_Pose_A.png',
+        hate: 'https://dateeverything.wiki.gg/images/thumb/4/47/Dishy_Pose_A.png/800px-Dishy_Pose_A.png',
+        realized: 'https://dateeverything.wiki.gg/images/4/42/Dishy_Realized.png'
+    },
+    40: { // Daisuke
+        default: 'https://dateeverything.wiki.gg/images/thumb/7/73/Daisuke_Pose_A.png/320px-Daisuke_Pose_A.png',
+        love: 'https://dateeverything.wiki.gg/images/thumb/7/73/Daisuke_Pose_A.png/320px-Daisuke_Pose_A.png',
+        friend: 'https://dateeverything.wiki.gg/images/thumb/7/73/Daisuke_Pose_A.png/320px-Daisuke_Pose_A.png',
+        hate: 'https://dateeverything.wiki.gg/images/thumb/7/73/Daisuke_Pose_A.png/320px-Daisuke_Pose_A.png',
+        realized: 'https://dateeverything.wiki.gg/images/4/41/Daisuke_Realized.png'
+    },
+    41: { // Friar Errol
+        default: 'https://dateeverything.wiki.gg/images/4/40/Friar_Errol_Pose_A.png',
+        love: 'https://dateeverything.wiki.gg/images/4/40/Friar_Errol_Pose_A.png',
+        friend: 'https://dateeverything.wiki.gg/images/4/40/Friar_Errol_Pose_A.png',
+        hate: 'https://dateeverything.wiki.gg/images/4/40/Friar_Errol_Pose_A.png',
+        realized: 'https://dateeverything.wiki.gg/images/thumb/0/0b/Friar_Errol_Realized.png/800px-Friar_Errol_Realized.png'
+    },
+    42: { // Kopi
+        default: 'https://dateeverything.wiki.gg/images/thumb/4/4f/Kopi_Pose_A.png/320px-Kopi_Pose_A.png',
+        love: 'https://dateeverything.wiki.gg/images/thumb/4/4f/Kopi_Pose_A.png/320px-Kopi_Pose_A.png',
+        friend: 'https://dateeverything.wiki.gg/images/thumb/4/4f/Kopi_Pose_A.png/320px-Kopi_Pose_A.png',
+        hate: 'https://dateeverything.wiki.gg/images/thumb/4/4f/Kopi_Pose_A.png/320px-Kopi_Pose_A.png',
+        realized: 'https://dateeverything.wiki.gg/images/thumb/f/f0/Kopi_Realized.png/320px-Kopi_Realized.png'
+    },
+    43: { // Cam
+        default: 'https://dateeverything.wiki.gg/images/9/9b/Cam_Pose_A.png',
+        love: 'https://dateeverything.wiki.gg/images/9/9b/Cam_Pose_A.png',
+        friend: 'https://dateeverything.wiki.gg/images/9/9b/Cam_Pose_A.png',
+        hate: 'https://dateeverything.wiki.gg/images/9/9b/Cam_Pose_A.png',
+        realized: 'https://dateeverything.wiki.gg/images/7/76/Cam_Realized.png'
+    },
+    44: { // I, Ronaldini
+        default: 'https://dateeverything.wiki.gg/images/5/5d/I%2C_Ronaldini_Pose_A.png',
+        love: 'https://dateeverything.wiki.gg/images/5/5d/I%2C_Ronaldini_Pose_A.png',
+        friend: 'https://dateeverything.wiki.gg/images/5/5d/I%2C_Ronaldini_Pose_A.png',
+        hate: 'https://dateeverything.wiki.gg/images/5/5d/I%2C_Ronaldini_Pose_A.png',
+        realized: 'https://dateeverything.wiki.gg/images/thumb/4/4a/I%2C_Ronaldini_Realized.png/800px-I%2C_Ronaldini_Realized.png'
+    },
+    45: { // Amir
+        default: 'https://dateeverything.wiki.gg/images/thumb/e/e1/Amir_Pose_A.png/320px-Amir_Pose_A.png',
+        love: 'https://dateeverything.wiki.gg/images/thumb/e/e1/Amir_Pose_A.png/320px-Amir_Pose_A.png',
+        friend: 'https://dateeverything.wiki.gg/images/thumb/e/e1/Amir_Pose_A.png/320px-Amir_Pose_A.png',
+        hate: 'https://dateeverything.wiki.gg/images/thumb/e/e1/Amir_Pose_A.png/320px-Amir_Pose_A.png',
+        realized: 'https://dateeverything.wiki.gg/images/e/e7/Amir_Realized.png'
+    },
+    46: { // Jean Loo
+        default: 'https://dateeverything.wiki.gg/images/thumb/c/c9/Jean_Loo_Pose_A.png/800px-Jean_Loo_Pose_A.png',
+        love: 'https://dateeverything.wiki.gg/images/thumb/c/c9/Jean_Loo_Pose_A.png/800px-Jean_Loo_Pose_A.png',
+        friend: 'https://dateeverything.wiki.gg/images/thumb/c/c9/Jean_Loo_Pose_A.png/800px-Jean_Loo_Pose_A.png',
+        hate: 'https://dateeverything.wiki.gg/images/thumb/c/c9/Jean_Loo_Pose_A.png/800px-Jean_Loo_Pose_A.png',
+        realized: 'https://dateeverything.wiki.gg/images/c/c0/Jean_Loo_Realized.png'
+    },
+    47: { // Johnny Splash
+        default: 'https://dateeverything.wiki.gg/images/9/9d/Johnny_Splash_Pose_A.png',
+        love: 'https://dateeverything.wiki.gg/images/9/9d/Johnny_Splash_Pose_A.png',
+        friend: 'https://dateeverything.wiki.gg/images/9/9d/Johnny_Splash_Pose_A.png',
+        hate: 'https://dateeverything.wiki.gg/images/9/9d/Johnny_Splash_Pose_A.png',
+        realized: 'https://dateeverything.wiki.gg/images/thumb/b/b8/Johnny_Splash_Realized.png/800px-Johnny_Splash_Realized.png'
+    },
+    48: { // Bathsheba
+        default: 'https://dateeverything.wiki.gg/images/8/85/Bathsheba_Pose_A.png',
+        love: 'https://dateeverything.wiki.gg/images/8/85/Bathsheba_Pose_A.png',
+        friend: 'https://dateeverything.wiki.gg/images/8/85/Bathsheba_Pose_A.png',
+        hate: 'https://dateeverything.wiki.gg/images/8/85/Bathsheba_Pose_A.png',
+        realized: 'https://dateeverything.wiki.gg/images/7/78/Bathsheba_Realized.png'
+    },
+    49: { // Rebel
+        default: 'https://dateeverything.wiki.gg/images/c/c2/Rebel_Pose_A.png',
+        love: 'https://dateeverything.wiki.gg/images/c/c2/Rebel_Pose_A.png',
+        friend: 'https://dateeverything.wiki.gg/images/c/c2/Rebel_Pose_A.png',
+        hate: 'https://dateeverything.wiki.gg/images/c/c2/Rebel_Pose_A.png',
+        realized: 'https://dateeverything.wiki.gg/images/f/fa/Rebel_Realized.png'
+    },
+    50: { // Barry
+        default: 'https://dateeverything.wiki.gg/images/a/a8/Barry_Pose_A.png',
+        love: 'https://dateeverything.wiki.gg/images/a/a8/Barry_Pose_A.png',
+        friend: 'https://dateeverything.wiki.gg/images/a/a8/Barry_Pose_A.png',
+        hate: 'https://dateeverything.wiki.gg/images/a/a8/Barry_Pose_A.png',
+        realized: 'https://dateeverything.wiki.gg/images/1/18/Barry_Realized.png'
+    },
+    51: { // Tyrell
+        default: 'https://dateeverything.wiki.gg/images/4/4a/Tyrell_Pose_A.png',
+        love: 'https://dateeverything.wiki.gg/images/4/4a/Tyrell_Pose_A.png',
+        friend: 'https://dateeverything.wiki.gg/images/4/4a/Tyrell_Pose_A.png',
+        hate: 'https://dateeverything.wiki.gg/images/4/4a/Tyrell_Pose_A.png',
+        realized: 'https://dateeverything.wiki.gg/images/1/14/Tyrell_Realized.png'
+    },
+    52: { // Farya
+        default: 'https://dateeverything.wiki.gg/images/6/6d/Farya_Pose_A.png',
+        love: 'https://dateeverything.wiki.gg/images/6/6d/Farya_Pose_A.png',
+        friend: 'https://dateeverything.wiki.gg/images/6/6d/Farya_Pose_A.png',
+        hate: 'https://dateeverything.wiki.gg/images/6/6d/Farya_Pose_A.png',
+        realized: 'https://dateeverything.wiki.gg/images/2/29/Farya_Realized.png'
+    },
+    53: { // Dasha
+        default: 'https://dateeverything.wiki.gg/images/5/57/Dasha_Pose_A.png',
+        love: 'https://dateeverything.wiki.gg/images/5/57/Dasha_Pose_A.png',
+        friend: 'https://dateeverything.wiki.gg/images/5/57/Dasha_Pose_A.png',
+        hate: 'https://dateeverything.wiki.gg/images/5/57/Dasha_Pose_A.png',
+        realized: 'https://dateeverything.wiki.gg/images/d/d9/Dasha_Realized.png'
+    },
+    54: { // Jerry
+        default: 'https://dateeverything.wiki.gg/images/1/14/Jerry_Pose_A.png',
+        love: 'https://dateeverything.wiki.gg/images/1/14/Jerry_Pose_A.png',
+        friend: 'https://dateeverything.wiki.gg/images/1/14/Jerry_Pose_A.png',
+        hate: 'https://dateeverything.wiki.gg/images/1/14/Jerry_Pose_A.png',
+        realized: 'https://dateeverything.wiki.gg/images/5/51/Jerry_Realized.png'
+    },
+    55: { // Penelope
+        default: 'https://dateeverything.wiki.gg/images/8/86/Penelope_Pose_A.png',
+        love: 'https://dateeverything.wiki.gg/images/8/86/Penelope_Pose_A.png',
+        friend: 'https://dateeverything.wiki.gg/images/8/86/Penelope_Pose_A.png',
+        hate: 'https://dateeverything.wiki.gg/images/8/86/Penelope_Pose_A.png',
+        realized: 'https://dateeverything.wiki.gg/images/0/01/Penelope_Realized.png'
+    },
+    56: { // Mac
+        default: 'https://dateeverything.wiki.gg/images/thumb/7/7c/Mac_Pose_A.png/800px-Mac_Pose_A.png',
+        love: 'https://dateeverything.wiki.gg/images/thumb/7/7c/Mac_Pose_A.png/800px-Mac_Pose_A.png',
+        friend: 'https://dateeverything.wiki.gg/images/thumb/7/7c/Mac_Pose_A.png/800px-Mac_Pose_A.png',
+        hate: 'https://dateeverything.wiki.gg/images/thumb/7/7c/Mac_Pose_A.png/800px-Mac_Pose_A.png',
+        realized: 'https://dateeverything.wiki.gg/images/thumb/b/bc/Mac_Realized.png/800px-Mac_Realized.png'
+    },
+    57: { // Willi
+        default: 'https://dateeverything.wiki.gg/images/thumb/7/77/Willi_Pose_A.png/300px-Willi_Pose_A.png',
+        love: 'https://dateeverything.wiki.gg/images/thumb/7/77/Willi_Pose_A.png/300px-Willi_Pose_A.png',
+        friend: 'https://dateeverything.wiki.gg/images/thumb/7/77/Willi_Pose_A.png/300px-Willi_Pose_A.png',
+        hate: 'https://dateeverything.wiki.gg/images/thumb/7/77/Willi_Pose_A.png/300px-Willi_Pose_A.png',
+        realized: 'https://dateeverything.wiki.gg/images/thumb/6/6f/Willi_Realized.png/320px-Willi_Realized.png'
+    },
+    58: { // Lyric
+        default: 'https://dateeverything.wiki.gg/images/thumb/a/aa/Lyric_Pose_A.png/800px-Lyric_Pose_A.png',
+        love: 'https://dateeverything.wiki.gg/images/thumb/a/aa/Lyric_Pose_A.png/800px-Lyric_Pose_A.png',
+        friend: 'https://dateeverything.wiki.gg/images/thumb/a/aa/Lyric_Pose_A.png/800px-Lyric_Pose_A.png',
+        hate: 'https://dateeverything.wiki.gg/images/thumb/a/aa/Lyric_Pose_A.png/800px-Lyric_Pose_A.png',
+        realized: 'https://dateeverything.wiki.gg/images/f/fc/Lyric_Realized.png'
+    },
+    59: { // Rongomaiwhenua
+        default: 'https://dateeverything.wiki.gg/images/thumb/8/86/Rongomaiwhenua_Pose_A.png/800px-Rongomaiwhenua_Pose_A.png',
+        love: 'https://dateeverything.wiki.gg/images/thumb/8/86/Rongomaiwhenua_Pose_A.png/800px-Rongomaiwhenua_Pose_A.png',
+        friend: 'https://dateeverything.wiki.gg/images/thumb/8/86/Rongomaiwhenua_Pose_A.png/800px-Rongomaiwhenua_Pose_A.png',
+        hate: 'https://dateeverything.wiki.gg/images/thumb/8/86/Rongomaiwhenua_Pose_A.png/800px-Rongomaiwhenua_Pose_A.png',
+        realized: 'https://dateeverything.wiki.gg/images/4/4d/Rongomaiwhenua_Realized.png'
+    },
+    60: { // Chance
+        default: 'https://dateeverything.wiki.gg/images/thumb/6/6f/Chance_Pose_A.png/299px-Chance_Pose_A.png',
+        love: 'https://dateeverything.wiki.gg/images/thumb/6/6f/Chance_Pose_A.png/299px-Chance_Pose_A.png',
+        friend: 'https://dateeverything.wiki.gg/images/thumb/6/6f/Chance_Pose_A.png/299px-Chance_Pose_A.png',
+        hate: 'https://dateeverything.wiki.gg/images/thumb/6/6f/Chance_Pose_A.png/299px-Chance_Pose_A.png',
+        realized: 'https://dateeverything.wiki.gg/images/c/c6/Chance_Realized.png'
+    },
+    61: { // Maggie
+        default: 'https://dateeverything.wiki.gg/images/thumb/6/66/Maggie_Pose_A.png/299px-Maggie_Pose_A.png',
+        love: 'https://dateeverything.wiki.gg/images/thumb/6/66/Maggie_Pose_A.png/299px-Maggie_Pose_A.png',
+        friend: 'https://dateeverything.wiki.gg/images/thumb/6/66/Maggie_Pose_A.png/299px-Maggie_Pose_A.png',
+        hate: 'https://dateeverything.wiki.gg/images/thumb/6/66/Maggie_Pose_A.png/299px-Maggie_Pose_A.png',
+        realized: 'https://dateeverything.wiki.gg/images/9/9d/Maggie_Realized.png'
+    },
+    62: { // Winnifred
+        default: 'https://dateeverything.wiki.gg/images/7/7f/Winnifred_Pose_A.png',
+        love: 'https://dateeverything.wiki.gg/images/7/7f/Winnifred_Pose_A.png',
+        friend: 'https://dateeverything.wiki.gg/images/7/7f/Winnifred_Pose_A.png',
+        hate: 'https://dateeverything.wiki.gg/images/7/7f/Winnifred_Pose_A.png',
+        realized: 'https://dateeverything.wiki.gg/images/thumb/8/84/Winnifred_Realized.png/800px-Winnifred_Realized.png'
+    },
+    63: { // Rainey
+        default: 'https://dateeverything.wiki.gg/images/2/22/Rainey_Pose_A.png',
+        love: 'https://dateeverything.wiki.gg/images/2/22/Rainey_Pose_A.png',
+        friend: 'https://dateeverything.wiki.gg/images/2/22/Rainey_Pose_A.png',
+        hate: 'https://dateeverything.wiki.gg/images/2/22/Rainey_Pose_A.png',
+        realized: 'https://dateeverything.wiki.gg/images/4/4e/Rainey_Realized.png'
+    },
+    64: { // Scandalabra
+        default: 'https://dateeverything.wiki.gg/images/a/a2/Scandalabra_Pose_A.png',
+        love: 'https://dateeverything.wiki.gg/images/a/a2/Scandalabra_Pose_A.png',
+        friend: 'https://dateeverything.wiki.gg/images/a/a2/Scandalabra_Pose_A.png',
+        hate: 'https://dateeverything.wiki.gg/images/a/a2/Scandalabra_Pose_A.png',
+        realized: 'https://dateeverything.wiki.gg/images/thumb/0/01/Scandalabra_Realized.png/800px-Scandalabra_Realized.png'
+    },
+    65: { // Arma
+        default: 'https://dateeverything.wiki.gg/images/b/bb/Arma_Pose_A.png',
+        love: 'https://dateeverything.wiki.gg/images/b/bb/Arma_Pose_A.png',
+        friend: 'https://dateeverything.wiki.gg/images/b/bb/Arma_Pose_A.png',
+        hate: 'https://dateeverything.wiki.gg/images/b/bb/Arma_Pose_A.png',
+        realized: 'https://dateeverything.wiki.gg/images/0/09/Arma_Realized.png'
+    },
+    66: { // Betty
+        default: 'https://dateeverything.wiki.gg/images/thumb/3/32/Betty_Pose_A.png/300px-Betty_Pose_A.png',
+        love: 'https://dateeverything.wiki.gg/images/thumb/3/32/Betty_Pose_A.png/300px-Betty_Pose_A.png',
+        friend: 'https://dateeverything.wiki.gg/images/thumb/3/32/Betty_Pose_A.png/300px-Betty_Pose_A.png',
+        hate: 'https://dateeverything.wiki.gg/images/thumb/3/32/Betty_Pose_A.png/300px-Betty_Pose_A.png',
+        realized: 'https://dateeverything.wiki.gg/images/e/ed/Betty_Realized.png'
+    },
+    67: { // Diana
+        default: 'https://dateeverything.wiki.gg/images/thumb/1/18/Diana_Pose_A.png/800px-Diana_Pose_A.png',
+        love: 'https://dateeverything.wiki.gg/images/thumb/1/18/Diana_Pose_A.png/800px-Diana_Pose_A.png',
+        friend: 'https://dateeverything.wiki.gg/images/thumb/1/18/Diana_Pose_A.png/800px-Diana_Pose_A.png',
+        hate: 'https://dateeverything.wiki.gg/images/thumb/1/18/Diana_Pose_A.png/800px-Diana_Pose_A.png',
+        realized: 'https://dateeverything.wiki.gg/images/thumb/c/ca/Diana_Realized.png/800px-Diana_Realized.png'
+    },
+    68: { // Daemon
+        default: 'https://dateeverything.wiki.gg/images/5/58/Daemon_Pose_A.png',
+        love: 'https://dateeverything.wiki.gg/images/5/58/Daemon_Pose_A.png',
+        friend: 'https://dateeverything.wiki.gg/images/5/58/Daemon_Pose_A.png',
+        hate: 'https://dateeverything.wiki.gg/images/5/58/Daemon_Pose_A.png',
+        realized: 'https://dateeverything.wiki.gg/images/thumb/c/c2/Daemon_Realized.png/320px-Daemon_Realized.png'
+    },
+    69: { // Ben-Hwa
+        default: 'https://dateeverything.wiki.gg/images/c/c8/Ben-Hwa_Pose_A.png',
+        love: 'https://dateeverything.wiki.gg/images/c/c8/Ben-Hwa_Pose_A.png',
+        friend: 'https://dateeverything.wiki.gg/images/c/c8/Ben-Hwa_Pose_A.png',
+        hate: 'https://dateeverything.wiki.gg/images/c/c8/Ben-Hwa_Pose_A.png',
+        realized: 'https://dateeverything.wiki.gg/images/2/2f/Ben-Hwa_Realized.png'
+    },
+    70: { // Hero Hime
+        default: 'https://dateeverything.wiki.gg/images/thumb/e/e5/Hero_Hime_Pose_A.png/800px-Hero_Hime_Pose_A.png',
+        love: 'https://dateeverything.wiki.gg/images/thumb/e/e5/Hero_Hime_Pose_A.png/800px-Hero_Hime_Pose_A.png',
+        friend: 'https://dateeverything.wiki.gg/images/thumb/e/e5/Hero_Hime_Pose_A.png/800px-Hero_Hime_Pose_A.png',
+        hate: 'https://dateeverything.wiki.gg/images/thumb/e/e5/Hero_Hime_Pose_A.png/800px-Hero_Hime_Pose_A.png',
+        realized: 'https://dateeverything.wiki.gg/images/thumb/7/76/Hero_Hime_Realized.png/800px-Hero_Hime_Realized.png'
+    },
+    71: { // Teddy
+        default: 'https://dateeverything.wiki.gg/images/thumb/b/b2/Teddy_Pose_A.png/300px-Teddy_Pose_A.png',
+        love: 'https://dateeverything.wiki.gg/images/thumb/b/b2/Teddy_Pose_A.png/300px-Teddy_Pose_A.png',
+        friend: 'https://dateeverything.wiki.gg/images/thumb/b/b2/Teddy_Pose_A.png/300px-Teddy_Pose_A.png',
+        hate: 'https://dateeverything.wiki.gg/images/thumb/b/b2/Teddy_Pose_A.png/300px-Teddy_Pose_A.png',
+        realized: 'https://dateeverything.wiki.gg/images/thumb/a/a7/Teddy_Realized.png/800px-Teddy_Realized.png'
+    },
+    72: { // Hank(s)
+        default: 'https://dateeverything.wiki.gg/images/thumb/5/54/Hanks_Pose_A.png/1024px-Hanks_Pose_A.png',
+        love: 'https://dateeverything.wiki.gg/images/thumb/5/54/Hanks_Pose_A.png/1024px-Hanks_Pose_A.png',
+        friend: 'https://dateeverything.wiki.gg/images/thumb/5/54/Hanks_Pose_A.png/1024px-Hanks_Pose_A.png',
+        hate: 'https://dateeverything.wiki.gg/images/thumb/5/54/Hanks_Pose_A.png/1024px-Hanks_Pose_A.png',
+        realized: 'https://dateeverything.wiki.gg/images/thumb/7/7c/Hanks_Realized.png/1024px-Hanks_Realized.png'
+    },
+    73: { // Washford
+        default: 'https://dateeverything.wiki.gg/images/thumb/a/a2/Washford_Pose_A.png/299px-Washford_Pose_A.png',
+        love: 'https://dateeverything.wiki.gg/images/thumb/a/a2/Washford_Pose_A.png/299px-Washford_Pose_A.png',
+        friend: 'https://dateeverything.wiki.gg/images/thumb/a/a2/Washford_Pose_A.png/299px-Washford_Pose_A.png',
+        hate: 'https://dateeverything.wiki.gg/images/thumb/a/a2/Washford_Pose_A.png/299px-Washford_Pose_A.png',
+        realized: 'https://dateeverything.wiki.gg/images/d/d4/Washford_Realized.png'
+    },
+    74: { // Drysdale
+        default: 'https://dateeverything.wiki.gg/images/3/34/Drysdale_Pose_A.png',
+        love: 'https://dateeverything.wiki.gg/images/3/34/Drysdale_Pose_A.png',
+        friend: 'https://dateeverything.wiki.gg/images/3/34/Drysdale_Pose_A.png',
+        hate: 'https://dateeverything.wiki.gg/images/3/34/Drysdale_Pose_A.png',
+        realized: 'https://dateeverything.wiki.gg/images/a/a7/Drysdale_Realized.png'
+    },
+    75: { // Harper
+        default: 'https://dateeverything.wiki.gg/images/2/24/Harper_Pose_A.png',
+        love: 'https://dateeverything.wiki.gg/images/2/24/Harper_Pose_A.png',
+        friend: 'https://dateeverything.wiki.gg/images/2/24/Harper_Pose_A.png',
+        hate: 'https://dateeverything.wiki.gg/images/2/24/Harper_Pose_A.png',
+        realized: 'https://dateeverything.wiki.gg/images/4/4d/Harper_Realized.png'
+    },
+    76: { // Dirk
+        default: 'https://dateeverything.wiki.gg/images/d/d2/Dirk_Pose_A.png',
+        love: 'https://dateeverything.wiki.gg/images/d/d2/Dirk_Pose_A.png',
+        friend: 'https://dateeverything.wiki.gg/images/d/d2/Dirk_Pose_A.png',
+        hate: 'https://dateeverything.wiki.gg/images/d/d2/Dirk_Pose_A.png',
+        realized: 'https://dateeverything.wiki.gg/images/thumb/a/a8/Dirk_Realized.png/800px-Dirk_Realized.png'
+    },
+    77: { // Tydus
+        default: 'https://dateeverything.wiki.gg/images/3/35/Tydus_Pose_A.png',
+        love: 'https://dateeverything.wiki.gg/images/3/35/Tydus_Pose_A.png',
+        friend: 'https://dateeverything.wiki.gg/images/3/35/Tydus_Pose_A.png',
+        hate: 'https://dateeverything.wiki.gg/images/3/35/Tydus_Pose_A.png',
+        realized: 'https://dateeverything.wiki.gg/images/8/84/Tydus_Realized.png'
+    },
+    78: { // Henry Hoove
+        default: 'https://dateeverything.wiki.gg/images/f/f1/Hoove_Pose_A.png',
+        love: 'https://dateeverything.wiki.gg/images/f/f1/Hoove_Pose_A.png',
+        friend: 'https://dateeverything.wiki.gg/images/f/f1/Hoove_Pose_A.png',
+        hate: 'https://dateeverything.wiki.gg/images/f/f1/Hoove_Pose_A.png',
+        realized: 'https://dateeverything.wiki.gg/images/2/21/Hoove_Realized.png'
+    },
+    79: { // Bobby
+        default: 'https://dateeverything.wiki.gg/images/thumb/d/d1/Bobby_Pose_A.png/320px-Bobby_Pose_A.png',
+        love: 'https://dateeverything.wiki.gg/images/thumb/d/d1/Bobby_Pose_A.png/320px-Bobby_Pose_A.png',
+        friend: 'https://dateeverything.wiki.gg/images/thumb/d/d1/Bobby_Pose_A.png/320px-Bobby_Pose_A.png',
+        hate: 'https://dateeverything.wiki.gg/images/thumb/d/d1/Bobby_Pose_A.png/320px-Bobby_Pose_A.png',
+        realized: 'https://dateeverything.wiki.gg/images/1/19/Bobby_Realized.png'
+    },
+    80: { // Kristof
+        default: 'https://dateeverything.wiki.gg/images/7/7a/Kristof_Pose_A.png',
+        love: 'https://dateeverything.wiki.gg/images/7/7a/Kristof_Pose_A.png',
+        friend: 'https://dateeverything.wiki.gg/images/7/7a/Kristof_Pose_A.png',
+        hate: 'https://dateeverything.wiki.gg/images/7/7a/Kristof_Pose_A.png',
+        realized: 'https://dateeverything.wiki.gg/images/f/ff/Kristof_Realized.png'
+    },
+    81: { // Dunk
+        default: 'https://dateeverything.wiki.gg/images/thumb/f/f6/Dunk_Pose_A.png/800px-Dunk_Pose_A.png',
+        love: 'https://dateeverything.wiki.gg/images/thumb/f/f6/Dunk_Pose_A.png/800px-Dunk_Pose_A.png',
+        friend: 'https://dateeverything.wiki.gg/images/thumb/f/f6/Dunk_Pose_A.png/800px-Dunk_Pose_A.png',
+        hate: 'https://dateeverything.wiki.gg/images/thumb/f/f6/Dunk_Pose_A.png/800px-Dunk_Pose_A.png',
+        realized: 'https://dateeverything.wiki.gg/images/c/cf/Dunk_Realized.png'
+    },
+    82: { // Fantina
+        default: 'https://dateeverything.wiki.gg/images/thumb/4/4c/Fantina_Pose_A.png/300px-Fantina_Pose_A.png',
+        love: 'https://dateeverything.wiki.gg/images/thumb/4/4c/Fantina_Pose_A.png/300px-Fantina_Pose_A.png',
+        friend: 'https://dateeverything.wiki.gg/images/thumb/4/4c/Fantina_Pose_A.png/300px-Fantina_Pose_A.png',
+        hate: 'https://dateeverything.wiki.gg/images/thumb/4/4c/Fantina_Pose_A.png/300px-Fantina_Pose_A.png',
+        realized: 'https://dateeverything.wiki.gg/images/thumb/1/1d/Fantina_Realized.png/320px-Fantina_Realized.png'
+    },
+    83: { // Stepford
+        default: 'https://dateeverything.wiki.gg/images/thumb/8/88/Stepford_Pose_A.png/300px-Stepford_Pose_A.png',
+        love: 'https://dateeverything.wiki.gg/images/thumb/8/88/Stepford_Pose_A.png/300px-Stepford_Pose_A.png',
+        friend: 'https://dateeverything.wiki.gg/images/thumb/8/88/Stepford_Pose_A.png/300px-Stepford_Pose_A.png',
+        hate: 'https://dateeverything.wiki.gg/images/thumb/8/88/Stepford_Pose_A.png/300px-Stepford_Pose_A.png',
+        realized: 'https://dateeverything.wiki.gg/images/7/7b/Stepford_Realized.png'
+    },
+    84: { // Tony
+        default: 'https://dateeverything.wiki.gg/images/2/29/Tony_Pose_A.png',
+        love: 'https://dateeverything.wiki.gg/images/2/29/Tony_Pose_A.png',
+        friend: 'https://dateeverything.wiki.gg/images/2/29/Tony_Pose_A.png',
+        hate: 'https://dateeverything.wiki.gg/images/2/29/Tony_Pose_A.png',
+        realized: 'https://dateeverything.wiki.gg/images/0/07/Tony_Realized.png'
+    },
+    85: { // Beau
+        default: 'https://dateeverything.wiki.gg/images/thumb/2/2b/Beau_Pose_A.png/800px-Beau_Pose_A.png',
+        love: 'https://dateeverything.wiki.gg/images/thumb/2/2b/Beau_Pose_A.png/800px-Beau_Pose_A.png',
+        friend: 'https://dateeverything.wiki.gg/images/thumb/2/2b/Beau_Pose_A.png/800px-Beau_Pose_A.png',
+        hate: 'https://dateeverything.wiki.gg/images/thumb/2/2b/Beau_Pose_A.png/800px-Beau_Pose_A.png',
+        realized: 'https://dateeverything.wiki.gg/images/thumb/6/6f/Beau_Realized.png/800px-Beau_Realized.png'
+    },
+    86: { // Keith
+        default: 'https://dateeverything.wiki.gg/images/1/16/Keith_Pose_A.png',
+        love: 'https://dateeverything.wiki.gg/images/1/16/Keith_Pose_A.png',
+        friend: 'https://dateeverything.wiki.gg/images/1/16/Keith_Pose_A.png',
+        hate: 'https://dateeverything.wiki.gg/images/1/16/Keith_Pose_A.png',
+        realized: 'https://dateeverything.wiki.gg/images/9/94/Keith_Realized.png'
+    },
+    87: { // Bodhi
+        default: 'https://dateeverything.wiki.gg/images/b/b4/Bodhi_Pose_A.png',
+        love: 'https://dateeverything.wiki.gg/images/b/b4/Bodhi_Pose_A.png',
+        friend: 'https://dateeverything.wiki.gg/images/b/b4/Bodhi_Pose_A.png',
+        hate: 'https://dateeverything.wiki.gg/images/b/b4/Bodhi_Pose_A.png',
+        realized: 'https://dateeverything.wiki.gg/images/3/3b/Bodhi_Realized.png'
+    },
+    88: { // Vaughn
+        default: 'https://dateeverything.wiki.gg/images/1/1f/Vaughn_Pose_A.png',
+        love: 'https://dateeverything.wiki.gg/images/1/1f/Vaughn_Pose_A.png',
+        friend: 'https://dateeverything.wiki.gg/images/1/1f/Vaughn_Pose_A.png',
+        hate: 'https://dateeverything.wiki.gg/images/1/1f/Vaughn_Pose_A.png',
+        realized: 'https://dateeverything.wiki.gg/images/2/2b/Vaughn_Realized.png'
+    },
+    89: { // Sophia
+        default: 'https://dateeverything.wiki.gg/images/e/ee/Sophia_Pose_A.png',
+        love: 'https://dateeverything.wiki.gg/images/e/ee/Sophia_Pose_A.png',
+        friend: 'https://dateeverything.wiki.gg/images/e/ee/Sophia_Pose_A.png',
+        hate: 'https://dateeverything.wiki.gg/images/e/ee/Sophia_Pose_A.png',
+        realized: 'https://dateeverything.wiki.gg/images/f/fe/Sophia_Realized.png'
+    },
+    90: { // Monique
+        default: 'https://dateeverything.wiki.gg/images/1/14/Monique_Pose_A.png',
+        love: 'https://dateeverything.wiki.gg/images/1/14/Monique_Pose_A.png',
+        friend: 'https://dateeverything.wiki.gg/images/1/14/Monique_Pose_A.png',
+        hate: 'https://dateeverything.wiki.gg/images/1/14/Monique_Pose_A.png',
+        realized: 'https://dateeverything.wiki.gg/images/f/f1/Monique_Realized.png'
+    },
+    91: { // Memoria
+        default: 'https://dateeverything.wiki.gg/images/3/36/Memoria_Pose_A.png',
+        love: 'https://dateeverything.wiki.gg/images/3/36/Memoria_Pose_A.png',
+        friend: 'https://dateeverything.wiki.gg/images/3/36/Memoria_Pose_A.png',
+        hate: 'https://dateeverything.wiki.gg/images/3/36/Memoria_Pose_A.png',
+        realized: 'https://dateeverything.wiki.gg/images/9/9f/Memoria_Realized.png'
+    },
+    92: { // Holly
+        default: 'https://dateeverything.wiki.gg/images/f/fa/Holly_Pose_A.png',
+        love: 'https://dateeverything.wiki.gg/images/f/fa/Holly_Pose_A.png',
+        friend: 'https://dateeverything.wiki.gg/images/f/fa/Holly_Pose_A.png',
+        hate: 'https://dateeverything.wiki.gg/images/f/fa/Holly_Pose_A.png',
+        realized: 'https://dateeverything.wiki.gg/images/f/f1/Holly_Realized.png'
+    },
+    93: { // Airyn
+        default: 'https://dateeverything.wiki.gg/images/e/e6/Airyn_Pose_A.png',
+        love: 'https://dateeverything.wiki.gg/images/e/e6/Airyn_Pose_A.png',
+        friend: 'https://dateeverything.wiki.gg/images/e/e6/Airyn_Pose_A.png',
+        hate: 'https://dateeverything.wiki.gg/images/e/e6/Airyn_Pose_A.png',
+        realized: 'https://dateeverything.wiki.gg/images/5/51/Airyn_Realized.png'
+    },
+    94: { // Textbox-Chan
+        default: 'https://dateeverything.wiki.gg/images/thumb/d/de/Textbox-Chan_Pose_A.png/300px-Textbox-Chan_Pose_A.png',
+        love: 'https://dateeverything.wiki.gg/images/thumb/d/de/Textbox-Chan_Pose_A.png/300px-Textbox-Chan_Pose_A.png',
+        friend: 'https://dateeverything.wiki.gg/images/thumb/d/de/Textbox-Chan_Pose_A.png/300px-Textbox-Chan_Pose_A.png',
+        hate: 'https://dateeverything.wiki.gg/images/thumb/d/de/Textbox-Chan_Pose_A.png/300px-Textbox-Chan_Pose_A.png',
+        realized: 'https://dateeverything.wiki.gg/images/a/a6/Textbox-Chan_Realized.png'
+    },
+    95: { // The Sassy Chap
+        default: 'https://dateeverything.wiki.gg/images/a/a4/Sassy_Chap_Pose_A.png',
+        love: 'https://dateeverything.wiki.gg/images/a/a4/Sassy_Chap_Pose_A.png',
+        friend: 'https://dateeverything.wiki.gg/images/a/a4/Sassy_Chap_Pose_A.png',
+        hate: 'https://dateeverything.wiki.gg/images/a/a4/Sassy_Chap_Pose_A.png',
+        realized: 'https://dateeverything.wiki.gg/images/a/a0/Sassy_Chap_Realized.png'
+    },
+    96: { // Zoey Bennett
+        default: 'https://dateeverything.wiki.gg/images/b/bf/Zoey_Pose_A.png',
+        love: 'https://dateeverything.wiki.gg/images/b/bf/Zoey_Pose_A.png',
+        friend: 'https://dateeverything.wiki.gg/images/b/bf/Zoey_Pose_A.png',
+        hate: 'https://dateeverything.wiki.gg/images/b/bf/Zoey_Pose_A.png',
+        realized: 'https://dateeverything.wiki.gg/images/thumb/5/57/Zoey_Realized.png/320px-Zoey_Realized.png'
+    },
+    97: { // xxXShadowl0rd420Xxx
+        default: 'https://dateeverything.wiki.gg/images/thumb/3/31/Shadow_Pose_A.png/800px-Shadow_Pose_A.png',
+        love: 'https://dateeverything.wiki.gg/images/thumb/3/31/Shadow_Pose_A.png/800px-Shadow_Pose_A.png',
+        friend: 'https://dateeverything.wiki.gg/images/thumb/3/31/Shadow_Pose_A.png/800px-Shadow_Pose_A.png',
+        hate: 'https://dateeverything.wiki.gg/images/thumb/3/31/Shadow_Pose_A.png/800px-Shadow_Pose_A.png',
+        realized: 'https://dateeverything.wiki.gg/images/thumb/a/a8/Shadow_Realized.png/320px-Shadow_Realized.png'
+    },
+    98: { // Doug
+        default: 'https://dateeverything.wiki.gg/images/f/f0/Doug_Pose_A.png',
+        love: 'https://dateeverything.wiki.gg/images/f/f0/Doug_Pose_A.png',
+        friend: 'https://dateeverything.wiki.gg/images/f/f0/Doug_Pose_A.png',
+        hate: 'https://dateeverything.wiki.gg/images/f/f0/Doug_Pose_A.png',
+        realized: 'https://dateeverything.wiki.gg/images/6/6a/Doug_Realized.png'
+    },
+    99: { // Nightmare
+        default: 'https://dateeverything.wiki.gg/images/thumb/e/eb/Nightmare_Pose_A.png/800px-Nightmare_Pose_A.png',
+        love: 'https://dateeverything.wiki.gg/images/thumb/e/eb/Nightmare_Pose_A.png/800px-Nightmare_Pose_A.png',
+        friend: 'https://dateeverything.wiki.gg/images/thumb/e/eb/Nightmare_Pose_A.png/800px-Nightmare_Pose_A.png',
+        hate: 'https://dateeverything.wiki.gg/images/thumb/e/eb/Nightmare_Pose_A.png/800px-Nightmare_Pose_A.png',
+        realized: 'https://dateeverything.wiki.gg/images/thumb/a/a2/Nightmare_Realized.png/800px-Nightmare_Realized.png'
+    },
+    100: { // Reggie
+        default: 'https://dateeverything.wiki.gg/images/2/2a/Reggie_Pose_A.png',
+        love: 'https://dateeverything.wiki.gg/images/2/2a/Reggie_Pose_A.png',
+        friend: 'https://dateeverything.wiki.gg/images/2/2a/Reggie_Pose_A.png',
+        hate: 'https://dateeverything.wiki.gg/images/2/2a/Reggie_Pose_A.png',
+        realized: 'https://dateeverything.wiki.gg/images/thumb/1/14/Reggie_Realized.png/800px-Reggie_Realized.png'
+    },
+    102: { // Lucinda
+        default: 'https://dateeverything.wiki.gg/images/thumb/5/50/Lucinda_Pose_A.png/299px-Lucinda_Pose_A.png',
+        love: 'https://dateeverything.wiki.gg/images/thumb/5/50/Lucinda_Pose_A.png/299px-Lucinda_Pose_A.png',
+        friend: 'https://dateeverything.wiki.gg/images/thumb/5/50/Lucinda_Pose_A.png/299px-Lucinda_Pose_A.png',
+        hate: 'https://dateeverything.wiki.gg/images/thumb/5/50/Lucinda_Pose_A.png/299px-Lucinda_Pose_A.png',
+        realized: 'https://dateeverything.wiki.gg/images/f/ff/Lucinda_Realized.png'
+    },
+    101: { // Michael Transaction
+        default: 'https://dateeverything.wiki.gg/images/c/ce/Mikey_Pose_A.png',
+        love: 'https://dateeverything.wiki.gg/images/c/ce/Mikey_Pose_A.png',
+        friend: 'https://dateeverything.wiki.gg/images/c/ce/Mikey_Pose_A.png',
+        hate: 'https://dateeverything.wiki.gg/images/c/ce/Mikey_Pose_A.png',
+        realized: 'https://dateeverything.wiki.gg/images/c/cd/Mikey_Realized.png'
+    }
+};
+
+// Character portrait for characters with images
+let characterPortrait = '';
+let portraitClasses = '';
+
+if (characterPortraitMap[char.id] && characterPortraitUrls[char.id]) {
+    portraitClasses = `character-portrait ${characterPortraitMap[char.id]}`;
+    
+    if (!charState.met) {
+        portraitClasses += ' not-met';
+    } else if (charState.realized) {
+        portraitClasses += ' realized';
+    } else if (charState.relationship === 'love') {
+        portraitClasses += ' love';
+    } else if (charState.relationship === 'friend') {
+        portraitClasses += ' friend';
+    } else if (charState.relationship === 'hate') {
+        portraitClasses += ' hate';
+    }
+    
+    const urls = characterPortraitUrls[char.id];
+    const portraitStyle = `
+        --portrait-url: url('${urls.default}');
+        --portrait-love-url: url('${urls.love}');
+        --portrait-friend-url: url('${urls.friend}');
+        --portrait-hate-url: url('${urls.hate}');
+        --portrait-realized-url: url('${urls.realized}');
+    `;
+    
+    characterPortrait = `<div class="${portraitClasses}" style="${portraitStyle}"></div>`;
+}
+        
+        // Check if character can be realized
+        const canRealize = canBeRealized(char);
+        const requirements = getRequirementsStatus(char);
+        const storyRequirements = getStoryRequirementsStatus(char);
+        const realizationDependencies = getRealizationDependenciesStatus(char);
+        const canCompleteStoryNow = canCompleteStory(char);
+        
+        let locationTracker = '';
+        if (char.hasLocations && locationData[char.id] && charState.met) {
+            locationTracker = `
+                <div class="location-tracker">
+                    <h4>${locationData[char.id].name}</h4>
+                    <div class="location-grid">
+                        ${locationData[char.id].locations.map(loc => `
+                            <div class="location-item">
+                                <input type="checkbox" class="checkbox" 
+                                       ${charState.locations[loc] ? 'checked' : ''}
+                                       onchange="toggleLocation(${char.id}, '${loc}')">
+                                <span>${loc}</span>
+                            </div>
+                        `).join('')}
+                    </div>
+                </div>
+            `;
+        }
+
+let requirementsDisplay = '';
+if (charState.met && requirements.length > 0 && !canRealize) {
+    requirementsDisplay = `
+        <div class="requirements-list">
+            <strong>Realization Requirements:</strong>
+            <ul>
+                ${requirements.map(req => `
+                    <li class="${req.met ? 'met-requirement' : 'unmet-requirement'}">
+                        ${req.text}${req.current !== undefined ? ` (Current: ${req.current})` : ''}
+                    </li>
+                `).join('')}
+            </ul>
+        </div>
+    `;
+}
+
+        let storyRequirementsDisplay = '';
+        if (charState.met && storyRequirements.length > 0 && !canCompleteStoryNow) {
+            storyRequirementsDisplay = `
+                <div class="story-requirements">
+                    <strong>Story Completion Requirements:</strong>
+                    <ul>
+                        ${storyRequirements.map(req => `
+                            <li class="${req.met ? 'met-requirement' : 'unmet-requirement'}">
+                                ${req.text}
+                            </li>
+                        `).join('')}
+                    </ul>
+                </div>
+            `;
+        }
+
+        let dependenciesDisplay = '';
+        if (charState.met && realizationDependencies.length > 0 && !canRealize) {
+            const bidirectionalDeps = realizationDependencies.filter(dep => dep.type === 'bidirectional');
+            const onewayDeps = realizationDependencies.filter(dep => dep.type === 'oneway');
+            
+            dependenciesDisplay = `
+                <div class="dependency-requirements">
+                    <strong>Character Story Dependencies:</strong>
+                    <ul>
+                        ${bidirectionalDeps.map(dep => `
+                            <li class="${dep.met ? 'met-requirement' : 'unmet-requirement'}">
+                                ${dep.name}'s story needs to be complete for Realization
+                            </li>
+                        `).join('')}
+                        ${onewayDeps.map(dep => `
+                            <li class="${dep.met ? 'met-requirement' : 'unmet-requirement'}">
+                                ${dep.name}'s story needs to be complete for Realization
+                            </li>
+                        `).join('')}
+                    </ul>
+                </div>
+            `;
+        }
+
+// Manual dependencies section for characters with empty realizationDependencies
+let manualDependenciesDisplay = '';
+if (charState.met && char.realizationDependencies.length === 0 && !canRealize) {
+    const noOneRequired = [].includes(char.id);
+    if (!noOneRequired) {
+        manualDependenciesDisplay = `
+            <div class="manual-dependency">
+                <strong>⚠️ Dependencies Under Investigation</strong>
+                <p style="margin: 5px 0; font-size: 0.9rem; color: #666;">
+                    This character's realization requirements are still being tested and documented. 
+                    Check back for updates!
+                </p>
+            </div>
+        `;
+    } else {
+        manualDependenciesDisplay = `
+            <div class="manual-dependency">
+                <strong>No story dependencies required for realization</strong>
+            </div>
+        `;
+    }
+}
+
+        card.innerHTML = `
+    <div style="display: flex; gap: 15px;">
+        <div class="character-icon" style="flex-shrink: 0;">${characterPortrait}</div>
+        <div style="flex: 1;">
+            <div class="character-name">${displayName}</div>
+            <div class="character-controls">
+                <button class="btn ${charState.met ? 'btn-success' : 'btn-primary'} ${!charState.met && !canMeetCharacter(char) ? 'disabled' : ''}" 
+                        onclick="toggleCharacterMet(${char.id})"
+                        ${!charState.met && !canMeetCharacter(char) ? 'disabled' : ''}>
+                    ${charState.met ? 'Met' : 'Not Met'}
+                </button>
+                ${charState.met ? `
+                    <div class="relationship-buttons">
+                        <button class="relationship-btn ${charState.relationship === 'love' ? 'active love' : ''}" 
+                                onclick="setCharacterRelationship(${char.id}, 'love')">Love</button>
+                        <button class="relationship-btn ${charState.relationship === 'friend' ? 'active friend' : ''}" 
+                                onclick="setCharacterRelationship(${char.id}, 'friend')">Friend</button>
+                        <button class="relationship-btn ${charState.relationship === 'hate' ? 'active hate' : ''}" 
+                                onclick="setCharacterRelationship(${char.id}, 'hate')">Hate</button>
+                    </div>
+                    ${char.stat === 'choosable' && charState.relationship ? `
+                        <div style="margin-top: 10px;">
+                            <strong>Choose Stat:</strong>
+                            <select onchange="setChosenStat(${char.id}, this.value)" value="${charState.chosenStat || ''}">
+                                <option value="">Select Stat</option>
+                                <option value="smarts" ${charState.chosenStat === 'smarts' ? 'selected' : ''}>Smarts</option>
+                                <option value="poise" ${charState.chosenStat === 'poise' ? 'selected' : ''}>Poise</option>
+                                <option value="empathy" ${charState.chosenStat === 'empathy' ? 'selected' : ''}>Empathy</option>
+                                <option value="charm" ${charState.chosenStat === 'charm' ? 'selected' : ''}>Charm</option>
+                                <option value="sass" ${charState.chosenStat === 'sass' ? 'selected' : ''}>Sass</option>
+                            </select>
+                        </div>
+                    ` : ''}
+                ` : ''}
+            </div>
+            ${charState.met ? `
+                <div style="margin-top: 10px;">
+                    <button class="btn ${charState.storyComplete ? 'btn-success' : 'btn-warning'} ${!charState.storyComplete && !canCompleteStoryNow ? 'disabled' : ''}" 
+                            onclick="toggleStoryComplete(${char.id})"
+                            ${!charState.storyComplete && !canCompleteStoryNow ? 'disabled' : ''}>
+                        Story: ${charState.storyComplete ? 'Complete' : 'Incomplete'}
+                    </button>
+                    <button class="btn ${charState.realized ? 'btn-success' : 'btn-primary'} ${!charState.realized && !canRealize ? 'disabled' : ''}" 
+                            onclick="toggleRealized(${char.id})" 
+                            ${!charState.realized && !canRealize ? 'disabled' : ''}">
+                        ${charState.realized ? 'Realized' : 'Not Realized'}
+                    </button>
+                </div>
+                <div style="margin-top: 10px; font-size: 0.9rem;">
+                    <strong>Stat:</strong> ${char.stat === 'choosable' ? 
+                        (charState.chosenStat ? `${charState.chosenStat.charAt(0).toUpperCase() + charState.chosenStat.slice(1)} (+5)` : 'Choose a stat') : 
+                        `${char.stat.charAt(0).toUpperCase() + char.stat.slice(1)}`}
+                </div>
+                ${requirementsDisplay}
+                ${storyRequirementsDisplay}
+                ${dependenciesDisplay}
+                ${manualDependenciesDisplay}
+            ` : ''}
+            ${!charState.met && !canMeetCharacter(char) ? `
+                <div style="margin-top: 10px; padding: 10px; background: #fff3cd; border-radius: 6px; border-left: 4px solid #ffc107;">
+                    <strong>Requirements to meet:</strong>
+                    <ul style="margin-left: 20px; margin-top: 5px;">
+                        ${char.locationRequirement === 'attic' ? '<li>Attic must be unlocked</li>' : ''}
+                        ${char.locationRequirement === 'dlc' ? '<li>DLC must be purchased</li>' : ''}
+                    </ul>
+                </div>
+            ` : ''}
+            ${locationTracker}
+        </div>
+    </div>
+`;
+
+        grid.appendChild(card);
+    });
+}
+        
+        
+// Initialize app
+function init() {
+    loadState();
+    initializeCharacters();
+    updateStats();
+    updateSummaryStats();
+    updateTimeSlots();
+    renderCharacters();
+
+    // Set up event listeners
+    document.getElementById('hintMode').addEventListener('click', () => {
+        gameState.hintMode = !gameState.hintMode;
+        document.getElementById('hintMode').textContent = `Hint Mode: ${gameState.hintMode ? 'ON' : 'OFF'}`;
+        document.getElementById('hintMode').classList.toggle('active', gameState.hintMode);
+        saveState();
+        renderCharacters();
+    });
+
+    document.getElementById('atticUnlocked').addEventListener('click', () => {
+        gameState.atticUnlocked = !gameState.atticUnlocked;
+        document.getElementById('atticUnlocked').textContent = `Attic: ${gameState.atticUnlocked ? 'Unlocked' : 'Locked'}`;
+        document.getElementById('atticUnlocked').classList.toggle('active', gameState.atticUnlocked);
+        saveState();
+        renderCharacters();
+    });
+
+    document.getElementById('dlcPurchased').addEventListener('click', () => {
+        gameState.dlcPurchased = !gameState.dlcPurchased;
+        document.getElementById('dlcPurchased').textContent = `DLC: ${gameState.dlcPurchased ? 'Purchased' : 'Not Purchased'}`;
+        document.getElementById('dlcPurchased').classList.toggle('active', gameState.dlcPurchased);
+        saveState();
+        renderCharacters();
+    });
+
+    document.getElementById('resetData').addEventListener('click', () => {
+        if (confirm('Are you sure you want to reset all data? This cannot be undone.')) {
+            localStorage.removeItem('dateEverythingTracker');
+            location.reload();
+        }
+    });
+
+    // Time slot change handlers
+    ['9am', '12pm', '3pm', '6pm', '9pm'].forEach(slot => {
+        document.getElementById(`slot${slot}`).addEventListener('change', (e) => {
+            gameState.timeSlots[slot] = e.target.value;
+            saveState();
+        });
+    });
+
+    // Update UI states
+    document.getElementById('hintMode').classList.toggle('active', gameState.hintMode);
+    document.getElementById('atticUnlocked').classList.toggle('active', gameState.atticUnlocked);
+    document.getElementById('dlcPurchased').classList.toggle('active', gameState.dlcPurchased);
+    document.getElementById('hintMode').textContent = `Hint Mode: ${gameState.hintMode ? 'ON' : 'OFF'}`;
+    document.getElementById('atticUnlocked').textContent = `Attic: ${gameState.atticUnlocked ? 'Unlocked' : 'Locked'}`;
+    document.getElementById('dlcPurchased').textContent = `DLC: ${gameState.dlcPurchased ? 'Purchased' : 'Not Purchased'}`;
+}
+
+// Make functions global for onclick handlers
+window.toggleCharacterMet = toggleCharacterMet;
+window.setCharacterRelationship = setCharacterRelationship;
+window.setChosenStat = setChosenStat;
+window.toggleStoryComplete = toggleStoryComplete;
+window.toggleRealized = toggleRealized;
+window.toggleLocation = toggleLocation;
+window.toggleManualDependency = toggleManualDependency;
+
+// Initialize when page loads
+document.addEventListener('DOMContentLoaded', init);
+        
+    </script>
+    
+    <!-- Alternative separate files approach: -->
+    <!-- 
+    <script src="data.js"></script>
+    <script src="main.js"></script>
+    <script src="render.js"></script>
+    <script src="init.js"></script>
+    -->
+</body>
+</html>
