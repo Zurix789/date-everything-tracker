@@ -570,107 +570,414 @@ select {
 .manual-dependency label {
     font-size: 0.9rem;
 }
+/* Tab System */
+.tab-container {
+    margin-bottom: 30px;
+}
+
+.tab-buttons {
+    display: flex;
+    gap: 10px;
+    margin-bottom: 20px;
+    justify-content: center;
+    flex-wrap: wrap;
+}
+
+.tab-button {
+    padding: 12px 24px;
+    background: #f8f9fa;
+    border: 2px solid #ddd;
+    border-radius: 10px;
+    cursor: pointer;
+    font-size: 1rem;
+    font-weight: bold;
+    transition: all 0.3s ease;
+    color: #666;
+}
+
+.tab-button.active {
+    background: #764ba2;
+    color: white;
+    border-color: #764ba2;
+}
+
+.tab-button:hover:not(.active) {
+    background: #e9ecef;
+    border-color: #adb5bd;
+}
+
+.tab-button.disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+    background: #f8f9fa;
+    color: #6c757d;
+}
+
+.tab-button.disabled:hover {
+    background: #f8f9fa;
+    border-color: #ddd;
+}
+
+.tab-content {
+    display: none;
+}
+
+.tab-content.active {
+    display: block;
+}
+
+/* Coming Soon Tab Content */
+.coming-soon {
+    text-align: center;
+    padding: 80px 20px;
+    background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%);
+    border-radius: 15px;
+    margin-top: 20px;
+}
+
+.coming-soon h2 {
+    font-size: 2.5rem;
+    color: #764ba2;
+    margin-bottom: 20px;
+    text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.1);
+}
+
+.coming-soon p {
+    font-size: 1.2rem;
+    color: #666;
+    max-width: 600px;
+    margin: 0 auto;
+}
+
+/* NG+ Specific Styles */
+.ng-plus-starter {
+    background: linear-gradient(135deg, #ffd700 0%, #ffed4e 100%);
+    padding: 20px;
+    border-radius: 15px;
+    margin-bottom: 30px;
+    border: 2px solid #ffd700;
+    text-align: center;
+}
+
+.ng-plus-starter h3 {
+    color: #b8860b;
+    margin-bottom: 15px;
+    font-size: 1.4rem;
+}
+
+.starter-stats {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
+    gap: 15px;
+    margin-top: 20px;
+}
+
+.starter-stat {
+    background: rgba(255, 255, 255, 0.9);
+    padding: 15px;
+    border-radius: 10px;
+    text-align: center;
+}
+
+.starter-stat label {
+    display: block;
+    font-weight: bold;
+    color: #764ba2;
+    margin-bottom: 8px;
+}
+
+.starter-stat input {
+    width: 60px;
+    padding: 8px;
+    border: 2px solid #ddd;
+    border-radius: 6px;
+    text-align: center;
+    font-size: 1rem;
+    font-weight: bold;
+}
+
+/* Content Warning Styles */
+.content-warning {
+    background: linear-gradient(135deg, #ffebee 0%, #f3e5f5 100%);
+    border: 2px solid #e91e63;
+    border-radius: 8px;
+    padding: 10px;
+    margin-top: 10px;
+    font-size: 0.9rem;
+}
+
+.content-warning-header {
+    font-weight: bold;
+    color: #ad1457;
+    margin-bottom: 5px;
+    display: flex;
+    align-items: center;
+    gap: 5px;
+}
+
+.content-warning-text {
+    color: #880e4f;
+    font-style: italic;
+}
     </style>  
 </head>
 <body>
-    <div class="container">
-        <h1>Date Everything Tracker</h1>
+<div class="container">
+    <h1>Date Everything Tracker</h1>
+    
+    <div class="tab-container">
+        <div class="tab-buttons">
+            <button class="tab-button active" onclick="switchTab('main')">Main Game</button>
+            <button class="tab-button" onclick="switchTab('ngplus')">NG+</button>
+            <button class="tab-button disabled">Collections</button>
+            <button class="tab-button disabled">Achievements</button>
+            <button class="tab-button disabled">Character Guides</button>
+        </div>
         
-        <div class="main-controls">
-            <div class="control-group">
-                <button id="hintMode" class="toggle-btn">Hint Mode: OFF</button>
+        <div id="main-tab" class="tab-content active">
+            <!-- Main game content -->
+            <div class="main-controls">
+                <div class="control-group">
+                    <button id="hintMode" class="toggle-btn">Hint Mode: OFF</button>
+                </div>
+                <div class="control-group">
+                    <button id="atticUnlocked" class="toggle-btn">Attic: Locked</button>
+                </div>
+                <div class="control-group">
+                    <button id="dlcPurchased" class="toggle-btn">DLC: Not Purchased</button>
+                </div>
+                <div class="control-group">
+                    <button id="resetData" class="btn btn-danger">Reset All Data</button>
+                </div>
             </div>
-            <div class="control-group">
-                <button id="atticUnlocked" class="toggle-btn">Attic: Locked</button>
+
+            <div class="stats-display">
+                <div class="stat-item">
+                    <div>Smarts</div>
+                    <span class="stat-value" id="smartsValue">0</span>
+                </div>
+                <div class="stat-item">
+                    <div>Poise</div>
+                    <span class="stat-value" id="poiseValue">0</span>
+                </div>
+                <div class="stat-item">
+                    <div>Empathy</div>
+                    <span class="stat-value" id="empathyValue">0</span>
+                </div>
+                <div class="stat-item">
+                    <div>Charm</div>
+                    <span class="stat-value" id="charmValue">0</span>
+                </div>
+                <div class="stat-item">
+                    <div>Sass</div>
+                    <span class="stat-value" id="sassValue">0</span>
+                </div>
             </div>
-            <div class="control-group">
-                <button id="dlcPurchased" class="toggle-btn">DLC: Not Purchased</button>
+
+            <div class="summary-stats">
+                <div class="summary-card">
+                    <span class="summary-number" id="metCount">0</span>
+                    <div>Characters Met</div>
+                </div>
+                <div class="summary-card">
+                    <span class="summary-number" id="storiesComplete">0</span>
+                    <div>Stories Complete</div>
+                </div>
+                <div class="summary-card">
+                    <span class="summary-number" id="realizedCount">0</span>
+                    <div>Characters Realized</div>
+                </div>
+                <div class="summary-card">
+                    <span class="summary-number" id="completionRate">0%</span>
+                    <div>Completion Rate</div>
+                </div>
             </div>
-            <div class="control-group">
-                <button id="resetData" class="btn btn-danger">Reset All Data</button>
+
+            <div class="time-slots">
+                <h3>Daily Time Slots</h3>
+                <div class="time-slot">
+                    <div class="time-label">9am:</div>
+                    <select id="slot9am">
+                        <option value="">Select Character</option>
+                    </select>
+                </div>
+                <div class="time-slot">
+                    <div class="time-label">12pm:</div>
+                    <select id="slot12pm">
+                        <option value="">Select Character</option>
+                    </select>
+                </div>
+                <div class="time-slot">
+                    <div class="time-label">3pm:</div>
+                    <select id="slot3pm">
+                        <option value="">Select Character</option>
+                    </select>
+                </div>
+                <div class="time-slot">
+                    <div class="time-label">6pm:</div>
+                    <select id="slot6pm">
+                        <option value="">Select Character</option>
+                    </select>
+                </div>
+                <div class="time-slot">
+                    <div class="time-label">9pm:</div>
+                    <select id="slot9pm">
+                        <option value="">Select Character</option>
+                    </select>
+                </div>
+            </div>
+
+            <div class="character-grid" id="characterGrid">
+                <!-- Characters will be populated here -->
             </div>
         </div>
+        
+        <div id="ngplus-tab" class="tab-content">
+            <!-- NG+ content -->
+            <div class="ng-plus-starter">
+                <h3>🌟 New Game Plus - Starting Stats</h3>
+                <p>Set your starting stats for a new playthrough!</p>
+                <div class="starter-stats">
+                    <div class="starter-stat">
+                        <label>Smarts:</label>
+                        <input type="number" id="ngPlusSmarts" min="0" max="100" value="0">
+                    </div>
+                    <div class="starter-stat">
+                        <label>Poise:</label>
+                        <input type="number" id="ngPlusPoise" min="0" max="100" value="0">
+                    </div>
+                    <div class="starter-stat">
+                        <label>Empathy:</label>
+                        <input type="number" id="ngPlusEmpathy" min="0" max="100" value="0">
+                    </div>
+                    <div class="starter-stat">
+                        <label>Charm:</label>
+                        <input type="number" id="ngPlusCharm" min="0" max="100" value="0">
+                    </div>
+                    <div class="starter-stat">
+                        <label>Sass:</label>
+                        <input type="number" id="ngPlusSass" min="0" max="100" value="0">
+                    </div>
+                </div>
+            </div>
+            
+            <div class="main-controls">
+                <div class="control-group">
+                    <button id="ngHintMode" class="toggle-btn">Hint Mode: OFF</button>
+                </div>
+                <div class="control-group">
+                    <button id="ngAtticUnlocked" class="toggle-btn">Attic: Locked</button>
+                </div>
+                <div class="control-group">
+                    <button id="ngDlcPurchased" class="toggle-btn">DLC: Not Purchased</button>
+                </div>
+                <div class="control-group">
+                    <button id="ngResetData" class="btn btn-danger">Reset NG+ Data</button>
+                </div>
+            </div>
 
-        <div class="stats-display">
-            <div class="stat-item">
-                <div>Smarts</div>
-                <span class="stat-value" id="smartsValue">0</span>
+            <div class="stats-display">
+                <div class="stat-item">
+                    <div>Smarts</div>
+                    <span class="stat-value" id="ngSmartsValue">0</span>
+                </div>
+                <div class="stat-item">
+                    <div>Poise</div>
+                    <span class="stat-value" id="ngPoiseValue">0</span>
+                </div>
+                <div class="stat-item">
+                    <div>Empathy</div>
+                    <span class="stat-value" id="ngEmpathyValue">0</span>
+                </div>
+                <div class="stat-item">
+                    <div>Charm</div>
+                    <span class="stat-value" id="ngCharmValue">0</span>
+                </div>
+                <div class="stat-item">
+                    <div>Sass</div>
+                    <span class="stat-value" id="ngSassValue">0</span>
+                </div>
             </div>
-            <div class="stat-item">
-                <div>Poise</div>
-                <span class="stat-value" id="poiseValue">0</span>
+
+            <div class="summary-stats">
+                <div class="summary-card">
+                    <span class="summary-number" id="ngMetCount">0</span>
+                    <div>Characters Met</div>
+                </div>
+                <div class="summary-card">
+                    <span class="summary-number" id="ngStoriesComplete">0</span>
+                    <div>Stories Complete</div>
+                </div>
+                <div class="summary-card">
+                    <span class="summary-number" id="ngRealizedCount">0</span>
+                    <div>Characters Realized</div>
+                </div>
+                <div class="summary-card">
+                    <span class="summary-number" id="ngCompletionRate">0%</span>
+                    <div>Completion Rate</div>
+                </div>
             </div>
-            <div class="stat-item">
-                <div>Empathy</div>
-                <span class="stat-value" id="empathyValue">0</span>
+
+            <div class="time-slots">
+                <h3>Daily Time Slots</h3>
+                <div class="time-slot">
+                    <div class="time-label">9am:</div>
+                    <select id="ngSlot9am">
+                        <option value="">Select Character</option>
+                    </select>
+                </div>
+                <div class="time-slot">
+                    <div class="time-label">12pm:</div>
+                    <select id="ngSlot12pm">
+                        <option value="">Select Character</option>
+                    </select>
+                </div>
+                <div class="time-slot">
+                    <div class="time-label">3pm:</div>
+                    <select id="ngSlot3pm">
+                        <option value="">Select Character</option>
+                    </select>
+                </div>
+                <div class="time-slot">
+                    <div class="time-label">6pm:</div>
+                    <select id="ngSlot6pm">
+                        <option value="">Select Character</option>
+                    </select>
+                </div>
+                <div class="time-slot">
+                    <div class="time-label">9pm:</div>
+                    <select id="ngSlot9pm">
+                        <option value="">Select Character</option>
+                    </select>
+                </div>
             </div>
-            <div class="stat-item">
-                <div>Charm</div>
-                <span class="stat-value" id="charmValue">0</span>
-            </div>
-            <div class="stat-item">
-                <div>Sass</div>
-                <span class="stat-value" id="sassValue">0</span>
+
+            <div class="character-grid" id="ngCharacterGrid">
+                <!-- NG+ Characters will be populated here -->
             </div>
         </div>
-
-        <div class="summary-stats">
-            <div class="summary-card">
-                <span class="summary-number" id="metCount">0</span>
-                <div>Characters Met</div>
-            </div>
-            <div class="summary-card">
-                <span class="summary-number" id="storiesComplete">0</span>
-                <div>Stories Complete</div>
-            </div>
-            <div class="summary-card">
-                <span class="summary-number" id="realizedCount">0</span>
-                <div>Characters Realized</div>
-            </div>
-            <div class="summary-card">
-                <span class="summary-number" id="completionRate">0%</span>
-                <div>Completion Rate</div>
+        
+        <div id="collections-tab" class="tab-content">
+            <div class="coming-soon">
+                <h2>Collections</h2>
+                <p>Character galleries, unlockable artwork, and special collectibles will be available here soon!</p>
             </div>
         </div>
-
-        <div class="time-slots">
-            <h3>Daily Time Slots</h3>
-            <div class="time-slot">
-                <div class="time-label">9am:</div>
-                <select id="slot9am">
-                    <option value="">Select Character</option>
-                </select>
-            </div>
-            <div class="time-slot">
-                <div class="time-label">12pm:</div>
-                <select id="slot12pm">
-                    <option value="">Select Character</option>
-                </select>
-            </div>
-            <div class="time-slot">
-                <div class="time-label">3pm:</div>
-                <select id="slot3pm">
-                    <option value="">Select Character</option>
-                </select>
-            </div>
-            <div class="time-slot">
-                <div class="time-label">6pm:</div>
-                <select id="slot6pm">
-                    <option value="">Select Character</option>
-                </select>
-            </div>
-            <div class="time-slot">
-                <div class="time-label">9pm:</div>
-                <select id="slot9pm">
-                    <option value="">Select Character</option>
-                </select>
+        
+        <div id="achievements-tab" class="tab-content">
+            <div class="coming-soon">
+                <h2>Achievements</h2>
+                <p>Track your progress with special achievements and milestones coming soon!</p>
             </div>
         </div>
-
-        <div class="character-grid" id="characterGrid">
-            <!-- Characters will be populated here -->
+        <div id="guide-tab" class="tab-content">
+            <div class="coming-soon">
+                <h2>Guides</h2>
+                <p>Guides to get each character's Love, Friend or Hate ending coming soon!</p>
+            </div>
         </div>
     </div>
+</div>
     <script>
 // Location data for special characters
 const locationData = {
@@ -698,6 +1005,28 @@ const locationData = {
             'Dining Room', 'Kitchen', 'Laundry', 'Front Door'
         ]
     }
+};
+
+// Content warnings for specific characters
+const contentWarnings = {
+    14: "Submissive/stalker-like behavior",
+    30: "Forceful/abusive personality",
+    41: "Religious themes, sin discussion",
+    49: "Sexual content, profanity",
+    52: "Medical themes, health anxiety",
+    54: "Mental health, hoarding",
+    65: "Trauma, violence, suicide",
+    66: "Sexual content",
+    67: "Mental health, paranoia, mood swings",
+    69: "Sexual content, adult themes",
+    68: "Horror themes, disturbing content",
+    75: "Toxic relationship dynamics",
+    76: "Toxic relationship dynamics",
+    82: "Stalking behavior",
+    86: "Manipulation, sociopathic behavior",
+    89: "Dominatrix, sexual scenarios",
+    96: "Violence descriptions",
+    99: "Horror themes, disturbing content"
 };
 
 // Character data with enhanced requirements
@@ -971,11 +1300,11 @@ const characters = [
     },
     { 
         id: 34, name: 'Sinclaire', object: 'Sink', stat: 'smarts', 
-        requirements: { smarts: 0, poise: 0, empathy: 0, charm: 0, sass: 5 }, 
+        requirements: { smarts: 1, poise: 1, empathy: 1, charm: 1, sass: 5 }, 
         locationRequirement: 'none',
         storyRequirements: {},
-        realizationDependencies: [], // Maggie
-        bidirectionalDependencies: []
+        realizationDependencies: [55, 65], // Maggie
+        bidirectionalDependencies: [55, 65]
     },
     { 
         id: 35, name: 'Freddy', object: 'Refrigerator', stat: 'charm', 
@@ -2993,12 +3322,28 @@ if (charState.met && char.realizationDependencies.length === 0 && !canRealize) {
         `;
     }
 }
+// Add this after the displayName line and before the existing card.innerHTML
+let contentWarning = '';
+if (contentWarnings[char.id]) {
+    contentWarning = `
+        <div class="content-warning">
+            <div class="content-warning-header">
+                ⚠️ Content Warning
+            </div>
+            <div class="content-warning-text">
+                ${contentWarnings[char.id]}
+            </div>
+        </div>
+    `;
+}
 
-        card.innerHTML = `
+// Then in the card.innerHTML, add ${contentWarning} after the character-name div
+card.innerHTML = `
     <div style="display: flex; gap: 15px;">
         <div class="character-icon" style="flex-shrink: 0;">${characterPortrait}</div>
         <div style="flex: 1;">
             <div class="character-name">${displayName}</div>
+            ${contentWarning}
             <div class="character-controls">
                 <button class="btn ${charState.met ? 'btn-success' : 'btn-primary'} ${!charState.met && !canMeetCharacter(char) ? 'disabled' : ''}" 
                         onclick="toggleCharacterMet(${char.id})"
@@ -3069,6 +3414,194 @@ if (charState.met && char.realizationDependencies.length === 0 && !canRealize) {
         grid.appendChild(card);
     });
 }
+// NG+ Game state
+let ngPlusGameState = {
+    hintMode: false,
+    atticUnlocked: false,
+    dlcPurchased: false,
+    stats: {
+        smarts: 0,
+        poise: 0,
+        empathy: 0,
+        charm: 0,
+        sass: 0
+    },
+    startingStats: {
+        smarts: 0,
+        poise: 0,
+        empathy: 0,
+        charm: 0,
+        sass: 0
+    },
+    characters: {},
+    timeSlots: {
+        '9am': '',
+        '12pm': '',
+        '3pm': '',
+        '6pm': '',
+        '9pm': ''
+    }
+};
+
+let currentTab = 'main';
+let isNgPlus = false;
+
+// Tab switching function
+function switchTab(tabName) {
+    // Remove active class from all tabs
+    document.querySelectorAll('.tab-button').forEach(btn => btn.classList.remove('active'));
+    document.querySelectorAll('.tab-content').forEach(content => content.classList.remove('active'));
+    
+    // Add active class to selected tab
+    document.querySelector(`[onclick="switchTab('${tabName}')"]`).classList.add('active');
+    document.getElementById(`${tabName}-tab`).classList.add('active');
+    
+    currentTab = tabName;
+    isNgPlus = (tabName === 'ngplus');
+    
+    // Update displays when switching tabs
+    if (tabName === 'main') {
+        updateStats();
+        updateSummaryStats();
+        updateTimeSlots();
+        renderCharacters();
+    } else if (tabName === 'ngplus') {
+        updateNgPlusStats();
+        updateNgPlusSummaryStats();
+        updateNgPlusTimeSlots();
+        renderNgPlusCharacters();
+    }
+}
+
+// NG+ specific functions
+function updateNgPlusStats() {
+    document.getElementById('ngSmartsValue').textContent = ngPlusGameState.stats.smarts;
+    document.getElementById('ngPoiseValue').textContent = ngPlusGameState.stats.poise;
+    document.getElementById('ngEmpathyValue').textContent = ngPlusGameState.stats.empathy;
+    document.getElementById('ngCharmValue').textContent = ngPlusGameState.stats.charm;
+    document.getElementById('ngSassValue').textContent = ngPlusGameState.stats.sass;
+}
+
+function updateNgPlusSummaryStats() {
+    const metCount = Object.values(ngPlusGameState.characters).filter(c => c.met).length;
+    const storiesComplete = Object.values(ngPlusGameState.characters).filter(c => c.storyComplete).length;
+    const realizedCount = Object.values(ngPlusGameState.characters).filter(c => c.realized).length;
+    const totalCharacters = characters.length;
+    const completionRate = Math.round((realizedCount / totalCharacters) * 100);
+
+    document.getElementById('ngMetCount').textContent = metCount;
+    document.getElementById('ngStoriesComplete').textContent = storiesComplete;
+    document.getElementById('ngRealizedCount').textContent = realizedCount;
+    document.getElementById('ngCompletionRate').textContent = `${completionRate}%`;
+}
+
+function updateNgPlusTimeSlots() {
+    const slots = ['9am', '12pm', '3pm', '6pm', '9pm'];
+    const availableCharacters = characters.filter(char => {
+        const charState = ngPlusGameState.characters[char.id];
+        return charState.met && !charState.storyComplete && canMeetCharacter(char);
+    });
+
+    slots.forEach(slot => {
+        const select = document.getElementById(`ngSlot${slot}`);
+        select.innerHTML = '<option value="">Select Character</option>';
+        
+        availableCharacters.forEach(char => {
+            const option = document.createElement('option');
+            option.value = char.id;
+            option.textContent = char.name;
+            if (ngPlusGameState.timeSlots[slot] == char.id) {
+                option.selected = true;
+            }
+            select.appendChild(option);
+        });
+    });
+}
+
+function renderNgPlusCharacters() {
+    const grid = document.getElementById('ngCharacterGrid');
+    grid.innerHTML = '';
+
+    characters.forEach(char => {
+        if (!canMeetCharacter(char) && !ngPlusGameState.characters[char.id].met) {
+            return;
+        }
+
+        const charState = ngPlusGameState.characters[char.id];
+        const card = document.createElement('div');
+        card.className = `character-card ${charState.met ? 'met' : ''} ${charState.realized ? 'realized' : ''}`;
+
+        const displayName = getCharacterDisplayName(char);
+        
+        // Add content warning if applicable
+        let contentWarning = '';
+        if (contentWarnings[char.id]) {
+            contentWarning = `
+                <div class="content-warning">
+                    <div class="content-warning-header">
+                        ⚠️ Content Warning
+                    </div>
+                    <div class="content-warning-text">
+                        ${contentWarnings[char.id]}
+                    </div>
+                </div>
+            `;
+        }
+
+        // Use similar structure as main game but with NG+ state
+        card.innerHTML = `
+            <div style="display: flex; gap: 15px;">
+                <div class="character-icon" style="flex-shrink: 0;"></div>
+                <div style="flex: 1;">
+                    <div class="character-name">${displayName}</div>
+                    ${contentWarning}
+                    <!-- Add NG+ specific controls here -->
+                </div>
+            </div>
+        `;
+
+        grid.appendChild(card);
+    });
+}
+
+function recalculateNgPlusStats() {
+    // Reset to starting stats
+    ngPlusGameState.stats = { ...ngPlusGameState.startingStats };
+    
+    // Add stats from relationships
+    characters.forEach(char => {
+        const charState = ngPlusGameState.characters[char.id];
+        if (charState.relationship && charState.statGiven && charState.chosenStat) {
+            ngPlusGameState.stats[charState.chosenStat] += 5;
+        }
+    });
+    
+    updateNgPlusStats();
+}
+
+function saveNgPlusState() {
+    localStorage.setItem('dateEverythingTrackerNgPlus', JSON.stringify(ngPlusGameState));
+}
+
+function loadNgPlusState() {
+    const saved = localStorage.getItem('dateEverythingTrackerNgPlus');
+    if (saved) {
+        ngPlusGameState = { ...ngPlusGameState, ...JSON.parse(saved) };
+    }
+}
+
+// Update starting stats
+function updateStartingStats() {
+    ngPlusGameState.startingStats = {
+        smarts: parseInt(document.getElementById('ngPlusSmarts').value) || 0,
+        poise: parseInt(document.getElementById('ngPlusPoise').value) || 0,
+        empathy: parseInt(document.getElementById('ngPlusEmpathy').value) || 0,
+        charm: parseInt(document.getElementById('ngPlusCharm').value) || 0,
+        sass: parseInt(document.getElementById('ngPlusSass').value) || 0
+    };
+    recalculateNgPlusStats();
+    saveNgPlusState();
+}
         
         
 // Initialize app
@@ -3128,6 +3661,51 @@ function init() {
     document.getElementById('atticUnlocked').textContent = `Attic: ${gameState.atticUnlocked ? 'Unlocked' : 'Locked'}`;
     document.getElementById('dlcPurchased').textContent = `DLC: ${gameState.dlcPurchased ? 'Purchased' : 'Not Purchased'}`;
 }
+
+// Initialize NG+ 
+initializeNgPlusCharacters();
+loadNgPlusState();
+updateNgPlusStats();
+updateNgPlusSummaryStats();
+
+// Set up NG+ event listeners
+document.querySelectorAll('#ngPlusSmarts, #ngPlusPoise, #ngPlusEmpathy, #ngPlusCharm, #ngPlusSass').forEach(input => {
+    input.addEventListener('input', updateStartingStats);
+});
+
+function initializeNgPlusCharacters() {
+    characters.forEach(char => {
+        if (!ngPlusGameState.characters[char.id]) {
+            ngPlusGameState.characters[char.id] = {
+                met: false,
+                relationship: null,
+                storyComplete: false,
+                realized: false,
+                statGiven: false,
+                chosenStat: char.stat === 'choosable' ? null : char.stat,
+                locations: char.hasLocations ? {} : null,
+                manualDependencies: {}
+            };
+            
+            if (char.hasLocations && locationData[char.id]) {
+                locationData[char.id].locations.forEach(loc => {
+                    ngPlusGameState.characters[char.id].locations[loc] = false;
+                });
+            }
+            
+            if (char.realizationDependencies.length === 0 && char.id > 2) {
+                ngPlusGameState.characters[char.id].manualDependencies = {};
+            }
+        }
+    });
+}
+
+// Set starting stat values
+document.getElementById('ngPlusSmarts').value = ngPlusGameState.startingStats.smarts;
+document.getElementById('ngPlusPoise').value = ngPlusGameState.startingStats.poise;
+document.getElementById('ngPlusEmpathy').value = ngPlusGameState.startingStats.empathy;
+document.getElementById('ngPlusCharm').value = ngPlusGameState.startingStats.charm;
+document.getElementById('ngPlusSass').value = ngPlusGameState.startingStats.sass;
 
 // Make functions global for onclick handlers
 window.toggleCharacterMet = toggleCharacterMet;
