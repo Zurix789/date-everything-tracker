@@ -215,17 +215,14 @@ function toggleCollectionsSpoilers() {
 
 // Function to get collections statistics
 function getCollectionsStats() {
-    const state = getCurrentGameState();
-    let totalCollectables = 0;
+    const TOTAL_COLLECTABLES = 409; // Hardcoded total
     let collectedCount = 0;
     
     characters.forEach(char => {
         const charCollectables = getCharacterCollectables(char.id);
         
         // Only count collectables for characters that would be shown
-        if (collectionsShowSpoilers || canMeetCharacterUnified(char) || state.characters[char.id].met) {
-            totalCollectables += charCollectables.length;
-            
+        if (collectionsShowSpoilers || canMeetCharacterUnified(char) || hasBeenMetInEitherMode(char.id)) {
             charCollectables.forEach(collectable => {
                 if (hasCollectable(char.id, collectable.id)) {
                     collectedCount++;
@@ -235,9 +232,9 @@ function getCollectionsStats() {
     });
     
     return {
-        total: totalCollectables,
+        total: TOTAL_COLLECTABLES,
         collected: collectedCount,
-        percentage: totalCollectables > 0 ? Math.round((collectedCount / totalCollectables) * 100) : 0
+        percentage: Math.round((collectedCount / TOTAL_COLLECTABLES) * 100)
     };
 }
 
