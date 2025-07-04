@@ -983,9 +983,9 @@ const characterPortraitMap = {
 const characterPortraitUrls = {
     1: { // Skylar
         default: 'https://dateeverything.wiki.gg/images/thumb/6/6b/Skylar_Pose_A.png/299px-Skylar_Pose_A.png',
-        love: 'https://dateeverything.wiki.gg/images/thumb/3/38/Skylar_Pose_B.png/393px-Skylar_Pose_B.png',
-        friend: 'https://dateeverything.wiki.gg/images/thumb/6/6e/Skylar_Pose_C.png/425px-Skylar_Pose_C.png',
-        hate: 'https://dateeverything.wiki.gg/images/thumb/4/4f/Skylar_Pose_D.png/406px-Skylar_Pose_D.png',
+        love: 'https://dateeverything.wiki.gg/images/thumb/6/6b/Skylar_Pose_A.png/299px-Skylar_Pose_A.png',
+        friend: 'https://dateeverything.wiki.gg/images/thumb/6/6b/Skylar_Pose_A.png/299px-Skylar_Pose_A.png',
+        hate: 'https://dateeverything.wiki.gg/images/thumb/6/6b/Skylar_Pose_A.png/299px-Skylar_Pose_A.png',
         realized: 'https://dateeverything.wiki.gg/images/thumb/b/b9/Skylar_Realized.png/505px-Skylar_Realized.png'
     },
     2: { // Phoenicia
