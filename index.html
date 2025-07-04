@@ -14,7 +14,7 @@
         <div class="tab-buttons">
             <button class="tab-button active" onclick="switchTab('main')">Main Game</button>
             <button class="tab-button" onclick="switchTab('ngplus')">NG+</button>
-            <button class="tab-button disabled">Collections</button>
+            <button class="tab-button" onclick="switchTab('collections')">Collections</button>
             <button class="tab-button disabled">Achievements</button>
             <button class="tab-button disabled">Character Guides</button>
         </div>
@@ -242,10 +242,36 @@
             </div>
         </div>
         
-        <div id="collections-tab" class="tab-content">
-            <div class="coming-soon">
+<div id="collections-tab" class="tab-content">
+            <div class="collections-header">
                 <h2>Collections</h2>
-                <p>Character galleries, unlockable artwork, and special collectibles will be available here soon!</p>
+                <p>Track your collectables from each character's storyline!</p>
+                
+                <div class="collections-controls">
+                    <button id="collectionsSpoilerToggle" class="toggle-btn" onclick="toggleCollectionsSpoilers()">
+                        Spoilers: OFF
+                    </button>
+                    <button id="resetCollections" class="btn btn-danger" onclick="resetCollections()">Reset Collections</button>
+                </div>
+                
+                <div class="collections-summary" id="collectionsSummary">
+                    <div class="collections-stat">
+                        <span class="stat-number">0</span>
+                        <span class="stat-label">Collected</span>
+                    </div>
+                    <div class="collections-stat">
+                        <span class="stat-number">0</span>
+                        <span class="stat-label">Total</span>
+                    </div>
+                    <div class="collections-stat">
+                        <span class="stat-number">0%</span>
+                        <span class="stat-label">Complete</span>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="collections-grid" id="collectionsGrid">
+                <!-- Collections will be populated here -->
             </div>
         </div>
         
@@ -255,9 +281,10 @@
                 <p>Track your progress with special achievements and milestones coming soon!</p>
             </div>
         </div>
+        
         <div id="guide-tab" class="tab-content">
             <div class="coming-soon">
-                <h2>Guides</h2>
+                <h2>Character Guides</h2>
                 <p>Guides to get each character's Love, Friend or Hate ending coming soon!</p>
             </div>
         </div>
@@ -265,9 +292,11 @@
 </div>
 
     <script src="data.js"></script>
+    <script src="collectables.js"></script>
     <script src="gameState.js"></script>
     <script src="characterLogic.js"></script>
     <script src="ui.js"></script>
+    <script src="collections.js"></script>
     <script src="main.js"></script>
 </body>
 </html>

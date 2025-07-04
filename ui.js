@@ -1,6 +1,6 @@
-// Tab switching function
+// Add this to the switchTab function in ui.js:
 function switchTab(tabName) {
-    console.log('Switching to tab:', tabName); // Debug log
+    console.log('Switching to tab:', tabName);
     
     // Remove active class from all tabs
     document.querySelectorAll('.tab-button').forEach(btn => btn.classList.remove('active'));
@@ -14,9 +14,6 @@ function switchTab(tabName) {
     currentTab = tabName;
     isNgPlus = (tabName === 'ngplus');
     
-    console.log('isNgPlus set to:', isNgPlus); // Debug log
-    console.log('Current state:', getCurrentGameState()); // Debug log
-    
     // Force recalculation when switching tabs
     recalculateStatsUnified();
     
@@ -25,6 +22,12 @@ function switchTab(tabName) {
     updateSummaryStats();
     updateTimeSlots();
     renderCharacters();
+    
+    // Initialize collections tab if selected
+    if (tabName === 'collections') {
+        renderCollections();
+        updateCollectionsSummary();
+    }
 }
 
 // Update stats display - fixed to work with both states

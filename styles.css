@@ -712,3 +712,314 @@ select {
     color: #880e4f;
     font-style: italic;
 }
+
+/* Collections Tab Styles */
+.collections-header {
+    text-align: center;
+    margin-bottom: 30px;
+    background: white;
+    padding: 30px;
+    border-radius: 15px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+.collections-header h2 {
+    color: #764ba2;
+    margin-bottom: 15px;
+    font-size: 2rem;
+}
+
+.collections-header p {
+    color: #666;
+    font-size: 1.1rem;
+    margin-bottom: 25px;
+}
+
+.collections-controls {
+    margin-bottom: 25px;
+}
+
+.collections-controls .toggle-btn {
+    background: #764ba2;
+    color: white;
+    border: none;
+    padding: 10px 20px;
+    border-radius: 8px;
+    cursor: pointer;
+    font-size: 1rem;
+    transition: background 0.2s ease;
+}
+
+.collections-controls .toggle-btn:hover {
+    background: #5a4b8a;
+}
+
+.collections-controls .toggle-btn.active {
+    background: #4CAF50;
+}
+
+.collections-summary {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
+    gap: 20px;
+    max-width: 600px;
+    margin: 0 auto;
+}
+
+.collections-stat {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 5px;
+}
+
+.stat-number {
+    font-size: 2rem;
+    font-weight: bold;
+    color: #764ba2;
+}
+
+.stat-label {
+    font-size: 0.9rem;
+    color: #666;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+}
+
+.collections-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(400px, 1fr));
+    gap: 10px;
+    margin-bottom: 30px;
+}
+
+.collection-character-card {
+    background: white;
+    border-radius: 15px;
+    padding: 20px;
+    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.1);
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+    z-index: 0;
+    min-height: 350px;
+}
+
+.collection-character-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 12px 24px rgba(0, 0, 0, 0.15);
+}
+
+.collection-character-card.met {
+    border-left: 5px solid #4CAF50;
+}
+
+/* Use the same character icon styling as the main cards */
+.collection-character-card .character-icon {
+    position: relative;
+    width: 35%;
+    min-width: 100px;
+    height: 250px;
+}
+
+.collection-character-card .character-portrait {
+    width: 200px;
+    height: 300px;
+    background-size: contain;
+    background-position: top left;
+    background-repeat: no-repeat;
+    position: absolute;
+    top: -5px;
+    left: -5px;
+    z-index: -1;
+    background-image: var(--portrait-url);
+}
+
+.collection-character-card .character-portrait.not-met {
+    filter: brightness(0) saturate(100%);
+}
+
+.collection-character-card .character-name {
+    font-size: 1.2rem;
+    font-weight: bold;
+    margin-bottom: 10px;
+    color: #764ba2;
+    z-index: 1;
+    position: relative;
+}
+
+.collectables-section {
+    margin-top: 15px;
+    z-index: 1;
+    position: relative;
+}
+
+.collectables-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 15px;
+    padding-bottom: 10px;
+    border-bottom: 2px solid #f0f0f0;
+    z-index: 1;
+}
+
+.collectables-header h4 {
+    margin: 0;
+    color: #764ba2;
+    font-size: 1.1rem;
+    z-index: 1;
+}
+
+.expand-btn {
+    background: #667eea;
+    color: white;
+    border: none;
+    padding: 8px 16px;
+    border-radius: 6px;
+    cursor: pointer;
+    font-size: 0.9rem;
+    transition: background 0.2s ease;
+    z-index: 1;
+    position: relative;
+}
+
+.expand-btn:hover {
+    background: #5a6fd8;
+    z-index: 1;
+}
+
+.collectables-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
+    gap: 15px;
+    z-index: 1;
+    position: relative;
+}
+
+.collectables-grid.collapsed {
+    display: none;
+}
+
+.collectable-item {
+    background: #f8f9fa;
+    border-radius: 10px;
+    padding: 15px;
+    transition: all 0.2s ease;
+    border: 2px solid transparent;
+    z-index: 1;
+    position: relative;
+}
+
+.collectable-item:hover {
+    background: #e9ecef;
+    transform: translateY(-2px);
+    z-index: 1;
+}
+
+.collectable-item.collected {
+    background: linear-gradient(135deg, #d4edda 0%, #c3e6cb 100%);
+    border-color: #4CAF50;
+    z-index: 1;
+}
+
+.collectable-image {
+    position: relative;
+    margin-bottom: 10px;
+    z-index: 1;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.collectable-image img {
+    width: 35%;
+    height: 35%;
+    object-fit: cover;
+    border-radius: 6px;
+    transition: filter 0.2s ease;
+    z-index: 1;
+    display: block;
+    margin: 0 auto;
+}
+
+.collectable-image img.mystery {
+    filter: brightness(0) saturate(100%) blur(8px);
+}
+
+.collection-checkbox {
+    position: absolute;
+    top: 8px;
+    right: 8px;
+    z-index: 1;
+}
+
+.collection-checkbox input[type="checkbox"] {
+    width: 20px;
+    height: 20px;
+    cursor: pointer;
+    accent-color: #4CAF50;
+    z-index: 1;
+}
+
+.collection-checkbox label {
+    margin: 0;
+    cursor: pointer;
+    z-index: 1;
+}
+
+.collectable-details {
+    text-align: left;
+    z-index: 1;
+    position: relative;
+}
+
+.collectable-clue {
+    font-weight: bold;
+    color: #764ba2;
+    font-size: 0.9rem;
+    margin-bottom: 5px;
+    line-height: 1.3;
+    z-index: 1;
+}
+
+.collectable-description {
+    font-size: 0.85rem;
+    color: #666;
+    line-height: 1.4;
+    font-style: italic;
+    z-index: 1;
+}
+
+/* Special styling for developer collectables */
+.collectable-description strong {
+    color: #764ba2;
+    font-weight: bold;
+}
+
+/* Content warning styling for collections */
+.collection-character-card .content-warning {
+    background: linear-gradient(135deg, #ffebee 0%, #f3e5f5 100%);
+    border: 2px solid #e91e63;
+    border-radius: 8px;
+    padding: 10px;
+    margin-top: 10px;
+    margin-bottom: 15px;
+    font-size: 0.9rem;
+    z-index: 1;
+    position: relative;
+}
+
+.collection-character-card .content-warning-header {
+    font-weight: bold;
+    color: #ad1457;
+    margin-bottom: 5px;
+    display: flex;
+    align-items: center;
+    gap: 5px;
+    z-index: 1;
+}
+
+.collection-character-card .content-warning-text {
+    color: #880e4f;
+    font-style: italic;
+    z-index: 1;
+}
