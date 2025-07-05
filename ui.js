@@ -644,17 +644,17 @@ function renderCharacters() {
     <button class="relationship-image-btn ${charState.relationship === 'love' ? 'active' : ''}" 
             onclick="setCharacterRelationshipUnified(${char.id}, 'love')"
             title="Love">
-        <img src="https://dateeverything.wiki.gg/images/a/ac/Love.png" alt="Love" />
+        <img src="https://dateeverything.wiki.gg/images/a/ac/Love.png"/>
     </button>
     <button class="relationship-image-btn ${charState.relationship === 'friend' ? 'active' : ''}" 
             onclick="setCharacterRelationshipUnified(${char.id}, 'friend')"
             title="Friend">
-        <img src="https://dateeverything.wiki.gg/images/thumb/e/e9/Friends.png/1920px-Friends.png" alt="Friend" />
+        <img src="https://dateeverything.wiki.gg/images/thumb/e/e9/Friends.png/1920px-Friends.png"/>
     </button>
     <button class="relationship-image-btn ${charState.relationship === 'hate' ? 'active' : ''}" 
             onclick="setCharacterRelationshipUnified(${char.id}, 'hate')"
             title="Hate">
-        <img src="https://dateeverything.wiki.gg/images/b/b9/Hate.png" alt="Hate" />
+        <img src="https://dateeverything.wiki.gg/images/b/b9/Hate.png"/>
     </button>
 </div>
                             ${char.stat === 'choosable' && charState.relationship ? `
