@@ -189,6 +189,22 @@ h1 {
     background: linear-gradient(135deg, #fff9c4 0%, #fff 100%);
 }
 
+/* Character card relationship colors */
+.character-card.relationship-love {
+    border-left: 5px solid #ff6b6b;
+    background: linear-gradient(135deg, #ffe6e6 0%, #fff 100%);
+}
+
+.character-card.relationship-friend {
+    border-left: 5px solid #ffa726;
+    background: linear-gradient(135deg, #fff8e1 0%, #fff 100%);
+}
+
+.character-card.relationship-hate {
+    border-left: 5px solid #d32f2f;
+    background: linear-gradient(135deg, #ffebee 0%, #fff 100%);
+}
+
 .character-name {
     font-size: 1.2rem;
     font-weight: bold;
@@ -567,6 +583,7 @@ select {
 .manual-dependency label {
     font-size: 0.9rem;
 }
+
 /* Tab System */
 .tab-container {
     margin-bottom: 30px;
@@ -741,6 +758,10 @@ select {
 
 .collections-controls {
     margin-bottom: 25px;
+    display: flex;
+    gap: 10px;
+    justify-content: center;
+    flex-wrap: wrap;
 }
 
 .collections-controls .toggle-btn {
@@ -1026,4 +1047,342 @@ select {
     color: #880e4f;
     font-style: italic;
     z-index: 1;
+}
+
+/* Character details expansion */
+.character-details {
+    margin-top: 15px;
+    transition: all 0.3s ease;
+    overflow: hidden;
+    z-index: 1;
+    position: relative;
+}
+
+.character-details.collapsed {
+    max-height: 0;
+    margin-top: 0;
+    opacity: 0;
+}
+
+.character-details:not(.collapsed) {
+    max-height: 1000px;
+    opacity: 1;
+}
+
+/* Variant portrait support for dual characters */
+.character-portrait.variant-alt {
+    background-image: var(--portrait-realized-url, var(--portrait-url));
+}
+
+/* Enhanced character controls layout */
+.character-controls {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+    margin-bottom: 15px;
+    z-index: 1;
+    align-items: center;
+}
+
+.character-controls .btn {
+    white-space: nowrap;
+}
+
+/* Relationship buttons styling adjustment */
+.relationship-buttons {
+    display: flex;
+    gap: 5px;
+    z-index: 1;
+    flex-wrap: wrap;
+}
+
+/* Improved spacing for character cards */
+.character-card {
+    background: white;
+    border-radius: 15px;
+    padding: 20px;
+    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.1);
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+    z-index: 0;
+    min-height: 350px;
+    margin-bottom: 20px;
+}
+
+/* Make sure details don't interfere with card layout */
+.character-details > * {
+    margin-bottom: 10px;
+}
+
+.character-details > *:last-child {
+    margin-bottom: 0;
+}
+
+/* Filters Section */
+.filters-section {
+    background: white;
+    padding: 20px;
+    border-radius: 15px;
+    margin-bottom: 30px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+.filters-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 15px;
+}
+
+.filters-toggle {
+    background: #667eea;
+    color: white;
+    border: none;
+    padding: 8px 16px;
+    border-radius: 6px;
+    cursor: pointer;
+    font-size: 0.9rem;
+    transition: background 0.2s ease;
+}
+
+.filters-toggle:hover {
+    background: #5a6fd8;
+}
+
+.filters-content {
+    display: none;
+}
+
+.filters-content.expanded {
+    display: block;
+}
+
+.filters-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 15px;
+    margin-bottom: 15px;
+}
+
+.filter-group {
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
+}
+
+.filter-group label {
+    font-weight: bold;
+    color: #764ba2;
+    font-size: 0.9rem;
+}
+
+.filter-group select,
+.filter-group input {
+    padding: 8px;
+    border: 2px solid #ddd;
+    border-radius: 6px;
+    font-size: 0.9rem;
+}
+
+.filters-actions {
+    display: flex;
+    gap: 10px;
+    justify-content: center;
+    flex-wrap: wrap;
+}
+
+.filters-actions .btn {
+    padding: 8px 16px;
+    border: none;
+    border-radius: 6px;
+    cursor: pointer;
+    font-size: 0.9rem;
+    transition: all 0.2s ease;
+}
+
+/* Stat icons */
+.stat-icon {
+    width: 20px;
+    height: 20px;
+    background-size: contain;
+    background-repeat: no-repeat;
+    background-position: center;
+    display: inline-block;
+    vertical-align: middle;
+    margin-right: 5px;
+}
+
+.stat-icon.smarts {
+    background-image: url('https://dateeverything.wiki.gg/images/2/29/Badge_Smarts.png');
+}
+
+.stat-icon.poise {
+    background-image: url('https://dateeverything.wiki.gg/images/b/b3/Badge_Poise.png');
+}
+
+.stat-icon.empathy {
+    background-image: url('https://dateeverything.wiki.gg/images/6/6e/Badge_Empathy.png');
+}
+
+.stat-icon.charm {
+    background-image: url('https://dateeverything.wiki.gg/images/d/d1/Badge_Charm.png');
+}
+
+.stat-icon.sass {
+    background-image: url('https://dateeverything.wiki.gg/images/2/24/Badge_Sass.png');
+}
+
+/* Mobile responsiveness */
+@media (max-width: 768px) {
+    .container {
+        padding: 15px;
+    }
+    
+    .character-grid {
+        grid-template-columns: 1fr;
+        gap: 15px;
+    }
+    
+    .stats-display {
+        grid-template-columns: repeat(2, 1fr);
+        gap: 10px;
+        padding: 15px;
+    }
+    
+    .summary-stats {
+        grid-template-columns: repeat(2, 1fr);
+        gap: 15px;
+    }
+    
+    .main-controls {
+        flex-direction: column;
+        gap: 10px;
+    }
+    
+    .tab-buttons {
+        flex-direction: column;
+        gap: 5px;
+    }
+    
+    .tab-button {
+        padding: 10px 16px;
+        font-size: 0.9rem;
+    }
+    
+    .character-card {
+        min-height: auto;
+        padding: 15px;
+    }
+    
+    .character-icon {
+        width: 30%;
+        min-width: 80px;
+        height: 200px;
+    }
+    
+    .character-portrait {
+        width: 150px;
+        height: 225px;
+    }
+    
+    .character-controls {
+        gap: 8px;
+    }
+    
+    .btn {
+        padding: 6px 12px;
+        font-size: 0.8rem;
+    }
+    
+    .relationship-buttons {
+        gap: 4px;
+    }
+    
+    .relationship-btn {
+        padding: 4px 8px;
+        font-size: 0.8rem;
+    }
+    
+    .filters-grid {
+        grid-template-columns: 1fr;
+        gap: 10px;
+    }
+    
+    .collections-controls {
+        flex-direction: column;
+        gap: 8px;
+    }
+    
+    .collections-summary {
+        grid-template-columns: repeat(3, 1fr);
+        gap: 15px;
+    }
+    
+    .collectables-grid {
+        grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+        gap: 10px;
+    }
+    
+    .starter-stats {
+        grid-template-columns: repeat(2, 1fr);
+        gap: 10px;
+    }
+    
+    h1 {
+        font-size: 2rem;
+    }
+    
+    .coming-soon h2 {
+        font-size: 2rem;
+    }
+    
+    .coming-soon p {
+        font-size: 1rem;
+    }
+}
+
+@media (max-width: 480px) {
+    .container {
+        padding: 10px;
+    }
+    
+    .stats-display {
+        grid-template-columns: 1fr;
+        gap: 8px;
+        padding: 10px;
+    }
+    
+    .summary-stats {
+        grid-template-columns: 1fr;
+        gap: 10px;
+    }
+    
+    .collections-summary {
+        grid-template-columns: 1fr;
+        gap: 10px;
+    }
+    
+    .starter-stats {
+        grid-template-columns: 1fr;
+        gap: 8px;
+    }
+    
+    .character-icon {
+        width: 25%;
+        min-width: 60px;
+        height: 150px;
+    }
+    
+    .character-portrait {
+        width: 120px;
+        height: 180px;
+    }
+    
+    .collectables-grid {
+        grid-template-columns: 1fr;
+        gap: 8px;
+    }
+    
+    h1 {
+        font-size: 1.5rem;
+    }
 }

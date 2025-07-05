@@ -103,7 +103,9 @@ function saveStateUnified() {
     }
 }
 
-// Initialize character state for main game
+// Add these updates to gameState.js to handle the new portrait variant properties
+
+// Update the initializeCharacters function to include new properties
 function initializeCharacters() {
     characters.forEach(char => {
         if (!gameState.characters[char.id]) {
@@ -115,7 +117,10 @@ function initializeCharacters() {
                 statGiven: false,
                 chosenStat: char.stat === 'choosable' ? null : char.stat,
                 locations: char.hasLocations ? {} : null,
-                manualDependencies: {}
+                manualDependencies: {},
+                // New properties for portrait variants
+                portraitVariant: 'default',
+                portraitCycle: 0
             };
             
             // Initialize location tracking for special characters
@@ -129,11 +134,19 @@ function initializeCharacters() {
             if (char.realizationDependencies.length === 0 && char.id > 2) {
                 gameState.characters[char.id].manualDependencies = {};
             }
+        } else {
+            // Ensure existing characters have the new properties
+            if (gameState.characters[char.id].portraitVariant === undefined) {
+                gameState.characters[char.id].portraitVariant = 'default';
+            }
+            if (gameState.characters[char.id].portraitCycle === undefined) {
+                gameState.characters[char.id].portraitCycle = 0;
+            }
         }
     });
 }
 
-// Initialize NG+ characters - exactly the same structure
+// Update the initializeNgPlusCharacters function similarly
 function initializeNgPlusCharacters() {
     characters.forEach(char => {
         if (!ngPlusGameState.characters[char.id]) {
@@ -145,7 +158,10 @@ function initializeNgPlusCharacters() {
                 statGiven: false,
                 chosenStat: char.stat === 'choosable' ? null : char.stat,
                 locations: char.hasLocations ? {} : null,
-                manualDependencies: {}
+                manualDependencies: {},
+                // New properties for portrait variants
+                portraitVariant: 'default',
+                portraitCycle: 0
             };
             
             // Initialize location tracking for special characters
@@ -158,6 +174,14 @@ function initializeNgPlusCharacters() {
             // Initialize manual dependencies for characters with empty realizationDependencies
             if (char.realizationDependencies.length === 0 && char.id > 2) {
                 ngPlusGameState.characters[char.id].manualDependencies = {};
+            }
+        } else {
+            // Ensure existing characters have the new properties
+            if (ngPlusGameState.characters[char.id].portraitVariant === undefined) {
+                ngPlusGameState.characters[char.id].portraitVariant = 'default';
+            }
+            if (ngPlusGameState.characters[char.id].portraitCycle === undefined) {
+                ngPlusGameState.characters[char.id].portraitCycle = 0;
             }
         }
     });

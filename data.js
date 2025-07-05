@@ -983,352 +983,382 @@ const characterPortraitMap = {
 const characterPortraitUrls = {
     1: { // Skylar
         default: 'https://dateeverything.wiki.gg/images/thumb/6/6b/Skylar_Pose_A.png/299px-Skylar_Pose_A.png',
-        love: 'https://dateeverything.wiki.gg/images/thumb/6/6b/Skylar_Pose_A.png/299px-Skylar_Pose_A.png',
-        friend: 'https://dateeverything.wiki.gg/images/thumb/6/6b/Skylar_Pose_A.png/299px-Skylar_Pose_A.png',
-        hate: 'https://dateeverything.wiki.gg/images/thumb/6/6b/Skylar_Pose_A.png/299px-Skylar_Pose_A.png',
+        love: 'https://dateeverything.wiki.gg/images/7/76/Skylar_Pose_B_Flirt.png',
+        friend: 'https://dateeverything.wiki.gg/images/1/13/Skylar_Pose_C_Joy.png',
+        hate: 'https://dateeverything.wiki.gg/images/e/ec/Skylar_Pose_D_Angry.png',
         realized: 'https://dateeverything.wiki.gg/images/thumb/b/b9/Skylar_Realized.png/505px-Skylar_Realized.png'
     },
     2: { // Phoenicia
         default: 'https://dateeverything.wiki.gg/images/thumb/2/2d/Phoenicia_Pose_A.png/800px-Phoenicia_Pose_A.png',
-        love: 'https://dateeverything.wiki.gg/images/thumb/2/2d/Phoenicia_Pose_A.png/800px-Phoenicia_Pose_A.png',
-        friend: 'https://dateeverything.wiki.gg/images/thumb/2/2d/Phoenicia_Pose_A.png/800px-Phoenicia_Pose_A.png',
-        hate: 'https://dateeverything.wiki.gg/images/thumb/2/2d/Phoenicia_Pose_A.png/800px-Phoenicia_Pose_A.png',
+        love: 'https://dateeverything.wiki.gg/images/6/65/Phoenicia_Pose_B_Flirt.png',
+        friend: 'https://dateeverything.wiki.gg/images/f/f6/Phoenicia_Pose_C_Joy.png',
+        hate: 'https://dateeverything.wiki.gg/images/3/33/Phoenicia_Pose_D_Angry.png',
         realized: 'https://dateeverything.wiki.gg/images/0/02/Phoenicia_Realized.png'
     },
     3: { // Wallace
         default: 'https://dateeverything.wiki.gg/images/2/22/Wallace_Pose_A.png',
-        love: 'https://dateeverything.wiki.gg/images/2/22/Wallace_Pose_A.png',
-        friend: 'https://dateeverything.wiki.gg/images/2/22/Wallace_Pose_A.png',
-        hate: 'https://dateeverything.wiki.gg/images/2/22/Wallace_Pose_A.png',
+        love: 'https://dateeverything.wiki.gg/images/2/23/Wallace_Pose_B_Flirt.png',
+        friend: 'https://dateeverything.wiki.gg/images/8/8b/Wallace_Pose_C_Joy.png',
+        hate: 'https://dateeverything.wiki.gg/images/9/9c/Wallace_Pose_D_Angry.png',
         realized: 'https://dateeverything.wiki.gg/images/1/19/Wallace_Realized.png'
     },
     4: { // Florence
         default: 'https://dateeverything.wiki.gg/images/d/d4/Florence_Pose_A.png',
-        love: 'https://dateeverything.wiki.gg/images/d/d4/Florence_Pose_A.png',
-        friend: 'https://dateeverything.wiki.gg/images/d/d4/Florence_Pose_A.png',
-        hate: 'https://dateeverything.wiki.gg/images/d/d4/Florence_Pose_A.png',
+        love: 'https://dateeverything.wiki.gg/images/f/f4/Florence_Pose_B_Flirt.png',
+        friend: 'https://dateeverything.wiki.gg/images/thumb/4/40/Florence_Pose_C_Joy.png/800px-Florence_Pose_C_Joy.png',
+        hate: 'https://dateeverything.wiki.gg/images/8/80/Florence_Pose_D_Angry.png',
         realized: 'https://dateeverything.wiki.gg/images/thumb/e/ef/Florence_Realized.png/800px-Florence_Realized.png'
     },
     5: { // Celia
         default: 'https://dateeverything.wiki.gg/images/2/27/Celia_Pose_A.png',
-        love: 'https://dateeverything.wiki.gg/images/2/27/Celia_Pose_A.png',
-        friend: 'https://dateeverything.wiki.gg/images/2/27/Celia_Pose_A.png',
-        hate: 'https://dateeverything.wiki.gg/images/2/27/Celia_Pose_A.png',
+        love: 'https://dateeverything.wiki.gg/images/9/93/Celia_Pose_B_Flirt.png',
+        friend: 'https://dateeverything.wiki.gg/images/5/56/Celia_Pose_C_Joy.png',
+        hate: 'https://dateeverything.wiki.gg/images/8/8c/Celia_Pose_D_Angry.png',
         realized: 'https://dateeverything.wiki.gg/images/thumb/a/a6/Celia_Realized.png/320px-Celia_Realized.png'
     },
     6: { // Stella
         default: 'https://dateeverything.wiki.gg/images/thumb/d/d0/Stella_Pose_A.png/320px-Stella_Pose_A.png',
-        love: 'https://dateeverything.wiki.gg/images/thumb/d/d0/Stella_Pose_A.png/320px-Stella_Pose_A.png',
-        friend: 'https://dateeverything.wiki.gg/images/thumb/d/d0/Stella_Pose_A.png/320px-Stella_Pose_A.png',
-        hate: 'https://dateeverything.wiki.gg/images/thumb/d/d0/Stella_Pose_A.png/320px-Stella_Pose_A.png',
+        love: 'https://dateeverything.wiki.gg/images/5/51/Stella_Pose_B_Flirt.png',
+        friend: 'https://dateeverything.wiki.gg/images/c/c3/Stella_Pose_C_Joy.png',
+        hate: 'https://dateeverything.wiki.gg/images/b/b5/Stella_Pose_D_Angry.png',
         realized: 'https://dateeverything.wiki.gg/images/5/58/Stella_Realized.png'
     },
     7: { // Dorian
         default: 'https://dateeverything.wiki.gg/images/thumb/4/42/Dorian_Pose_A.png/320px-Dorian_Pose_A.png',
-        love: 'https://dateeverything.wiki.gg/images/thumb/4/42/Dorian_Pose_A.png/320px-Dorian_Pose_A.png',
-        friend: 'https://dateeverything.wiki.gg/images/thumb/4/42/Dorian_Pose_A.png/320px-Dorian_Pose_A.png',
-        hate: 'https://dateeverything.wiki.gg/images/thumb/4/42/Dorian_Pose_A.png/320px-Dorian_Pose_A.png',
+        love: 'https://dateeverything.wiki.gg/images/e/e6/Dorian_Pose_B_Flirt.png',
+        friend: 'https://dateeverything.wiki.gg/images/9/93/Dorian_Pose_C_Joy.png',
+        hate: 'https://dateeverything.wiki.gg/images/thumb/f/fc/Dorian_Pose_D_Angry.png/320px-Dorian_Pose_D_Angry.png',
         realized: 'https://dateeverything.wiki.gg/images/2/2c/Dorian_Realized.png'
     },
     8: { // Wyndolyn
         default: 'https://dateeverything.wiki.gg/images/9/99/Wyndolyn_Pose_A.png',
-        love: 'https://dateeverything.wiki.gg/images/9/99/Wyndolyn_Pose_A.png',
-        friend: 'https://dateeverything.wiki.gg/images/9/99/Wyndolyn_Pose_A.png',
-        hate: 'https://dateeverything.wiki.gg/images/9/99/Wyndolyn_Pose_A.png',
+        love: 'https://dateeverything.wiki.gg/images/2/29/Wyndolyn_Pose_B_Flirt.png',
+        friend: 'https://dateeverything.wiki.gg/images/thumb/9/9e/Wyndolyn_Pose_C_Joy.png/320px-Wyndolyn_Pose_C_Joy.png',
+        hate: 'https://dateeverything.wiki.gg/images/6/6e/Wyndolyn_Pose_D_Angry.png',
         realized: 'https://dateeverything.wiki.gg/images/2/23/Wyndolyn_Realized.png'
     },
-    9: { // Curt & Rod
+    9: { 
+        // Together states
         default: 'https://dateeverything.wiki.gg/images/thumb/4/4c/Curt_%26_Rod_Pose_A.png/800px-Curt_%26_Rod_Pose_A.png',
-        love: 'https://dateeverything.wiki.gg/images/thumb/4/4c/Curt_%26_Rod_Pose_A.png/800px-Curt_%26_Rod_Pose_A.png',
-        friend: 'https://dateeverything.wiki.gg/images/thumb/4/4c/Curt_%26_Rod_Pose_A.png/800px-Curt_%26_Rod_Pose_A.png',
-        hate: 'https://dateeverything.wiki.gg/images/thumb/4/4c/Curt_%26_Rod_Pose_A.png/800px-Curt_%26_Rod_Pose_A.png',
-        realized: 'https://dateeverything.wiki.gg/images/thumb/4/4c/Curt_%26_Rod_Pose_A.png/800px-Curt_%26_Rod_Pose_A.png'
+        love: 'https://dateeverything.wiki.gg/images/thumb/6/64/Curt_%26_Rod_Pose_B.png/800px-Curt_%26_Rod_Pose_B.png',
+        friend: 'https://dateeverything.wiki.gg/images/thumb/0/07/Curt_%26_Rod_Pose_C.png/800px-Curt_%26_Rod_Pose_C.png',
+        hate: 'https://dateeverything.wiki.gg/images/thumb/8/82/Curt_%26_Rod_Pose_D.png/800px-Curt_%26_Rod_Pose_D.png',
+        realized: 'https://dateeverything.wiki.gg/images/thumb/4/4c/Curt_%26_Rod_Pose_A.png/800px-Curt_%26_Rod_Pose_A.png',
+        
+        // Individual Curt portraits (cycle = 0)
+        curtDefault: 'https://dateeverything.wiki.gg/images/1/1f/Curt_Pose_A.png',
+        curtLove: 'https://dateeverything.wiki.gg/images/thumb/f/f5/Curt_Pose_B_Flirt.png/800px-Curt_Pose_B_Flirt.png',
+        curtFriend: 'https://dateeverything.wiki.gg/images/thumb/f/f1/Curt_Pose_C_Joy.png/320px-Curt_Pose_C_Joy.png',
+        curtHate: 'https://dateeverything.wiki.gg/images/d/df/Curt_Pose_D_Angry.png',
+        curtRealized: 'https://dateeverything.wiki.gg/images/8/8a/Curt_Realized.png',
+        
+        // Individual Rod portraits (cycle = 1)
+        rodDefault: 'https://dateeverything.wiki.gg/images/thumb/4/42/Rod_Pose_A.png/320px-Rod_Pose_A.png',
+        rodLove: 'https://dateeverything.wiki.gg/images/9/90/Rod_Pose_B_Flirt.png',
+        rodFriend: 'https://dateeverything.wiki.gg/images/2/21/Rod_Pose_C_Joy.png',
+        rodHate: 'https://dateeverything.wiki.gg/images/2/2f/Rod_Pose_D_Angry.png',
+        rodRealized: 'https://dateeverything.wiki.gg/images/thumb/e/eb/Rod_Realized.png/800px-Rod_Realized.png'
     },
     10: { // Shelley
         default: 'https://dateeverything.wiki.gg/images/3/3e/Shelley_Pose_A.png',
-        love: 'https://dateeverything.wiki.gg/images/3/3e/Shelley_Pose_A.png',
-        friend: 'https://dateeverything.wiki.gg/images/3/3e/Shelley_Pose_A.png',
-        hate: 'https://dateeverything.wiki.gg/images/3/3e/Shelley_Pose_A.png',
+        love: 'https://dateeverything.wiki.gg/images/6/67/Shelley_Pose_B_Flirt.png',
+        friend: 'https://dateeverything.wiki.gg/images/f/fb/Shelley_Pose_C_Joy.png',
+        hate: 'https://dateeverything.wiki.gg/images/8/8f/Shelley_Pose_D_Angry.png',
         realized: 'https://dateeverything.wiki.gg/images/7/72/Shelley_Realized_Happy.png'
     },
     11: { // Abel
         default: 'https://dateeverything.wiki.gg/images/9/93/AbelBody.png',
-        love: 'https://dateeverything.wiki.gg/images/9/93/AbelBody.png',
-        friend: 'https://dateeverything.wiki.gg/images/9/93/AbelBody.png',
-        hate: 'https://dateeverything.wiki.gg/images/9/93/AbelBody.png',
+        love: 'https://dateeverything.wiki.gg/images/d/dc/Abel_Pose_B_Flirt.png',
+        friend: 'https://dateeverything.wiki.gg/images/5/5f/Abel_Pose_C_Joy.png',
+        hate: 'https://dateeverything.wiki.gg/images/thumb/9/9c/Abel_Pose_D_Angry.png/800px-Abel_Pose_D_Angry.png',
         realized: 'https://dateeverything.wiki.gg/images/b/b5/Abel_Realized.png'
     },
     12: { // Chairemi
         default: 'https://dateeverything.wiki.gg/images/9/99/Chairemi_Pose_A.png',
-        love: 'https://dateeverything.wiki.gg/images/9/99/Chairemi_Pose_A.png',
-        friend: 'https://dateeverything.wiki.gg/images/9/99/Chairemi_Pose_A.png',
-        hate: 'https://dateeverything.wiki.gg/images/9/99/Chairemi_Pose_A.png',
+        love: 'https://dateeverything.wiki.gg/images/e/e0/Chairemi_Pose_B.png',
+        friend: 'https://dateeverything.wiki.gg/images/0/0e/Chairemi_Pose_C.png',
+        hate: 'https://dateeverything.wiki.gg/images/4/43/Chairemi_Pose_D.png',
         realized: 'https://dateeverything.wiki.gg/images/8/8a/Chairemi_Realized.png'
     },
     13: { // Lux
         default: 'https://dateeverything.wiki.gg/images/b/b7/Lux_Pose_A.png',
-        love: 'https://dateeverything.wiki.gg/images/b/b7/Lux_Pose_A.png',
-        friend: 'https://dateeverything.wiki.gg/images/b/b7/Lux_Pose_A.png',
-        hate: 'https://dateeverything.wiki.gg/images/b/b7/Lux_Pose_A.png',
+        love: 'https://dateeverything.wiki.gg/images/e/e3/Lux_Pose_B_Flirt.png',
+        friend: 'https://dateeverything.wiki.gg/images/4/4e/Lux_Pose_C_Joy.png',
+        hate: 'https://dateeverything.wiki.gg/images/a/ae/Lux_Pose_D_Angry.png',
         realized: 'https://dateeverything.wiki.gg/images/d/d9/Lux_Realized.png'
     },
     14: { // Hector
         default: 'https://dateeverything.wiki.gg/images/7/78/Hector_Pose_A.png',
-        love: 'https://dateeverything.wiki.gg/images/7/78/Hector_Pose_A.png',
-        friend: 'https://dateeverything.wiki.gg/images/7/78/Hector_Pose_A.png',
-        hate: 'https://dateeverything.wiki.gg/images/7/78/Hector_Pose_A.png',
+        love: 'https://dateeverything.wiki.gg/images/1/1e/Hector_Pose_B_Flirt.png',
+        friend: 'https://dateeverything.wiki.gg/images/6/6d/Hector_Pose_C_Joy.png',
+        hate: 'https://dateeverything.wiki.gg/images/f/fb/Hector_Pose_D_Angry.png',
         realized: 'https://dateeverything.wiki.gg/images/thumb/b/ba/Hector_Realized.png/320px-Hector_Realized.png'
     },
     15: { // Prissy
         default: 'https://dateeverything.wiki.gg/images/6/66/Prissy_Pose_A.png',
-        love: 'https://dateeverything.wiki.gg/images/6/66/Prissy_Pose_A.png',
-        friend: 'https://dateeverything.wiki.gg/images/6/66/Prissy_Pose_A.png',
-        hate: 'https://dateeverything.wiki.gg/images/6/66/Prissy_Pose_A.png',
+        love: 'https://dateeverything.wiki.gg/images/c/c7/Prissy_Pose_B_Flirt.png',
+        friend: 'https://dateeverything.wiki.gg/images/thumb/7/7d/Prissy_Pose_C_Joy.png/320px-Prissy_Pose_C_Joy.png',
+        hate: 'https://dateeverything.wiki.gg/images/thumb/d/d1/Prissy_Pose_D_Angry.png/320px-Prissy_Pose_D_Angry.png',
         realized: 'https://dateeverything.wiki.gg/images/4/49/Prissy_Realized.png'
     },
     16: { // Timothy
         default: 'https://dateeverything.wiki.gg/images/3/3e/Tim_Pose_A.png',
-        love: 'https://dateeverything.wiki.gg/images/3/3e/Tim_Pose_A.png',
-        friend: 'https://dateeverything.wiki.gg/images/3/3e/Tim_Pose_A.png',
-        hate: 'https://dateeverything.wiki.gg/images/3/3e/Tim_Pose_A.png',
+        love: 'https://dateeverything.wiki.gg/images/b/b0/Tim_Pose_B_Flirt.png',
+        friend: 'https://dateeverything.wiki.gg/images/thumb/8/89/Tim_Pose_C_Joy.png/320px-Tim_Pose_C_Joy.png',
+        hate: 'https://dateeverything.wiki.gg/images/thumb/d/d7/Tim_Pose_D_Angry.png/320px-Tim_Pose_D_Angry.png',
         realized: 'https://dateeverything.wiki.gg/images/0/00/Tim_Realized.png'
     },
     17: { // Artt
         default: 'https://dateeverything.wiki.gg/images/b/b6/Artt_Pose_A.png',
-        love: 'https://dateeverything.wiki.gg/images/b/b6/Artt_Pose_A.png',
-        friend: 'https://dateeverything.wiki.gg/images/b/b6/Artt_Pose_A.png',
-        hate: 'https://dateeverything.wiki.gg/images/b/b6/Artt_Pose_A.png',
+        love: 'https://dateeverything.wiki.gg/images/thumb/3/34/Artt_Pose_B_Flirt.png/800px-Artt_Pose_B_Flirt.png',
+        friend: 'https://dateeverything.wiki.gg/images/f/fd/Artt_Pose_C_Joy.png',
+        hate: 'https://dateeverything.wiki.gg/images/thumb/9/94/Artt_Pose_D_Angry.png/800px-Artt_Pose_D_Angry.png',
         realized: 'https://dateeverything.wiki.gg/images/4/47/Artt_Realized.png'
     },
     18: { // River
         default: 'https://dateeverything.wiki.gg/images/thumb/9/94/River_Pose_A.png/800px-River_Pose_A.png',
-        love: 'https://dateeverything.wiki.gg/images/thumb/9/94/River_Pose_A.png/800px-River_Pose_A.png',
-        friend: 'https://dateeverything.wiki.gg/images/thumb/9/94/River_Pose_A.png/800px-River_Pose_A.png',
-        hate: 'https://dateeverything.wiki.gg/images/thumb/9/94/River_Pose_A.png/800px-River_Pose_A.png',
+        love: 'https://dateeverything.wiki.gg/images/thumb/0/03/River_Pose_B_Flirt.png/800px-River_Pose_B_Flirt.png',
+        friend: 'https://dateeverything.wiki.gg/images/thumb/d/d5/River_Pose_C_Joy.png/800px-River_Pose_C_Joy.png',
+        hate: 'https://dateeverything.wiki.gg/images/thumb/9/92/River_Pose_D_Angry.png/800px-River_Pose_D_Angry.png',
         realized: 'https://dateeverything.wiki.gg/images/thumb/a/a7/River_Realized.png/800px-River_Realized.png'
     },
-    19: { // Eddie & Volt
+    19: { 
+        // Together states
         default: 'https://dateeverything.wiki.gg/images/thumb/7/72/Eddie_%26_Volt_Pose_A.png/300px-Eddie_%26_Volt_Pose_A.png',
-        love: 'https://dateeverything.wiki.gg/images/thumb/7/72/Eddie_%26_Volt_Pose_A.png/300px-Eddie_%26_Volt_Pose_A.png',
-        friend: 'https://dateeverything.wiki.gg/images/thumb/7/72/Eddie_%26_Volt_Pose_A.png/300px-Eddie_%26_Volt_Pose_A.png',
-        hate: 'https://dateeverything.wiki.gg/images/thumb/7/72/Eddie_%26_Volt_Pose_A.png/300px-Eddie_%26_Volt_Pose_A.png',
-        realized: 'https://dateeverything.wiki.gg/images/thumb/7/72/Eddie_%26_Volt_Pose_A.png/300px-Eddie_%26_Volt_Pose_A.png'
+        love: 'https://dateeverything.wiki.gg/images/thumb/2/23/Eddie_%26_Volt_Pose_B_Flirt.png/800px-Eddie_%26_Volt_Pose_B_Flirt.png',
+        friend: 'https://dateeverything.wiki.gg/images/thumb/6/6e/Eddie_%26_Volt_Pose_C_Joy.png/800px-Eddie_%26_Volt_Pose_C_Joy.png',
+        hate: 'https://dateeverything.wiki.gg/images/thumb/e/e8/Eddie_%26_Volt_Pose_D_Angry.png/800px-Eddie_%26_Volt_Pose_D_Angry.png',
+        realized: 'https://dateeverything.wiki.gg/images/thumb/7/72/Eddie_%26_Volt_Pose_A.png/300px-Eddie_%26_Volt_Pose_A.png',
+        
+        // Individual Eddie portraits (cycle = 0)
+        eddieDefault: 'https://dateeverything.wiki.gg/images/c/c4/Eddie_Pose_A.png',
+        eddieLove: 'https://dateeverything.wiki.gg/images/5/55/Eddie_Pose_B_Flirt.png',
+        eddieFriend: 'https://dateeverything.wiki.gg/images/8/82/Eddie_Pose_C_Happy.png',
+        eddieHate: 'https://dateeverything.wiki.gg/images/4/43/Eddie_Pose_D.png',
+        eddieRealized: 'https://dateeverything.wiki.gg/images/1/1a/Eddie_Realized.png',
+        
+        // Individual Volt portraits (cycle = 1)
+        voltDefault: 'https://dateeverything.wiki.gg/images/6/69/Volt_Pose_A.png',
+        voltLove: 'https://dateeverything.wiki.gg/images/2/2b/Volt_Pose_B_Flirt.png',
+        voltFriend: 'https://dateeverything.wiki.gg/images/b/b8/Volt_Pose_C_Joy.png',
+        voltHate: 'https://dateeverything.wiki.gg/images/f/f1/Volt_Pose_D_Rage.png',
+        voltRealized: 'https://dateeverything.wiki.gg/images/6/6b/Volt_Realized.png'
     },
     20: { // Koa
         default: 'https://dateeverything.wiki.gg/images/2/2c/Koa_Pose_A.png',
-        love: 'https://dateeverything.wiki.gg/images/2/2c/Koa_Pose_A.png',
-        friend: 'https://dateeverything.wiki.gg/images/2/2c/Koa_Pose_A.png',
-        hate: 'https://dateeverything.wiki.gg/images/2/2c/Koa_Pose_A.png',
+        love: 'https://dateeverything.wiki.gg/images/7/73/Koa_Pose_B_Flirt.png',
+        friend: 'https://dateeverything.wiki.gg/images/7/78/Koa_Pose_C_Joy.png',
+        hate: 'https://dateeverything.wiki.gg/images/4/4a/Koa_Pose_D_Angry.png',
         realized: 'https://dateeverything.wiki.gg/images/9/96/Koa_Realized.png'
     },
     21: { // Dolly
         default: 'https://dateeverything.wiki.gg/images/d/dd/Dolly_Pose_A.png',
-        love: 'https://dateeverything.wiki.gg/images/d/dd/Dolly_Pose_A.png',
-        friend: 'https://dateeverything.wiki.gg/images/d/dd/Dolly_Pose_A.png',
-        hate: 'https://dateeverything.wiki.gg/images/d/dd/Dolly_Pose_A.png',
+        love: 'https://dateeverything.wiki.gg/images/8/80/Dolly_Pose_B_Flirt.png',
+        friend: 'https://dateeverything.wiki.gg/images/5/5b/Dolly_Pose_C_Joy.png',
+        hate: 'https://dateeverything.wiki.gg/images/a/a3/Dolly_Pose_D_Angry.png',
         realized: 'https://dateeverything.wiki.gg/images/f/f8/Dolly_Realized.png'
     },
     22: { // Dante
         default: 'https://dateeverything.wiki.gg/images/5/5d/Dante_Pose_A.png',
-        love: 'https://dateeverything.wiki.gg/images/5/5d/Dante_Pose_A.png',
-        friend: 'https://dateeverything.wiki.gg/images/5/5d/Dante_Pose_A.png',
-        hate: 'https://dateeverything.wiki.gg/images/5/5d/Dante_Pose_A.png',
+        love: 'https://dateeverything.wiki.gg/images/1/12/Dante_Pose_B_Flirt.png',
+        friend: 'https://dateeverything.wiki.gg/images/thumb/6/62/Dante_Pose_C_Joy.png/800px-Dante_Pose_C_Joy.png',
+        hate: 'https://dateeverything.wiki.gg/images/1/14/Dante_Pose_D_Angry.png',
         realized: 'https://dateeverything.wiki.gg/images/d/d3/Dante_Realized.png'
     },
     23: { // Telly
         default: 'https://dateeverything.wiki.gg/images/d/de/Telly_Pose_A.png',
-        love: 'https://dateeverything.wiki.gg/images/d/de/Telly_Pose_A.png',
-        friend: 'https://dateeverything.wiki.gg/images/d/de/Telly_Pose_A.png',
-        hate: 'https://dateeverything.wiki.gg/images/d/de/Telly_Pose_A.png',
+        love: 'https://dateeverything.wiki.gg/images/thumb/9/9b/Telly_Pose_B_Flirt.png/800px-Telly_Pose_B_Flirt.png',
+        friend: 'https://dateeverything.wiki.gg/images/f/ff/Telly_Pose_C_Joy.png',
+        hate: 'https://dateeverything.wiki.gg/images/0/0b/Telly_Pose_D_Angry.png',
         realized: 'https://dateeverything.wiki.gg/images/e/eb/Telly_Realized.png'
     },
     24: { // Luna
         default: 'https://dateeverything.wiki.gg/images/4/46/Connie_Pose_A.png',
-        love: 'https://dateeverything.wiki.gg/images/4/46/Connie_Pose_A.png',
-        friend: 'https://dateeverything.wiki.gg/images/4/46/Connie_Pose_A.png',
-        hate: 'https://dateeverything.wiki.gg/images/4/46/Connie_Pose_A.png',
+        love: 'https://dateeverything.wiki.gg/images/0/08/Connie_Pose_B_Flirt.png',
+        friend: 'https://dateeverything.wiki.gg/images/thumb/4/4c/Connie_Pose_C_Joy.png/800px-Connie_Pose_C_Joy.png',
+        hate: 'https://dateeverything.wiki.gg/images/3/36/Connie_Pose_D_Angry.png',
         realized: 'https://dateeverything.wiki.gg/images/b/be/Connie_Realized.png'
     },
     25: { // Keyes
         default: 'https://dateeverything.wiki.gg/images/4/43/Keyes_Pose_A.png',
-        love: 'https://dateeverything.wiki.gg/images/4/43/Keyes_Pose_A.png',
-        friend: 'https://dateeverything.wiki.gg/images/4/43/Keyes_Pose_A.png',
-        hate: 'https://dateeverything.wiki.gg/images/4/43/Keyes_Pose_A.png',
+        love: 'https://dateeverything.wiki.gg/images/c/cb/Keyes_Pose_B_Flirt.png',
+        friend: 'https://dateeverything.wiki.gg/images/6/60/Keyes_Pose_C_Joy.png',
+        hate: 'https://dateeverything.wiki.gg/images/5/5b/Keyes_Pose_D_Angry.png',
         realized: 'https://dateeverything.wiki.gg/images/thumb/6/6e/Keyes_Realized.png/800px-Keyes_Realized.png'
     },
     26: { // Gaia
         default: 'https://dateeverything.wiki.gg/images/f/fb/Gaia_Pose_A.png',
-        love: 'https://dateeverything.wiki.gg/images/f/fb/Gaia_Pose_A.png',
-        friend: 'https://dateeverything.wiki.gg/images/f/fb/Gaia_Pose_A.png',
-        hate: 'https://dateeverything.wiki.gg/images/f/fb/Gaia_Pose_A.png',
+        love: 'https://dateeverything.wiki.gg/images/4/4e/Gaia_Pose_B_Flirt.png',
+        friend: 'https://dateeverything.wiki.gg/images/1/1e/Gaia_Pose_C_Joy.png',
+        hate: 'https://dateeverything.wiki.gg/images/d/d4/Gaia_Pose_D_Angry.png',
         realized: 'https://dateeverything.wiki.gg/images/4/40/Gaia_Realized.png'
     },
     27: { // Captain Jaques Pierrot
         default: 'https://dateeverything.wiki.gg/images/5/55/Captain_Jacques_Pose_A.png',
-        love: 'https://dateeverything.wiki.gg/images/5/55/Captain_Jacques_Pose_A.png',
-        friend: 'https://dateeverything.wiki.gg/images/5/55/Captain_Jacques_Pose_A.png',
-        hate: 'https://dateeverything.wiki.gg/images/5/55/Captain_Jacques_Pose_A.png',
+        love: 'https://dateeverything.wiki.gg/images/thumb/f/f8/Captain_Jacques_Pose_B_Flirt.png/800px-Captain_Jacques_Pose_B_Flirt.png',
+        friend: 'https://dateeverything.wiki.gg/images/4/4d/Captain_Jacques_Pose_C_Joy.png',
+        hate: 'https://dateeverything.wiki.gg/images/b/bf/Captain_Jacques_Pose_D_Angry.png',
         realized: 'https://dateeverything.wiki.gg/images/3/37/Captain_Jacques_Realized.png'
     },
     28: { // Parker
         default: 'https://dateeverything.wiki.gg/images/c/ce/Parker_Pose_A.png',
-        love: 'https://dateeverything.wiki.gg/images/c/ce/Parker_Pose_A.png',
-        friend: 'https://dateeverything.wiki.gg/images/c/ce/Parker_Pose_A.png',
-        hate: 'https://dateeverything.wiki.gg/images/c/ce/Parker_Pose_A.png',
+        love: 'https://dateeverything.wiki.gg/images/8/8d/Parker_Pose_B_Flirt.png',
+        friend: 'https://dateeverything.wiki.gg/images/9/99/Parker_Pose_C_Joy.png',
+        hate: 'https://dateeverything.wiki.gg/images/0/0c/Parker_Pose_D_Angry.png',
         realized: 'https://dateeverything.wiki.gg/images/thumb/d/dc/Parker_Realized.png/320px-Parker_Realized.png'
     },
     29: { // Mateo
         default: 'https://dateeverything.wiki.gg/images/d/d7/Mateo_Pose_A.png',
-        love: 'https://dateeverything.wiki.gg/images/d/d7/Mateo_Pose_A.png',
-        friend: 'https://dateeverything.wiki.gg/images/d/d7/Mateo_Pose_A.png',
-        hate: 'https://dateeverything.wiki.gg/images/d/d7/Mateo_Pose_A.png',
+        love: 'https://dateeverything.wiki.gg/images/a/a7/Mateo_Pose_B_Flirt.png',
+        friend: 'https://dateeverything.wiki.gg/images/e/ea/Mateo_Pose_C_Joy.png',
+        hate: 'https://dateeverything.wiki.gg/images/4/4f/Mateo_Pose_D_Angry.png',
         realized: 'https://dateeverything.wiki.gg/images/d/df/Mateo_Realized.png'
     },
     30: { // Tina
         default: 'https://dateeverything.wiki.gg/images/0/07/Tina_Pose_A.png',
-        love: 'https://dateeverything.wiki.gg/images/0/07/Tina_Pose_A.png',
-        friend: 'https://dateeverything.wiki.gg/images/0/07/Tina_Pose_A.png',
-        hate: 'https://dateeverything.wiki.gg/images/0/07/Tina_Pose_A.png',
+        love: 'https://dateeverything.wiki.gg/images/9/99/Tina_Pose_B_Flirt.png',
+        friend: 'https://dateeverything.wiki.gg/images/thumb/8/8c/Tina_Pose_C_Joy.png/320px-Tina_Pose_C_Joy.png',
+        hate: 'https://dateeverything.wiki.gg/images/thumb/4/4c/Tina_Pose_D_Angry.png/320px-Tina_Pose_D_Angry.png',
         realized: 'https://dateeverything.wiki.gg/images/7/77/Tina_Realized.png'
     },
     31: { // Beverly
         default: 'https://dateeverything.wiki.gg/images/1/18/Beverly_Pose_A.png',
-        love: 'https://dateeverything.wiki.gg/images/1/18/Beverly_Pose_A.png',
-        friend: 'https://dateeverything.wiki.gg/images/1/18/Beverly_Pose_A.png',
-        hate: 'https://dateeverything.wiki.gg/images/1/18/Beverly_Pose_A.png',
+        love: 'https://dateeverything.wiki.gg/images/d/d6/Beverly_Pose_B_Flirt.png',
+        friend: 'https://dateeverything.wiki.gg/images/4/4d/Beverly_Pose_C_Joy.png',
+        hate: 'https://dateeverything.wiki.gg/images/4/45/Beverly_Pose_D_Angry.png',
         realized: 'https://dateeverything.wiki.gg/images/7/77/Beverly_Realized.png'
     },
     32: { // Mitchell Linn
         default: 'https://dateeverything.wiki.gg/images/e/e0/Mitchell_Pose_A.png',
-        love: 'https://dateeverything.wiki.gg/images/e/e0/Mitchell_Pose_A.png',
-        friend: 'https://dateeverything.wiki.gg/images/e/e0/Mitchell_Pose_A.png',
-        hate: 'https://dateeverything.wiki.gg/images/e/e0/Mitchell_Pose_A.png',
+        love: 'https://dateeverything.wiki.gg/images/thumb/7/75/Mitchell_Pose_B_Flirt.png/320px-Mitchell_Pose_B_Flirt.png',
+        friend: 'https://dateeverything.wiki.gg/images/thumb/d/d0/Mitchell_Pose_B_Joy.png/320px-Mitchell_Pose_B_Joy.png',
+        hate: 'https://dateeverything.wiki.gg/images/thumb/d/df/Mitchell_Pose_D_Angry.png/800px-Mitchell_Pose_D_Angry.png',
         realized: 'https://dateeverything.wiki.gg/images/c/c0/Mitchell_Realized.png'
     },
     33: { // Cabrizzio
         default: 'https://dateeverything.wiki.gg/images/c/c4/Cabrizzio_Pose_A.png',
-        love: 'https://dateeverything.wiki.gg/images/c/c4/Cabrizzio_Pose_A.png',
-        friend: 'https://dateeverything.wiki.gg/images/c/c4/Cabrizzio_Pose_A.png',
-        hate: 'https://dateeverything.wiki.gg/images/c/c4/Cabrizzio_Pose_A.png',
+        love: 'https://dateeverything.wiki.gg/images/thumb/7/7a/Cabrizzio_Pose_B_Flirt.png/800px-Cabrizzio_Pose_B_Flirt.png',
+        friend: 'https://dateeverything.wiki.gg/images/5/54/Cabrizzio_Pose_C_Joy.png',
+        hate: 'https://dateeverything.wiki.gg/images/6/62/Cabrizzio_Pose_D_Angry.png',
         realized: 'https://dateeverything.wiki.gg/images/d/d3/Cabrizzio_Realized.png'
     },
     34: { // Sinclaire
         default: 'https://dateeverything.wiki.gg/images/9/97/Sinclaire_Pose_A.png',
-        love: 'https://dateeverything.wiki.gg/images/9/97/Sinclaire_Pose_A.png',
-        friend: 'https://dateeverything.wiki.gg/images/9/97/Sinclaire_Pose_A.png',
-        hate: 'https://dateeverything.wiki.gg/images/9/97/Sinclaire_Pose_A.png',
+        love: 'https://dateeverything.wiki.gg/images/4/44/Sinclaire_Pose_B_Flirt.png',
+        friend: 'https://dateeverything.wiki.gg/images/5/50/Sinclaire_Pose_C_Joy.png',
+        hate: 'https://dateeverything.wiki.gg/images/0/0c/Sinclaire_Pose_D_Angry.png',
         realized: 'https://dateeverything.wiki.gg/images/d/d6/Sinclaire_Realized.png'
     },
     35: { // Freddy
         default: 'https://dateeverything.wiki.gg/images/thumb/7/73/Freddy_Pose_A.png/800px-Freddy_Pose_A.png',
-        love: 'https://dateeverything.wiki.gg/images/thumb/7/73/Freddy_Pose_A.png/800px-Freddy_Pose_A.png',
-        friend: 'https://dateeverything.wiki.gg/images/thumb/7/73/Freddy_Pose_A.png/800px-Freddy_Pose_A.png',
-        hate: 'https://dateeverything.wiki.gg/images/thumb/7/73/Freddy_Pose_A.png/800px-Freddy_Pose_A.png',
+        love: 'https://dateeverything.wiki.gg/images/thumb/4/46/Freddy_Pose_B_Flirt.png/800px-Freddy_Pose_B_Flirt.png',
+        friend: 'https://dateeverything.wiki.gg/images/thumb/2/2e/Freddy_Pose_C_Joy.png/800px-Freddy_Pose_C_Joy.png',
+        hate: 'https://dateeverything.wiki.gg/images/thumb/1/10/Freddy_Pose_D_Angry.png/800px-Freddy_Pose_D_Angry.png',
         realized: 'https://dateeverything.wiki.gg/images/thumb/6/6c/Freddy_Realized.png/800px-Freddy_Realized.png'
     },
     36: { // Stefan
         default: 'https://dateeverything.wiki.gg/images/b/bc/Stefan_Pose_A.png',
-        love: 'https://dateeverything.wiki.gg/images/b/bc/Stefan_Pose_A.png',
-        friend: 'https://dateeverything.wiki.gg/images/b/bc/Stefan_Pose_A.png',
-        hate: 'https://dateeverything.wiki.gg/images/b/bc/Stefan_Pose_A.png',
+        love: 'https://dateeverything.wiki.gg/images/thumb/a/a1/Stefan_Pose_B_Flirt.png/800px-Stefan_Pose_B_Flirt.png',
+        friend: 'https://dateeverything.wiki.gg/images/thumb/7/73/Stefan_Pose_C_Joy.png/800px-Stefan_Pose_C_Joy.png',
+        hate: 'https://dateeverything.wiki.gg/images/thumb/f/f5/Stefan_Pose_D_Angry.png/800px-Stefan_Pose_D_Angry.png',
         realized: 'https://dateeverything.wiki.gg/images/1/11/Stefan_Realized.png'
     },
     37: { // Luke Nuke'm
         default: 'https://dateeverything.wiki.gg/images/3/3f/Luke_Nukem_Pose_A.png',
-        love: 'https://dateeverything.wiki.gg/images/3/3f/Luke_Nukem_Pose_A.png',
-        friend: 'https://dateeverything.wiki.gg/images/3/3f/Luke_Nukem_Pose_A.png',
-        hate: 'https://dateeverything.wiki.gg/images/3/3f/Luke_Nukem_Pose_A.png',
+        love: 'https://dateeverything.wiki.gg/images/thumb/e/eb/Luke_Nukem_Pose_B_Flirt.png/800px-Luke_Nukem_Pose_B_Flirt.png',
+        friend: 'https://dateeverything.wiki.gg/images/b/be/Luke_Nukem_Pose_C_Joy.png',
+        hate: 'https://dateeverything.wiki.gg/images/thumb/a/ab/Luke_Nukem_Pose_D_Angry.png/800px-Luke_Nukem_Pose_D_Angry.png',
         realized: 'https://dateeverything.wiki.gg/images/f/f3/Luke_Realized.png'
     },
     38: { // Miranda Dulce Tostadora
         default: 'https://dateeverything.wiki.gg/images/0/00/Miranda_Pose_A.png',
-        love: 'https://dateeverything.wiki.gg/images/0/00/Miranda_Pose_A.png',
-        friend: 'https://dateeverything.wiki.gg/images/0/00/Miranda_Pose_A.png',
-        hate: 'https://dateeverything.wiki.gg/images/0/00/Miranda_Pose_A.png',
+        love: 'https://dateeverything.wiki.gg/images/thumb/a/a0/Miranda_Pose_B_Flirt.png/800px-Miranda_Pose_B_Flirt.png',
+        friend: 'https://dateeverything.wiki.gg/images/thumb/c/c9/Miranda_Pose_C_Joy.png/800px-Miranda_Pose_C_Joy.png',
+        hate: 'https://dateeverything.wiki.gg/images/0/0c/Miranda_Pose_D_Angry.png',
         realized: 'https://dateeverything.wiki.gg/images/thumb/2/2b/Miranda_Realized.png/800px-Miranda_Realized.png'
     },
     39: { // Dishy
         default: 'https://dateeverything.wiki.gg/images/thumb/4/47/Dishy_Pose_A.png/800px-Dishy_Pose_A.png',
-        love: 'https://dateeverything.wiki.gg/images/thumb/4/47/Dishy_Pose_A.png/800px-Dishy_Pose_A.png',
-        friend: 'https://dateeverything.wiki.gg/images/thumb/4/47/Dishy_Pose_A.png/800px-Dishy_Pose_A.png',
-        hate: 'https://dateeverything.wiki.gg/images/thumb/4/47/Dishy_Pose_A.png/800px-Dishy_Pose_A.png',
+        love: 'https://dateeverything.wiki.gg/images/thumb/a/a4/Dishy_Pose_B_Flirt.png/800px-Dishy_Pose_B_Flirt.png',
+        friend: 'https://dateeverything.wiki.gg/images/thumb/8/84/Dishy_Pose_C_Joy.png/800px-Dishy_Pose_C_Joy.png',
+        hate: 'https://dateeverything.wiki.gg/images/4/4b/Dishy_Pose_D_Angry.png',
         realized: 'https://dateeverything.wiki.gg/images/4/42/Dishy_Realized.png'
     },
     40: { // Daisuke
         default: 'https://dateeverything.wiki.gg/images/thumb/7/73/Daisuke_Pose_A.png/320px-Daisuke_Pose_A.png',
-        love: 'https://dateeverything.wiki.gg/images/thumb/7/73/Daisuke_Pose_A.png/320px-Daisuke_Pose_A.png',
-        friend: 'https://dateeverything.wiki.gg/images/thumb/7/73/Daisuke_Pose_A.png/320px-Daisuke_Pose_A.png',
-        hate: 'https://dateeverything.wiki.gg/images/thumb/7/73/Daisuke_Pose_A.png/320px-Daisuke_Pose_A.png',
+        love: 'https://dateeverything.wiki.gg/images/thumb/d/dd/Daisuke_Pose_B_Flirt.png/320px-Daisuke_Pose_B_Flirt.png',
+        friend: 'https://dateeverything.wiki.gg/images/thumb/4/42/Daisuke_Pose_C_Joy.png/320px-Daisuke_Pose_C_Joy.png',
+        hate: 'https://dateeverything.wiki.gg/images/thumb/d/d5/Daisuke_Pose_D_Angry.png/800px-Daisuke_Pose_D_Angry.png',
         realized: 'https://dateeverything.wiki.gg/images/4/41/Daisuke_Realized.png'
     },
     41: { // Friar Errol
         default: 'https://dateeverything.wiki.gg/images/4/40/Friar_Errol_Pose_A.png',
-        love: 'https://dateeverything.wiki.gg/images/4/40/Friar_Errol_Pose_A.png',
-        friend: 'https://dateeverything.wiki.gg/images/4/40/Friar_Errol_Pose_A.png',
-        hate: 'https://dateeverything.wiki.gg/images/4/40/Friar_Errol_Pose_A.png',
+        love: 'https://dateeverything.wiki.gg/images/thumb/9/98/Friar_Errol_Pose_B_Flirt.png/800px-Friar_Errol_Pose_B_Flirt.png',
+        friend: 'https://dateeverything.wiki.gg/images/7/7d/Friar_Errol_Pose_C_Joy.png',
+        hate: 'https://dateeverything.wiki.gg/images/thumb/1/11/Friar_Errol_Pose_D_Angry.png/320px-Friar_Errol_Pose_D_Angry.png',
         realized: 'https://dateeverything.wiki.gg/images/thumb/0/0b/Friar_Errol_Realized.png/800px-Friar_Errol_Realized.png'
     },
     42: { // Kopi
         default: 'https://dateeverything.wiki.gg/images/thumb/4/4f/Kopi_Pose_A.png/320px-Kopi_Pose_A.png',
-        love: 'https://dateeverything.wiki.gg/images/thumb/4/4f/Kopi_Pose_A.png/320px-Kopi_Pose_A.png',
-        friend: 'https://dateeverything.wiki.gg/images/thumb/4/4f/Kopi_Pose_A.png/320px-Kopi_Pose_A.png',
-        hate: 'https://dateeverything.wiki.gg/images/thumb/4/4f/Kopi_Pose_A.png/320px-Kopi_Pose_A.png',
+        love: 'https://dateeverything.wiki.gg/images/6/63/Kopi_Pose_B_Flirt.png',
+        friend: 'https://dateeverything.wiki.gg/images/thumb/8/8f/Kopi_Pose_C_Joy.png/320px-Kopi_Pose_C_Joy.png',
+        hate: 'https://dateeverything.wiki.gg/images/thumb/c/c3/Kopi_Pose_D_Angry.png/320px-Kopi_Pose_D_Angry.png',
         realized: 'https://dateeverything.wiki.gg/images/thumb/f/f0/Kopi_Realized.png/320px-Kopi_Realized.png'
     },
     43: { // Cam
         default: 'https://dateeverything.wiki.gg/images/9/9b/Cam_Pose_A.png',
-        love: 'https://dateeverything.wiki.gg/images/9/9b/Cam_Pose_A.png',
-        friend: 'https://dateeverything.wiki.gg/images/9/9b/Cam_Pose_A.png',
-        hate: 'https://dateeverything.wiki.gg/images/9/9b/Cam_Pose_A.png',
+        love: 'https://dateeverything.wiki.gg/images/0/02/Cam_Pose_B_Flirt.png',
+        friend: 'https://dateeverything.wiki.gg/images/3/35/Cam_Pose_C_Joy.png',
+        hate: 'https://dateeverything.wiki.gg/images/thumb/2/2b/Cam_Pose_D_Angry.png/800px-Cam_Pose_D_Angry.png',
         realized: 'https://dateeverything.wiki.gg/images/7/76/Cam_Realized.png'
     },
     44: { // I, Ronaldini
         default: 'https://dateeverything.wiki.gg/images/5/5d/I%2C_Ronaldini_Pose_A.png',
-        love: 'https://dateeverything.wiki.gg/images/5/5d/I%2C_Ronaldini_Pose_A.png',
-        friend: 'https://dateeverything.wiki.gg/images/5/5d/I%2C_Ronaldini_Pose_A.png',
-        hate: 'https://dateeverything.wiki.gg/images/5/5d/I%2C_Ronaldini_Pose_A.png',
+        love: 'https://dateeverything.wiki.gg/images/thumb/a/ab/I%2C_Ronaldini_Pose_B_Flirt.png/800px-I%2C_Ronaldini_Pose_B_Flirt.png',
+        friend: 'https://dateeverything.wiki.gg/images/thumb/4/46/I%2C_Ronaldini_Pose_C_Joy.png/800px-I%2C_Ronaldini_Pose_C_Joy.png',
+        hate: 'https://dateeverything.wiki.gg/images/9/9d/I%2C_Ronaldini_Pose_D_Angry.png',
         realized: 'https://dateeverything.wiki.gg/images/thumb/4/4a/I%2C_Ronaldini_Realized.png/800px-I%2C_Ronaldini_Realized.png'
     },
     45: { // Amir
         default: 'https://dateeverything.wiki.gg/images/thumb/e/e1/Amir_Pose_A.png/320px-Amir_Pose_A.png',
-        love: 'https://dateeverything.wiki.gg/images/thumb/e/e1/Amir_Pose_A.png/320px-Amir_Pose_A.png',
-        friend: 'https://dateeverything.wiki.gg/images/thumb/e/e1/Amir_Pose_A.png/320px-Amir_Pose_A.png',
-        hate: 'https://dateeverything.wiki.gg/images/thumb/e/e1/Amir_Pose_A.png/320px-Amir_Pose_A.png',
+        love: 'https://dateeverything.wiki.gg/images/7/71/Amir_Pose_B_Flirt.png',
+        friend: 'https://dateeverything.wiki.gg/images/4/45/Amir_Pose_C_Joy.png',
+        hate: 'https://dateeverything.wiki.gg/images/thumb/8/81/Amir_Pose_D_Angry.png/800px-Amir_Pose_D_Angry.png',
         realized: 'https://dateeverything.wiki.gg/images/e/e7/Amir_Realized.png'
     },
     46: { // Jean Loo
         default: 'https://dateeverything.wiki.gg/images/thumb/c/c9/Jean_Loo_Pose_A.png/800px-Jean_Loo_Pose_A.png',
-        love: 'https://dateeverything.wiki.gg/images/thumb/c/c9/Jean_Loo_Pose_A.png/800px-Jean_Loo_Pose_A.png',
-        friend: 'https://dateeverything.wiki.gg/images/thumb/c/c9/Jean_Loo_Pose_A.png/800px-Jean_Loo_Pose_A.png',
-        hate: 'https://dateeverything.wiki.gg/images/thumb/c/c9/Jean_Loo_Pose_A.png/800px-Jean_Loo_Pose_A.png',
+        love: 'https://dateeverything.wiki.gg/images/5/5f/Jean_Loo_Pose_B_Flirt.png',
+        friend: 'https://dateeverything.wiki.gg/images/5/57/Jean_Loo_Pose_C_Joy.png',
+        hate: 'https://dateeverything.wiki.gg/images/7/76/Jean_Loo_Pose_D_Angry.png',
         realized: 'https://dateeverything.wiki.gg/images/c/c0/Jean_Loo_Realized.png'
     },
     47: { // Johnny Splash
         default: 'https://dateeverything.wiki.gg/images/9/9d/Johnny_Splash_Pose_A.png',
-        love: 'https://dateeverything.wiki.gg/images/9/9d/Johnny_Splash_Pose_A.png',
-        friend: 'https://dateeverything.wiki.gg/images/9/9d/Johnny_Splash_Pose_A.png',
-        hate: 'https://dateeverything.wiki.gg/images/9/9d/Johnny_Splash_Pose_A.png',
+        love: 'https://dateeverything.wiki.gg/images/thumb/b/ba/Johnny_Splash_Pose_B_Flirt.png/800px-Johnny_Splash_Pose_B_Flirt.png',
+        friend: 'https://dateeverything.wiki.gg/images/thumb/b/bd/Johnny_Splash_Pose_C_Joy.png/800px-Johnny_Splash_Pose_C_Joy.png',
+        hate: 'https://dateeverything.wiki.gg/images/1/18/Johnny_Splash_Pose_D_Angry.png',
         realized: 'https://dateeverything.wiki.gg/images/thumb/b/b8/Johnny_Splash_Realized.png/800px-Johnny_Splash_Realized.png'
     },
     48: { // Bathsheba
         default: 'https://dateeverything.wiki.gg/images/8/85/Bathsheba_Pose_A.png',
-        love: 'https://dateeverything.wiki.gg/images/8/85/Bathsheba_Pose_A.png',
-        friend: 'https://dateeverything.wiki.gg/images/8/85/Bathsheba_Pose_A.png',
-        hate: 'https://dateeverything.wiki.gg/images/8/85/Bathsheba_Pose_A.png',
+        love: 'https://dateeverything.wiki.gg/images/6/68/Bathsheba_Pose_B_Flirt.png',
+        friend: 'https://dateeverything.wiki.gg/images/2/2a/Bathsheba_Pose_C_Joy.png',
+        hate: 'https://dateeverything.wiki.gg/images/7/72/Bathsheba_Pose_D_Angry.png',
         realized: 'https://dateeverything.wiki.gg/images/7/78/Bathsheba_Realized.png'
     },
     49: { // Rebel
         default: 'https://dateeverything.wiki.gg/images/c/c2/Rebel_Pose_A.png',
-        love: 'https://dateeverything.wiki.gg/images/c/c2/Rebel_Pose_A.png',
-        friend: 'https://dateeverything.wiki.gg/images/c/c2/Rebel_Pose_A.png',
-        hate: 'https://dateeverything.wiki.gg/images/c/c2/Rebel_Pose_A.png',
+        love: 'https://dateeverything.wiki.gg/images/2/22/Rebel_Pose_B_Flirt.png',
+        friend: 'https://dateeverything.wiki.gg/images/b/be/Rebel_Pose_C_Joy.png',
+        hate: 'https://dateeverything.wiki.gg/images/2/23/Rebel_Pose_D_Angry.png',
         realized: 'https://dateeverything.wiki.gg/images/f/fa/Rebel_Realized.png'
     },
     50: { // Barry
         default: 'https://dateeverything.wiki.gg/images/a/a8/Barry_Pose_A.png',
-        love: 'https://dateeverything.wiki.gg/images/a/a8/Barry_Pose_A.png',
-        friend: 'https://dateeverything.wiki.gg/images/a/a8/Barry_Pose_A.png',
-        hate: 'https://dateeverything.wiki.gg/images/a/a8/Barry_Pose_A.png',
+        love: 'https://dateeverything.wiki.gg/images/b/b2/Barry_Pose_B_Flirt.png',
+        friend: 'https://dateeverything.wiki.gg/images/thumb/3/3c/Barry_Pose_C_Joy.png/320px-Barry_Pose_C_Joy.png',
+        hate: 'https://dateeverything.wiki.gg/images/thumb/4/49/Barry_Pose_D_Angry.png/320px-Barry_Pose_D_Angry.png',
         realized: 'https://dateeverything.wiki.gg/images/1/18/Barry_Realized.png'
     },
     51: { // Tyrell

@@ -17,10 +17,63 @@
             <button class="tab-button" onclick="switchTab('ngplus')">NG+</button>
             <button class="tab-button" onclick="switchTab('collections')">Collections</button>
             <button class="tab-button disabled">Achievements</button>
-            <button class="tab-button disabled">Character Guides</button>
+            <button class="tab-button disabled">Speedrunning</button>
+            <button class="tab-button disabled">Walkthrough/Guides</button>
+            <button class="tab-button disabled">Date-a-Dex</button>
         </div>
         
         <div id="main-tab" class="tab-content active">
+            <!-- Filters Section -->
+            <div class="filters-section">
+                <div class="filters-header">
+                    <h3>Filters & Sorting</h3>
+                    <button class="filters-toggle" onclick="toggleFilters('main')">Show Filters</button>
+                </div>
+                <div class="filters-content" id="main-filters">
+                    <div class="filters-grid">
+                        <div class="filter-group">
+                            <label>Sort By:</label>
+                            <select id="main-sort" onchange="applyFilters('main')">
+                                <option value="dex">Dex Number</option>
+                                <option value="name">Name (A-Z)</option>
+                                <option value="stat">Stat Type</option>
+                                <option value="relationship">Relationship</option>
+                            </select>
+                        </div>
+                        <div class="filter-group">
+                            <label>Filter by Stat:</label>
+                            <select id="main-stat-filter" onchange="applyFilters('main')">
+                                <option value="">All Stats</option>
+                                <option value="smarts">Smarts</option>
+                                <option value="poise">Poise</option>
+                                <option value="empathy">Empathy</option>
+                                <option value="charm">Charm</option>
+                                <option value="sass">Sass</option>
+                                <option value="choosable">Choosable</option>
+                            </select>
+                        </div>
+                        <div class="filter-group">
+                            <label>Filter by Relationship:</label>
+                            <select id="main-relationship-filter" onchange="applyFilters('main')">
+                                <option value="">All Relationships</option>
+                                <option value="love">Love</option>
+                                <option value="friend">Friend</option>
+                                <option value="hate">Hate</option>
+                                <option value="none">None</option>
+                            </select>
+                        </div>
+                        <div class="filter-group">
+                            <label>Search Name:</label>
+                            <input type="text" id="main-name-search" placeholder="Search..." oninput="applyFilters('main')">
+                        </div>
+                    </div>
+                    <div class="filters-actions">
+                        <button class="btn btn-primary" onclick="applyFilters('main')">Apply Filters</button>
+                        <button class="btn btn-warning" onclick="clearFilters('main')">Clear Filters</button>
+                    </div>
+                </div>
+            </div>
+
             <!-- Main game content -->
             <div class="main-controls">
                 <div class="control-group">
@@ -119,6 +172,57 @@
         </div>
         
         <div id="ngplus-tab" class="tab-content">
+            <!-- Filters Section for NG+ -->
+            <div class="filters-section">
+                <div class="filters-header">
+                    <h3>Filters & Sorting</h3>
+                    <button class="filters-toggle" onclick="toggleFilters('ng')">Show Filters</button>
+                </div>
+                <div class="filters-content" id="ng-filters">
+                    <div class="filters-grid">
+                        <div class="filter-group">
+                            <label>Sort By:</label>
+                            <select id="ng-sort" onchange="applyFilters('ng')">
+                                <option value="dex">Dex Number</option>
+                                <option value="name">Name (A-Z)</option>
+                                <option value="stat">Stat Type</option>
+                                <option value="relationship">Relationship</option>
+                            </select>
+                        </div>
+                        <div class="filter-group">
+                            <label>Filter by Stat:</label>
+                            <select id="ng-stat-filter" onchange="applyFilters('ng')">
+                                <option value="">All Stats</option>
+                                <option value="smarts">Smarts</option>
+                                <option value="poise">Poise</option>
+                                <option value="empathy">Empathy</option>
+                                <option value="charm">Charm</option>
+                                <option value="sass">Sass</option>
+                                <option value="choosable">Choosable</option>
+                            </select>
+                        </div>
+                        <div class="filter-group">
+                            <label>Filter by Relationship:</label>
+                            <select id="ng-relationship-filter" onchange="applyFilters('ng')">
+                                <option value="">All Relationships</option>
+                                <option value="love">Love</option>
+                                <option value="friend">Friend</option>
+                                <option value="hate">Hate</option>
+                                <option value="none">None</option>
+                            </select>
+                        </div>
+                        <div class="filter-group">
+                            <label>Search Name:</label>
+                            <input type="text" id="ng-name-search" placeholder="Search..." oninput="applyFilters('ng')">
+                        </div>
+                    </div>
+                    <div class="filters-actions">
+                        <button class="btn btn-primary" onclick="applyFilters('ng')">Apply Filters</button>
+                        <button class="btn btn-warning" onclick="clearFilters('ng')">Clear Filters</button>
+                    </div>
+                </div>
+            </div>
+
             <!-- NG+ content -->
             <div class="ng-plus-starter">
                 <h3>🌟 New Game Plus - Starting Stats</h3>
@@ -243,7 +347,7 @@
             </div>
         </div>
         
-<div id="collections-tab" class="tab-content">
+        <div id="collections-tab" class="tab-content">
             <div class="collections-header">
                 <h2>Collections</h2>
                 <p>Track your collectables from each character's storyline!</p>
@@ -251,6 +355,9 @@
                 <div class="collections-controls">
                     <button id="collectionsSpoilerToggle" class="toggle-btn" onclick="toggleCollectionsSpoilers()">
                         Spoilers: OFF
+                    </button>
+                    <button id="collectionsDlcToggle" class="toggle-btn" onclick="toggleCollectionsDLC()">
+                        Show DLC: OFF
                     </button>
                     <button id="resetCollections" class="btn btn-danger" onclick="resetCollections()">Reset Collections</button>
                 </div>
@@ -283,10 +390,24 @@
             </div>
         </div>
         
-        <div id="guide-tab" class="tab-content">
+        <div id="speedrunning-tab" class="tab-content">
             <div class="coming-soon">
-                <h2>Character Guides</h2>
-                <p>Guides to get each character's Love, Friend or Hate ending coming soon!</p>
+                <h2>Speedrunning</h2>
+                <p>Tools and timers for speedrunning Date Everything coming soon!</p>
+            </div>
+        </div>
+
+        <div id="walkthrough-tab" class="tab-content">
+            <div class="coming-soon">
+                <h2>Character Guides & Walkthroughs</h2>
+                <p>Guides and Walkthrough to achieve all endings with each character coming soon!</p>
+            </div>
+        </div>
+        
+        <div id="dateadex-tab" class="tab-content">
+            <div class="coming-soon">
+                <h2>Date-a-Dex</h2>
+                <p>Comprehensive character information and dating guides coming soon!</p>
             </div>
         </div>
     </div>

@@ -77,7 +77,7 @@ function canBeRealizedUnified(char) {
     // Check manual dependencies for characters with empty realizationDependencies
     if (char.realizationDependencies.length === 0 && char.id > 2) {
         const manualDeps = charState.manualDependencies || {};
-        const noOneRequired = [14, 16, 20, 23, 24, 37, 42, 46, 54, 68, 89, 93, 94, 95, 99, 100].includes(char.id);
+        const noOneRequired = [].includes(char.id);
         if (!noOneRequired && Object.keys(manualDeps).length === 0) return false;
         
         for (const depName in manualDeps) {
