@@ -1276,14 +1276,22 @@ select {
 }
 
 /* Mobile responsiveness */
+/* Mobile responsiveness */
 @media (max-width: 768px) {
+   /* Enhanced container for mobile - more space and flexibility */
    .container {
-       padding: 15px;
+       padding: 25px; /* Increased from 15px */
+       width: 98%; /* Expanded width */
+       max-width: none; /* Remove constraint */
+       border-radius: 15px;
+       min-height: auto;
+       margin: 10px auto; /* Better screen edge spacing */
    }
    
    .character-grid {
        grid-template-columns: 1fr;
-       gap: 15px;
+       gap: 20px; /* Increased gap */
+       padding: 10px; /* Extra padding around grid */
    }
    
    .stats-display {
@@ -1312,20 +1320,27 @@ select {
        font-size: 0.9rem;
    }
    
+   /* Enhanced character cards for mobile */
    .character-card {
-       min-height: 230px;
-       padding: 15px;
+       min-height: auto; /* Let cards size naturally */
+       padding: 20px; /* Increased padding */
+       margin-bottom: 15px;
+       overflow: visible; /* Allow portraits to extend */
    }
    
+   /* Enhanced character icon container */
    .character-icon {
-       width: 30%;
-       min-width: 80px;
-       height: 200px;
+       width: 35%; /* Keep proportional */
+       min-width: 120px; /* Increased to accommodate full portrait */
+       height: 290px; /* Increased height */
    }
    
+   /* Keep character portraits at full designed size */
    .character-portrait {
-       width: 150px;
-       height: 225px;
+       width: 200px; /* Keep original full size */
+       height: 300px; /* Keep original full size */
+       top: -5px; /* Keep designed overflow */
+       left: -5px;
    }
    
    .character-controls {
@@ -1391,6 +1406,34 @@ select {
        gap: 15px;
    }
    
+   /* Enhanced collections grid for mobile */
+   .collections-grid {
+       grid-template-columns: 1fr;
+       gap: 20px; /* Increased gap */
+       padding: 10px; /* Extra padding */
+   }
+   
+   /* Enhanced collection character cards */
+   .collection-character-card {
+       min-height: auto;
+       padding: 20px; /* Increased padding */
+       margin-bottom: 15px;
+       overflow: visible; /* Allow portraits to extend */
+   }
+   
+   .collection-character-card .character-icon {
+       width: 35%;
+       min-width: 120px; /* Increased to accommodate portrait */
+       height: 290px; /* Increased height */
+   }
+   
+   .collection-character-card .character-portrait {
+       width: 200px; /* Keep full size */
+       height: 300px; /* Keep full size */
+       top: -5px; /* Keep designed overflow */
+       left: -5px;
+   }
+   
    .collectables-grid {
        grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
        gap: 10px;
@@ -1412,11 +1455,20 @@ select {
    .coming-soon p {
        font-size: 1rem;
    }
+   
+   /* Mobile body adjustments */
+   body {
+       padding: 10px;
+   }
 }
 
 @media (max-width: 480px) {
+   /* Enhanced container for extra small screens */
    .container {
-       padding: 10px;
+       padding: 20px;
+       width: 99%;
+       margin: 5px auto;
+       border-radius: 10px;
    }
    
    .stats-display {
@@ -1440,15 +1492,43 @@ select {
        gap: 8px;
    }
    
+   /* Enhanced character cards for extra small screens */
+   .character-card,
+   .collection-character-card {
+       padding: 15px;
+   }
+   
+   .character-grid,
+   .collections-grid {
+       gap: 15px;
+       padding: 5px;
+   }
+   
+   /* Slightly smaller but still full-featured portraits */
    .character-icon {
-       width: 25%;
-       min-width: 60px;
-       height: 150px;
+       width: 30%;
+       min-width: 100px;
+       height: 260px;
    }
    
    .character-portrait {
-       width: 120px;
-       height: 180px;
+       width: 180px; /* Slightly smaller for very small screens */
+       height: 270px;
+       top: -5px;
+       left: -5px;
+   }
+   
+   .collection-character-card .character-icon {
+       width: 30%;
+       min-width: 100px;
+       height: 260px;
+   }
+   
+   .collection-character-card .character-portrait {
+       width: 180px;
+       height: 270px;
+       top: -5px;
+       left: -5px;
    }
    
    .collectables-grid {
@@ -1464,6 +1544,11 @@ select {
    
    h1 {
        font-size: 1.5rem;
+   }
+   
+   /* Extra small mobile body adjustments */
+   body {
+       padding: 5px;
    }
 }
 /* Character name with background for visibility */
