@@ -421,6 +421,11 @@ h1 {
     box-shadow: 0 2px 4px rgba(118, 75, 162, 0.3);
 }
 
+/* Hide text by default */
+.relationship-image-btn .btn-text {
+    display: none;
+}
+
 /* Hide old relationship button styles */
 .relationship-btn {
     display: none;
@@ -1336,15 +1341,40 @@ select {
        gap: 4px;
    }
    
-   .relationship-image-btn {
-       width: 60px;
-       height: 60px;
-   }
-   
-   .relationship-image-btn img {
-       width: 45px;
-       height: 45px;
-   }
+    .relationship-image-btn {
+        width: auto;
+        height: auto;
+        min-width: 60px;
+        min-height: 40px;
+        padding: 8px 12px;
+        font-size: 0.85rem;
+        font-weight: bold;
+        color: #764ba2;
+    }
+    
+    /* Hide images on mobile */
+    .relationship-image-btn img {
+        display: none;
+    }
+    
+    /* Show text on mobile */
+    .relationship-image-btn .btn-text {
+        display: block;
+    }
+    
+    /* Mobile specific hover and active states */
+    .relationship-image-btn:hover {
+        background: #f0f0ff;
+        color: #5a4b8a;
+        transform: none;
+        box-shadow: 0 2px 4px rgba(118, 75, 162, 0.2);
+    }
+    
+    .relationship-image-btn.active {
+        background: #764ba2;
+        color: white;
+        border-color: #764ba2;
+    }
    
    .filters-grid {
        grid-template-columns: 1fr;
@@ -1426,15 +1456,11 @@ select {
        gap: 8px;
    }
    
-   .relationship-image-btn {
-       width: 45px;
-       height: 45px;
-   }
-   
-   .relationship-image-btn img {
-       width: 30px;
-       height: 30px;
-   }
+    .relationship-image-btn {
+        min-width: 50px;
+        padding: 6px 10px;
+        font-size: 0.8rem;
+    }
    
    h1 {
        font-size: 1.5rem;

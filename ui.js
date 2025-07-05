@@ -645,16 +645,19 @@ function renderCharacters() {
             onclick="setCharacterRelationshipUnified(${char.id}, 'love')"
             title="Love">
         <img src="love_icon.webp" alt="Love" />
+        <span class="btn-text">Love</span>
     </button>
     <button class="relationship-image-btn ${charState.relationship === 'friend' ? 'active' : ''}" 
             onclick="setCharacterRelationshipUnified(${char.id}, 'friend')"
             title="Friend">
         <img src="friend_icon.webp" alt="Friend" />
+        <span class="btn-text">Friend</span>
     </button>
     <button class="relationship-image-btn ${charState.relationship === 'hate' ? 'active' : ''}" 
             onclick="setCharacterRelationshipUnified(${char.id}, 'hate')"
             title="Hate">
         <img src="hate_icon.webp" alt="Hate" />
+        <span class="btn-text">Hate</span>
     </button>
 </div>
                             ${char.stat === 'choosable' && charState.relationship ? `
