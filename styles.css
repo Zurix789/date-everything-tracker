@@ -1308,7 +1308,7 @@ select {
    }
    
    .character-card {
-       min-height: auto;
+       min-height: 230px;
        padding: 15px;
    }
    
