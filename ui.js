@@ -1,4 +1,4 @@
-// Complete ui.js file with all enhancements and fixed choosable stats
+// Complete ui.js file with all enhancements
 
 // Global filter state
 let currentFilters = {
@@ -6,7 +6,7 @@ let currentFilters = {
     ng: { sort: 'dex', statFilter: '', relationshipFilter: '', nameSearch: '' }
 };
 
-// Tab switching function
+// Add this to the switchTab function in ui.js:
 function switchTab(tabName) {
     console.log('Switching to tab:', tabName);
     
@@ -640,24 +640,27 @@ function renderCharacters() {
                         ` : ''}
                         ${variantButton}
                         ${charState.met ? `
-                            <div class="relationship-buttons">
-                                <button class="relationship-image-btn ${charState.relationship === 'love' ? 'active' : ''}" 
-                                        onclick="setCharacterRelationshipUnified(${char.id}, 'love')"
-                                        title="Love">
-                                    <img src="love_icon.webp" alt="Love" />
-                                </button>
-                                <button class="relationship-image-btn ${charState.relationship === 'friend' ? 'active' : ''}" 
-                                        onclick="setCharacterRelationshipUnified(${char.id}, 'friend')"
-                                        title="Friend">
-                                    <img src="friend_icon.webp" alt="Friend" />
-                                </button>
-                                <button class="relationship-image-btn ${charState.relationship === 'hate' ? 'active' : ''}" 
-                                        onclick="setCharacterRelationshipUnified(${char.id}, 'hate')"
-                                        title="Hate">
-                                    <img src="hate_icon.webp" alt="Hate" />
-                                </button>
-                            </div>
-                            ${char.stat === 'choosable' ? `
+<div class="relationship-buttons">
+    <button class="relationship-image-btn ${charState.relationship === 'love' ? 'active' : ''}" 
+            onclick="setCharacterRelationshipUnified(${char.id}, 'love')"
+            title="Love">
+        <img src="love_icon.webp" alt="Love" />
+        <span class="btn-text">Love</span>
+    </button>
+    <button class="relationship-image-btn ${charState.relationship === 'friend' ? 'active' : ''}" 
+            onclick="setCharacterRelationshipUnified(${char.id}, 'friend')"
+            title="Friend">
+        <img src="friend_icon.webp" alt="Friend" />
+        <span class="btn-text">Friend</span>
+    </button>
+    <button class="relationship-image-btn ${charState.relationship === 'hate' ? 'active' : ''}" 
+            onclick="setCharacterRelationshipUnified(${char.id}, 'hate')"
+            title="Hate">
+        <img src="hate_icon.webp" alt="Hate" />
+        <span class="btn-text">Hate</span>
+    </button>
+</div>
+                            ${char.stat === 'choosable' && charState.relationship ? `
                                 <div style="margin-top: 10px;">
                                     <strong>Choose Stat:</strong>
                                     <select onchange="setChosenStatUnified(${char.id}, this.value)" value="${charState.chosenStat || ''}">
@@ -685,9 +688,9 @@ function renderCharacters() {
                                 ${charState.realized ? 'Realized' : 'Not Realized'}
                             </button>
                         </div>
-                        <div class="character-stat-display">
-                            <strong>Stat:</strong> ${statDisplay}
-                        </div>
+<div class="character-stat-display">
+    <strong>Stat:</strong> ${statDisplay}
+</div>
                         ${hateMessage}
                         ${hasDetails ? `
                             <div class="character-details collapsed" id="character-details-${char.id}">
@@ -728,12 +731,10 @@ function toggleCharacterDetails(charId) {
     }
 }
 
-// Make all functions globally available
-window.switchTab = switchTab;
+// Make these functions globally available from ui.js as well
 window.getCharacterPortraitUrl = getCharacterPortraitUrl;
 window.getVariantButtonText = getVariantButtonText;
 window.toggleCharacterDetails = toggleCharacterDetails;
 window.toggleFilters = toggleFilters;
 window.applyFilters = applyFilters;
 window.clearFilters = clearFilters;
-window.updateStartingStats = updateStartingStats;
