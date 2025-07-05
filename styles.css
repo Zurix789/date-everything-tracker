@@ -1275,23 +1275,21 @@ select {
    background-image: url('https://dateeverything.wiki.gg/images/2/24/Badge_Sass.png');
 }
 
-/* Mobile responsiveness */
-/* Mobile responsiveness */
+/* Mobile responsiveness - Container adjustments only */
 @media (max-width: 768px) {
-   /* Enhanced container for mobile - more space and flexibility */
+   /* Only adjust the background container to accommodate existing card sizes */
    .container {
-       padding: 25px; /* Increased from 15px */
-       width: 98%; /* Expanded width */
-       max-width: none; /* Remove constraint */
-       border-radius: 15px;
-       min-height: auto;
+       padding: 25px; /* More breathing room around content */
+       width: 98%; /* Wider to accommodate card overflow */
+       max-width: none; /* Remove width constraints */
        margin: 10px auto; /* Better screen edge spacing */
+       border-radius: 15px; /* Slightly smaller radius for mobile */
    }
    
+   /* Keep all existing mobile styles unchanged */
    .character-grid {
        grid-template-columns: 1fr;
-       gap: 20px; /* Increased gap */
-       padding: 10px; /* Extra padding around grid */
+       gap: 15px;
    }
    
    .stats-display {
@@ -1320,27 +1318,20 @@ select {
        font-size: 0.9rem;
    }
    
-   /* Enhanced character cards for mobile */
    .character-card {
-       min-height: auto; /* Let cards size naturally */
-       padding: 20px; /* Increased padding */
-       margin-bottom: 15px;
-       overflow: visible; /* Allow portraits to extend */
+       min-height: 230px;
+       padding: 15px;
    }
    
-   /* Enhanced character icon container */
    .character-icon {
-       width: 35%; /* Keep proportional */
-       min-width: 120px; /* Increased to accommodate full portrait */
-       height: 290px; /* Increased height */
+       width: 30%;
+       min-width: 80px;
+       height: 200px;
    }
    
-   /* Keep character portraits at full designed size */
    .character-portrait {
-       width: 200px; /* Keep original full size */
-       height: 300px; /* Keep original full size */
-       top: -5px; /* Keep designed overflow */
-       left: -5px;
+       width: 150px;
+       height: 225px;
    }
    
    .character-controls {
@@ -1406,34 +1397,6 @@ select {
        gap: 15px;
    }
    
-   /* Enhanced collections grid for mobile */
-   .collections-grid {
-       grid-template-columns: 1fr;
-       gap: 20px; /* Increased gap */
-       padding: 10px; /* Extra padding */
-   }
-   
-   /* Enhanced collection character cards */
-   .collection-character-card {
-       min-height: auto;
-       padding: 20px; /* Increased padding */
-       margin-bottom: 15px;
-       overflow: visible; /* Allow portraits to extend */
-   }
-   
-   .collection-character-card .character-icon {
-       width: 35%;
-       min-width: 120px; /* Increased to accommodate portrait */
-       height: 290px; /* Increased height */
-   }
-   
-   .collection-character-card .character-portrait {
-       width: 200px; /* Keep full size */
-       height: 300px; /* Keep full size */
-       top: -5px; /* Keep designed overflow */
-       left: -5px;
-   }
-   
    .collectables-grid {
        grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
        gap: 10px;
@@ -1456,14 +1419,14 @@ select {
        font-size: 1rem;
    }
    
-   /* Mobile body adjustments */
+   /* Adjust body padding for mobile */
    body {
        padding: 10px;
    }
 }
 
 @media (max-width: 480px) {
-   /* Enhanced container for extra small screens */
+   /* Further container adjustments for very small screens */
    .container {
        padding: 20px;
        width: 99%;
@@ -1471,6 +1434,7 @@ select {
        border-radius: 10px;
    }
    
+   /* Keep all existing extra small screen styles unchanged */
    .stats-display {
        grid-template-columns: 1fr;
        gap: 8px;
@@ -1492,43 +1456,15 @@ select {
        gap: 8px;
    }
    
-   /* Enhanced character cards for extra small screens */
-   .character-card,
-   .collection-character-card {
-       padding: 15px;
-   }
-   
-   .character-grid,
-   .collections-grid {
-       gap: 15px;
-       padding: 5px;
-   }
-   
-   /* Slightly smaller but still full-featured portraits */
    .character-icon {
-       width: 30%;
-       min-width: 100px;
-       height: 260px;
+       width: 25%;
+       min-width: 60px;
+       height: 150px;
    }
    
    .character-portrait {
-       width: 180px; /* Slightly smaller for very small screens */
-       height: 270px;
-       top: -5px;
-       left: -5px;
-   }
-   
-   .collection-character-card .character-icon {
-       width: 30%;
-       min-width: 100px;
-       height: 260px;
-   }
-   
-   .collection-character-card .character-portrait {
-       width: 180px;
-       height: 270px;
-       top: -5px;
-       left: -5px;
+       width: 120px;
+       height: 180px;
    }
    
    .collectables-grid {
@@ -1546,7 +1482,7 @@ select {
        font-size: 1.5rem;
    }
    
-   /* Extra small mobile body adjustments */
+   /* Adjust body padding for extra small screens */
    body {
        padding: 5px;
    }
