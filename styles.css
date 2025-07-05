@@ -145,7 +145,6 @@ h1 {
 .time-slot {
     display: flex;
     align-items: center;
-    gap: 15px;
     margin-bottom: 15px;
     padding: 10px;
     background: #f8f9fa;
@@ -154,7 +153,7 @@ h1 {
 
 .time-label {
     font-weight: bold;
-    min-width: 80px;
+    min-width: 60px;
     color: #764ba2;
 }
 
@@ -173,6 +172,8 @@ h1 {
     transition: transform 0.2s ease, box-shadow 0.2s ease;
     z-index: 0;
     min-height: 350px;
+    margin-bottom: 20px;
+    position: relative;
 }
 
 .character-card:hover {
@@ -186,65 +187,9 @@ h1 {
 
 .character-card.realized {
     border-left: 5px solid #FFD700;
-    background: linear-gradient(135deg, #fff9c4 0%, #fff 100%);
-}
-
-/* Character card relationship colors */
-.character-card.relationship-love {
-    border-left: 5px solid #ff6b6b;
-    background: linear-gradient(135deg, #ffe6e6 0%, #fff 100%);
-}
-
-.character-card.relationship-friend {
-    border-left: 5px solid #ffa726;
-    background: linear-gradient(135deg, #fff8e1 0%, #fff 100%);
-}
-
-.character-card.relationship-hate {
-    border-left: 5px solid #d32f2f;
-    background: linear-gradient(135deg, #ffebee 0%, #fff 100%);
-}
-
-.character-name {
-    font-size: 1.2rem;
-    font-weight: bold;
-    margin-bottom: 10px;
-    color: #764ba2;
-    z-index: 1;
-}
-
-.character-icon {
-    position: relative;
-    width: 35%;
-    min-width: 100px;
-    height: 250px; /* Match portrait height */
-}
-
-.character-icon.not-met {
-    filter: brightness(0) saturate(100%);
-}
-
-.character-icon.love {
-    filter: hue-rotate(320deg) saturate(150%);
-}
-
-.character-icon.friend {
-    filter: hue-rotate(60deg) saturate(120%);
-}
-
-.character-icon.hate {
-    filter: hue-rotate(0deg) saturate(200%) brightness(0.8);
-}
-
-.character-icon.realized {
-    filter: hue-rotate(45deg) saturate(150%) brightness(1.2);
-}
-
-.character-card.realized {
     background: linear-gradient(135deg, #ffd700 0%, #ffed4e 25%, #ffd700 50%, #ffed4e 75%, #ffd700 100%);
     background-size: 200% 200%;
     animation: shimmer 2s ease-in-out infinite;
-    border-left: 5px solid #ffd700;
 }
 
 @keyframes shimmer {
@@ -253,16 +198,102 @@ h1 {
     100% { background-position: 0% 50%; }
 }
 
+/* Character card relationship colors with full stripe backgrounds */
+.character-card.relationship-love {
+    border-left: 5px solid #ff6b6b;
+    background: linear-gradient(135deg, #ffe6e6 0%, #fff 100%);
+    position: relative;
+}
+
+.character-card.relationship-love::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    left: 0;
+    background-image: url('background_love.png');
+    background-size: cover;
+    background-repeat: no-repeat;
+    background-position: right center;
+    z-index: 1;
+    pointer-events: none;
+    border-radius: 10px;
+}
+
+
+.character-card.relationship-friend {
+    border-left: 5px solid #ffa726;
+    background: linear-gradient(135deg, #fff8e1 0%, #fff 100%);
+    position: relative;
+}
+
+.character-card.relationship-friend::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    left: 0;
+    background-image: url('background_friend.png');
+    background-size: cover;
+    background-repeat: no-repeat;
+    background-position: right center;
+    z-index: 1;
+    pointer-events: none;
+    border-radius: 10px;
+}
+
+
+.character-card.relationship-hate {
+    border-left: 5px solid #10175E;
+    background: linear-gradient(135deg, #ffebee 0%, #fff 100%);
+    position: relative;
+}
+
+.character-card.relationship-hate::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    left: 0;
+    background-image: url('background_hate.png');
+    background-size: cover;
+    background-repeat: no-repeat;
+    background-position: right center;
+    z-index: 1;
+    pointer-events: none;
+    border-radius: 10px;
+}
+
+.character-name {
+    font-size: 1.2rem;
+    font-weight: bold;
+    margin-bottom: 10px;
+    color: #764ba2;
+    z-index: 3;
+    position: relative;
+}
+
+.character-icon {
+    position: relative;
+    width: 35%;
+    min-width: 100px;
+    height: 250px;
+    z-index: 2;
+}
+
 .character-portrait {
-    width: 200px; /* Larger than container */
+    width: 200px;
     height: 300px;
     background-size: contain;
     background-position: top left;
     background-repeat: no-repeat;
     position: absolute;
-    top: -5px; /* Extend beyond card */
+    top: -5px;
     left: -5px;
-    z-index: -1;
+    z-index: 2;
     background-image: var(--portrait-url);
 }
 
@@ -291,7 +322,13 @@ h1 {
     flex-wrap: wrap;
     gap: 10px;
     margin-bottom: 15px;
-    z-index: 1;
+    z-index: 3;
+    position: relative;
+}
+
+.character-controls .btn {
+    z-index: 3;
+    position: relative;
 }
 
 .btn {
@@ -301,101 +338,92 @@ h1 {
     cursor: pointer;
     font-size: 0.9rem;
     transition: all 0.2s ease;
-    z-index: 1;
+    z-index: 3;
+    position: relative;
 }
 
 .btn-primary {
     background: #667eea;
     color: white;
-    z-index: 1;
 }
 
 .btn-primary:hover {
     background: #5a6fd8;
-    z-index: 1;
 }
 
 .btn-success {
     background: #4CAF50;
     color: white;
-    z-index: 1;
 }
 
 .btn-success:hover {
     background: #45a049;
-    z-index: 1;
 }
 
 .btn-warning {
     background: #ff9800;
     color: white;
-    z-index: 1;
 }
 
 .btn-warning:hover {
     background: #e68900;
-    z-index: 1;
 }
 
 .btn-danger {
     background: #f44336;
     color: white;
-    z-index: 1;
 }
 
 .btn-danger:hover {
     background: #da190b;
-    z-index: 1;
 }
 
 .relationship-buttons {
     display: flex;
-    gap: 5px;
-    z-index: 1;
+    gap: 8px;
+    z-index: 3;
+    position: relative;
+    flex-wrap: wrap;
+    margin-top: 10px;
 }
 
-.relationship-btn {
-    padding: 5px 10px;
+.relationship-image-btn {
+    padding: 8px;
     border: 2px solid #ddd;
     background: white;
-    border-radius: 5px;
+    border-radius: 8px;
     cursor: pointer;
     transition: all 0.2s ease;
-    color: #333;
-    font-weight: bold;
-    z-index: 1;
+    z-index: 3;
+    position: relative;
+    width: 50px;
+    height: 50px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
 }
 
-.relationship-btn.active.love {
-    background: linear-gradient(135deg, #ff6b6b 0%, #ffd93d 100%);
-    color: white;
-    border-color: #ff6b6b;
-    text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.3);
+.relationship-image-btn img {
+    width: 45px;
+    height: 45px;
+    object-fit: contain;
 }
 
-.relationship-btn.active.friend {
-    background: linear-gradient(135deg, #ffa726 0%, #fff176 100%);
-    color: #333;
-    border-color: #ffa726;
-    text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.2);
+.relationship-image-btn:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+    border-color: #999;
 }
 
-.relationship-btn.active.hate {
-    background: linear-gradient(135deg, #212121 0%, #d32f2f 100%);
-    color: white;
-    border-color: #212121;
-    text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.5);
-}
-
-.relationship-btn:hover {
-    transform: translateY(-1px);
-    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
-}
-
-.relationship-btn.active {
-    background: #764ba2;
-    color: white;
+.relationship-image-btn.active {
     border-color: #764ba2;
+    background: #f0f0ff;
+    box-shadow: 0 2px 4px rgba(118, 75, 162, 0.3);
+}
+
+/* Hide old relationship button styles */
+.relationship-btn {
+    display: none;
 }
 
 .location-tracker {
@@ -403,6 +431,8 @@ h1 {
     padding: 15px;
     border-radius: 10px;
     margin-top: 15px;
+    z-index: 3;
+    position: relative;
 }
 
 .location-grid {
@@ -431,6 +461,8 @@ select {
     border-radius: 6px;
     font-size: 0.9rem;
     flex: 1;
+    z-index: 3;
+    position: relative;
 }
 
 .toggle-btn {
@@ -442,7 +474,8 @@ select {
     cursor: pointer;
     font-size: 1rem;
     transition: background 0.2s ease;
-    z-index: 1;
+    z-index: 3;
+    position: relative;
 }
 
 .toggle-btn:hover {
@@ -496,7 +529,8 @@ select {
     border-radius: 6px;
     margin-top: 10px;
     border-left: 4px solid #ffc107;
-    z-index: 1;
+    z-index: 3;
+    position: relative;
 }
 
 .requirements-list ul {
@@ -523,7 +557,8 @@ select {
     border-radius: 6px;
     margin-top: 10px;
     border-left: 4px solid #2196F3;
-    z-index: 1;
+    z-index: 3;
+    position: relative;
 }
 
 .dependency-requirements {
@@ -532,7 +567,8 @@ select {
     border-radius: 6px;
     margin-top: 10px;
     border-left: 4px solid #9c27b0;
-    z-index: 1;
+    z-index: 3;
+    position: relative;
 }
 
 .disabled {
@@ -550,6 +586,8 @@ select {
     background: #f8f9fa;
     border-radius: 6px;
     border-left: 4px solid #9c27b0;
+    z-index: 3;
+    position: relative;
 }
 
 .dependency-item {
@@ -574,6 +612,8 @@ select {
     background: #fff3cd;
     border-radius: 6px;
     border-left: 4px solid #ffc107;
+    z-index: 3;
+    position: relative;
 }
 
 .manual-dependency input {
@@ -718,6 +758,8 @@ select {
     padding: 10px;
     margin-top: 10px;
     font-size: 0.9rem;
+    z-index: 3;
+    position: relative;
 }
 
 .content-warning-header {
@@ -826,6 +868,7 @@ select {
     transition: transform 0.2s ease, box-shadow 0.2s ease;
     z-index: 0;
     min-height: 350px;
+    position: relative;
 }
 
 .collection-character-card:hover {
@@ -837,12 +880,13 @@ select {
     border-left: 5px solid #4CAF50;
 }
 
-/* Use the same character icon styling as the main cards */
+
 .collection-character-card .character-icon {
     position: relative;
     width: 35%;
     min-width: 100px;
     height: 250px;
+    z-index: 2;
 }
 
 .collection-character-card .character-portrait {
@@ -854,7 +898,7 @@ select {
     position: absolute;
     top: -5px;
     left: -5px;
-    z-index: -1;
+    z-index: 2;
     background-image: var(--portrait-url);
 }
 
@@ -867,13 +911,18 @@ select {
     font-weight: bold;
     margin-bottom: 10px;
     color: #764ba2;
-    z-index: 1;
+    z-index: 3;
     position: relative;
+}
+
+.collection-character-card > div {
+    position: relative;
+    z-index: 3;
 }
 
 .collectables-section {
     margin-top: 15px;
-    z-index: 1;
+    z-index: 3;
     position: relative;
 }
 
@@ -884,14 +933,14 @@ select {
     margin-bottom: 15px;
     padding-bottom: 10px;
     border-bottom: 2px solid #f0f0f0;
-    z-index: 1;
+    z-index: 3;
 }
 
 .collectables-header h4 {
     margin: 0;
     color: #764ba2;
     font-size: 1.1rem;
-    z-index: 1;
+    z-index: 3;
 }
 
 .expand-btn {
@@ -903,20 +952,20 @@ select {
     cursor: pointer;
     font-size: 0.9rem;
     transition: background 0.2s ease;
-    z-index: 1;
+    z-index: 3;
     position: relative;
 }
 
 .expand-btn:hover {
     background: #5a6fd8;
-    z-index: 1;
+    z-index: 3;
 }
 
 .collectables-grid {
     display: grid;
     grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
     gap: 15px;
-    z-index: 1;
+    z-index: 3;
     position: relative;
 }
 
@@ -930,459 +979,511 @@ select {
     padding: 15px;
     transition: all 0.2s ease;
     border: 2px solid transparent;
-    z-index: 1;
+    z-index: 3;
     position: relative;
 }
 
 .collectable-item:hover {
     background: #e9ecef;
     transform: translateY(-2px);
-    z-index: 1;
+    z-index: 3;
 }
 
 .collectable-item.collected {
     background: linear-gradient(135deg, #d4edda 0%, #c3e6cb 100%);
     border-color: #4CAF50;
-    z-index: 1;
+    z-index: 3;
 }
 
 .collectable-image {
     position: relative;
     margin-bottom: 10px;
-    z-index: 1;
+    z-index: 3;
     display: flex;
     justify-content: center;
-    align-items: center;
+    align-items:center;
 }
 
 .collectable-image img {
-    width: 35%;
-    height: 35%;
-    object-fit: cover;
-    border-radius: 6px;
-    transition: filter 0.2s ease;
-    z-index: 1;
-    display: block;
-    margin: 0 auto;
+   width: 35%;
+   height: 35%;
+   object-fit: cover;
+   border-radius: 6px;
+   transition: filter 0.2s ease;
+   z-index: 3;
+   display: block;
+   margin: 0 auto;
 }
 
 .collectable-image img.mystery {
-    filter: brightness(0) saturate(100%) blur(8px);
+   filter: brightness(0) saturate(100%) blur(8px);
 }
 
 .collection-checkbox {
-    position: absolute;
-    top: 8px;
-    right: 8px;
-    z-index: 1;
+   position: absolute;
+   top: 8px;
+   right: 8px;
+   z-index: 3;
 }
 
 .collection-checkbox input[type="checkbox"] {
-    width: 20px;
-    height: 20px;
-    cursor: pointer;
-    accent-color: #4CAF50;
-    z-index: 1;
+   width: 20px;
+   height: 20px;
+   cursor: pointer;
+   accent-color: #4CAF50;
+   z-index: 3;
 }
 
 .collection-checkbox label {
-    margin: 0;
-    cursor: pointer;
-    z-index: 1;
+   margin: 0;
+   cursor: pointer;
+   z-index: 3;
 }
 
 .collectable-details {
-    text-align: left;
-    z-index: 1;
-    position: relative;
+   text-align: left;
+   z-index: 3;
+   position: relative;
 }
 
 .collectable-clue {
-    font-weight: bold;
-    color: #764ba2;
-    font-size: 0.9rem;
-    margin-bottom: 5px;
-    line-height: 1.3;
-    z-index: 1;
+   font-weight: bold;
+   color: #764ba2;
+   font-size: 0.9rem;
+   margin-bottom: 5px;
+   line-height: 1.3;
+   z-index: 3;
 }
 
 .collectable-description {
-    font-size: 0.85rem;
-    color: #666;
-    line-height: 1.4;
-    font-style: italic;
-    z-index: 1;
+   font-size: 0.85rem;
+   color: #666;
+   line-height: 1.4;
+   font-style: italic;
+   z-index: 3;
 }
 
 /* Special styling for developer collectables */
 .collectable-description strong {
-    color: #764ba2;
-    font-weight: bold;
+   color: #764ba2;
+   font-weight: bold;
 }
 
 /* Content warning styling for collections */
 .collection-character-card .content-warning {
-    background: linear-gradient(135deg, #ffebee 0%, #f3e5f5 100%);
-    border: 2px solid #e91e63;
-    border-radius: 8px;
-    padding: 10px;
-    margin-top: 10px;
-    margin-bottom: 15px;
-    font-size: 0.9rem;
-    z-index: 1;
-    position: relative;
+   background: linear-gradient(135deg, #ffebee 0%, #f3e5f5 100%);
+   border: 2px solid #e91e63;
+   border-radius: 8px;
+   padding: 10px;
+   margin-top: 10px;
+   margin-bottom: 15px;
+   font-size: 0.9rem;
+   z-index: 3;
+   position: relative;
 }
 
 .collection-character-card .content-warning-header {
-    font-weight: bold;
-    color: #ad1457;
-    margin-bottom: 5px;
-    display: flex;
-    align-items: center;
-    gap: 5px;
-    z-index: 1;
+   font-weight: bold;
+   color: #ad1457;
+   margin-bottom: 5px;
+   display: flex;
+   align-items: center;
+   gap: 5px;
+   z-index: 3;
 }
 
 .collection-character-card .content-warning-text {
-    color: #880e4f;
-    font-style: italic;
-    z-index: 1;
+   color: #880e4f;
+   font-style: italic;
+   z-index: 3;
 }
 
 /* Character details expansion */
 .character-details {
-    margin-top: 15px;
-    transition: all 0.3s ease;
-    overflow: hidden;
-    z-index: 1;
-    position: relative;
+   margin-top: 15px;
+   transition: all 0.3s ease;
+   overflow: hidden;
+   z-index: 3;
+   position: relative;
 }
 
 .character-details.collapsed {
-    max-height: 0;
-    margin-top: 0;
-    opacity: 0;
+   max-height: 0;
+   margin-top: 0;
+   opacity: 0;
 }
 
 .character-details:not(.collapsed) {
-    max-height: 1000px;
-    opacity: 1;
+   max-height: 1000px;
+   opacity: 1;
+}
+
+.character-details > * {
+   margin-bottom: 10px;
+   z-index: 3;
+   position: relative;
+}
+
+.character-details > *:last-child {
+   margin-bottom: 0;
 }
 
 /* Variant portrait support for dual characters */
 .character-portrait.variant-alt {
-    background-image: var(--portrait-realized-url, var(--portrait-url));
+   background-image: var(--portrait-realized-url, var(--portrait-url));
 }
 
 /* Enhanced character controls layout */
 .character-controls {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 10px;
-    margin-bottom: 15px;
-    z-index: 1;
-    align-items: center;
+   display: flex;
+   flex-wrap: wrap;
+   gap: 10px;
+   margin-bottom: 15px;
+   z-index: 3;
+   align-items: center;
+   position: relative;
 }
 
 .character-controls .btn {
-    white-space: nowrap;
+   white-space: nowrap;
+   z-index: 3;
+   position: relative;
 }
 
-/* Relationship buttons styling adjustment */
-.relationship-buttons {
-    display: flex;
-    gap: 5px;
-    z-index: 1;
-    flex-wrap: wrap;
-}
-
-/* Improved spacing for character cards */
-.character-card {
-    background: white;
-    border-radius: 15px;
-    padding: 20px;
-    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.1);
-    transition: transform 0.2s ease, box-shadow 0.2s ease;
-    z-index: 0;
-    min-height: 350px;
-    margin-bottom: 20px;
-}
-
-/* Make sure details don't interfere with card layout */
-.character-details > * {
-    margin-bottom: 10px;
-}
-
-.character-details > *:last-child {
-    margin-bottom: 0;
+/* Ensure all character card content is properly layered */
+.character-card div:not(.character-icon) {
+   position: relative;
+   z-index: 3;
 }
 
 /* Filters Section */
 .filters-section {
-    background: white;
-    padding: 20px;
-    border-radius: 15px;
-    margin-bottom: 30px;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+   background: white;
+   padding: 20px;
+   border-radius: 15px;
+   margin-bottom: 30px;
+   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
 }
 
 .filters-header {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    margin-bottom: 15px;
+   display: flex;
+   justify-content: space-between;
+   align-items: center;
+   margin-bottom: 15px;
 }
 
 .filters-toggle {
-    background: #667eea;
-    color: white;
-    border: none;
-    padding: 8px 16px;
-    border-radius: 6px;
-    cursor: pointer;
-    font-size: 0.9rem;
-    transition: background 0.2s ease;
+   background: #667eea;
+   color: white;
+   border: none;
+   padding: 8px 16px;
+   border-radius: 6px;
+   cursor: pointer;
+   font-size: 0.9rem;
+   transition: background 0.2s ease;
 }
 
 .filters-toggle:hover {
-    background: #5a6fd8;
+   background: #5a6fd8;
 }
 
 .filters-content {
-    display: none;
+   display: none;
 }
 
 .filters-content.expanded {
-    display: block;
+   display: block;
 }
 
 .filters-grid {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-    gap: 15px;
-    margin-bottom: 15px;
+   display: grid;
+   grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+   gap: 15px;
+   margin-bottom: 15px;
 }
 
 .filter-group {
-    display: flex;
-    flex-direction: column;
-    gap: 5px;
+   display: flex;
+   flex-direction: column;
+   gap: 5px;
 }
 
 .filter-group label {
-    font-weight: bold;
-    color: #764ba2;
-    font-size: 0.9rem;
+   font-weight: bold;
+   color: #764ba2;
+   font-size: 0.9rem;
 }
 
 .filter-group select,
 .filter-group input {
-    padding: 8px;
-    border: 2px solid #ddd;
-    border-radius: 6px;
-    font-size: 0.9rem;
+   padding: 8px;
+   border: 2px solid #ddd;
+   border-radius: 6px;
+   font-size: 0.9rem;
 }
 
 .filters-actions {
-    display: flex;
-    gap: 10px;
-    justify-content: center;
-    flex-wrap: wrap;
+   display: flex;
+   gap: 10px;
+   justify-content: center;
+   flex-wrap: wrap;
 }
 
 .filters-actions .btn {
-    padding: 8px 16px;
-    border: none;
-    border-radius: 6px;
-    cursor: pointer;
-    font-size: 0.9rem;
-    transition: all 0.2s ease;
+   padding: 8px 16px;
+   border: none;
+   border-radius: 6px;
+   cursor: pointer;
+   font-size: 0.9rem;
+   transition: all 0.2s ease;
 }
 
 /* Stat icons */
 .stat-icon {
-    width: 20px;
-    height: 20px;
-    background-size: contain;
-    background-repeat: no-repeat;
-    background-position: center;
-    display: inline-block;
-    vertical-align: middle;
-    margin-right: 5px;
+   width: 20px;
+   height: 20px;
+   background-size: contain;
+   background-repeat: no-repeat;
+   background-position: center;
+   display: inline-block;
+   vertical-align: middle;
+   margin-right: 5px;
 }
 
 .stat-icon.smarts {
-    background-image: url('https://dateeverything.wiki.gg/images/2/29/Badge_Smarts.png');
+   background-image: url('https://dateeverything.wiki.gg/images/2/29/Badge_Smarts.png');
 }
 
 .stat-icon.poise {
-    background-image: url('https://dateeverything.wiki.gg/images/b/b3/Badge_Poise.png');
+   background-image: url('https://dateeverything.wiki.gg/images/b/b3/Badge_Poise.png');
 }
 
 .stat-icon.empathy {
-    background-image: url('https://dateeverything.wiki.gg/images/6/6e/Badge_Empathy.png');
+   background-image: url('https://dateeverything.wiki.gg/images/6/6e/Badge_Empathy.png');
 }
 
 .stat-icon.charm {
-    background-image: url('https://dateeverything.wiki.gg/images/d/d1/Badge_Charm.png');
+   background-image: url('https://dateeverything.wiki.gg/images/d/d1/Badge_Charm.png');
 }
 
 .stat-icon.sass {
-    background-image: url('https://dateeverything.wiki.gg/images/2/24/Badge_Sass.png');
+   background-image: url('https://dateeverything.wiki.gg/images/2/24/Badge_Sass.png');
 }
 
 /* Mobile responsiveness */
 @media (max-width: 768px) {
-    .container {
-        padding: 15px;
-    }
-    
-    .character-grid {
-        grid-template-columns: 1fr;
-        gap: 15px;
-    }
-    
-    .stats-display {
-        grid-template-columns: repeat(2, 1fr);
-        gap: 10px;
-        padding: 15px;
-    }
-    
-    .summary-stats {
-        grid-template-columns: repeat(2, 1fr);
-        gap: 15px;
-    }
-    
-    .main-controls {
-        flex-direction: column;
-        gap: 10px;
-    }
-    
-    .tab-buttons {
-        flex-direction: column;
-        gap: 5px;
-    }
-    
-    .tab-button {
-        padding: 10px 16px;
-        font-size: 0.9rem;
-    }
-    
-    .character-card {
-        min-height: auto;
-        padding: 15px;
-    }
-    
-    .character-icon {
-        width: 30%;
-        min-width: 80px;
-        height: 200px;
-    }
-    
-    .character-portrait {
-        width: 150px;
-        height: 225px;
-    }
-    
-    .character-controls {
-        gap: 8px;
-    }
-    
-    .btn {
-        padding: 6px 12px;
-        font-size: 0.8rem;
-    }
-    
-    .relationship-buttons {
-        gap: 4px;
-    }
-    
-    .relationship-btn {
-        padding: 4px 8px;
-        font-size: 0.8rem;
-    }
-    
-    .filters-grid {
-        grid-template-columns: 1fr;
-        gap: 10px;
-    }
-    
-    .collections-controls {
-        flex-direction: column;
-        gap: 8px;
-    }
-    
-    .collections-summary {
-        grid-template-columns: repeat(3, 1fr);
-        gap: 15px;
-    }
-    
-    .collectables-grid {
-        grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
-        gap: 10px;
-    }
-    
-    .starter-stats {
-        grid-template-columns: repeat(2, 1fr);
-        gap: 10px;
-    }
-    
-    h1 {
-        font-size: 2rem;
-    }
-    
-    .coming-soon h2 {
-        font-size: 2rem;
-    }
-    
-    .coming-soon p {
-        font-size: 1rem;
-    }
+   .container {
+       padding: 15px;
+   }
+   
+   .character-grid {
+       grid-template-columns: 1fr;
+       gap: 15px;
+   }
+   
+   .stats-display {
+       grid-template-columns: repeat(2, 1fr);
+       gap: 10px;
+       padding: 15px;
+   }
+   
+   .summary-stats {
+       grid-template-columns: repeat(2, 1fr);
+       gap: 15px;
+   }
+   
+   .main-controls {
+       flex-direction: column;
+       gap: 10px;
+   }
+   
+   .tab-buttons {
+       flex-direction: column;
+       gap: 5px;
+   }
+   
+   .tab-button {
+       padding: 10px 16px;
+       font-size: 0.9rem;
+   }
+   
+   .character-card {
+       min-height: auto;
+       padding: 15px;
+   }
+   
+   .character-icon {
+       width: 30%;
+       min-width: 80px;
+       height: 200px;
+   }
+   
+   .character-portrait {
+       width: 150px;
+       height: 225px;
+   }
+   
+   .character-controls {
+       gap: 8px;
+   }
+   
+   .btn {
+       padding: 6px 12px;
+       font-size: 0.8rem;
+   }
+   
+   .relationship-buttons {
+       gap: 4px;
+   }
+   
+   .relationship-image-btn {
+       width: 40px;
+       height: 40px;
+   }
+   
+   .relationship-image-btn img {
+       width: 24px;
+       height: 24px;
+   }
+   
+   .filters-grid {
+       grid-template-columns: 1fr;
+       gap: 10px;
+   }
+   
+   .collections-controls {
+       flex-direction: column;
+       gap: 8px;
+   }
+   
+   .collections-summary {
+       grid-template-columns: repeat(3, 1fr);
+       gap: 15px;
+   }
+   
+   .collectables-grid {
+       grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+       gap: 10px;
+   }
+   
+   .starter-stats {
+       grid-template-columns: repeat(2, 1fr);
+       gap: 10px;
+   }
+   
+   h1 {
+       font-size: 2rem;
+   }
+   
+   .coming-soon h2 {
+       font-size: 2rem;
+   }
+   
+   .coming-soon p {
+       font-size: 1rem;
+   }
 }
 
 @media (max-width: 480px) {
-    .container {
-        padding: 10px;
-    }
-    
-    .stats-display {
-        grid-template-columns: 1fr;
-        gap: 8px;
-        padding: 10px;
-    }
-    
-    .summary-stats {
-        grid-template-columns: 1fr;
-        gap: 10px;
-    }
-    
-    .collections-summary {
-        grid-template-columns: 1fr;
-        gap: 10px;
-    }
-    
-    .starter-stats {
-        grid-template-columns: 1fr;
-        gap: 8px;
-    }
-    
-    .character-icon {
-        width: 25%;
-        min-width: 60px;
-        height: 150px;
-    }
-    
-    .character-portrait {
-        width: 120px;
-        height: 180px;
-    }
-    
-    .collectables-grid {
-        grid-template-columns: 1fr;
-        gap: 8px;
-    }
-    
-    h1 {
-        font-size: 1.5rem;
-    }
+   .container {
+       padding: 10px;
+   }
+   
+   .stats-display {
+       grid-template-columns: 1fr;
+       gap: 8px;
+       padding: 10px;
+   }
+   
+   .summary-stats {
+       grid-template-columns: 1fr;
+       gap: 10px;
+   }
+   
+   .collections-summary {
+       grid-template-columns: 1fr;
+       gap: 10px;
+   }
+   
+   .starter-stats {
+       grid-template-columns: 1fr;
+       gap: 8px;
+   }
+   
+   .character-icon {
+       width: 25%;
+       min-width: 60px;
+       height: 150px;
+   }
+   
+   .character-portrait {
+       width: 120px;
+       height: 180px;
+   }
+   
+   .collectables-grid {
+       grid-template-columns: 1fr;
+       gap: 8px;
+   }
+   
+   .relationship-image-btn {
+       width: 35px;
+       height: 35px;
+   }
+   
+   .relationship-image-btn img {
+       width: 20px;
+       height: 20px;
+   }
+   
+   h1 {
+       font-size: 1.5rem;
+   }
+}
+/* Character name with background for visibility */
+.character-name {
+    font-size: 1.2rem;
+    font-weight: bold;
+    margin-bottom: 10px;
+    color: #764ba2;
+    z-index: 3;
+    position: relative;
+    background: rgba(255, 255, 255, 0.9);
+    padding: 8px 12px;
+    border-radius: 8px;
+    backdrop-filter: blur(5px);
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    display: inline-block;
+}
+
+/* Stat display with background for visibility */
+.character-stat-display {
+    background: rgba(255, 255, 255, 0.9);
+    padding: 8px 12px;
+    border-radius: 8px;
+    backdrop-filter: blur(5px);
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    display: inline-block;
+    margin-top: 10px;
+    font-size: 0.9rem;
+    color: #333;
+    font-weight: bold;
+    z-index: 3;
+    position: relative;
+}
+
+/* Collection character name styling */
+.collection-character-card .character-name {
+    font-size: 1.2rem;
+    font-weight: bold;
+    margin-bottom: 10px;
+    color: #764ba2;
+    z-index: 3;
+    position: relative;
+    background: rgba(255, 255, 255, 0.9);
+    padding: 8px 12px;
+    border-radius: 8px;
+    backdrop-filter: blur(5px);
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    display: inline-block;
 }

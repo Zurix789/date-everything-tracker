@@ -74,21 +74,24 @@ function canBeRealizedUnified(char) {
         if (!dependenciesMet) return false;
     }
     
-    // Check manual dependencies for characters with empty realizationDependencies
-    if (char.realizationDependencies.length === 0 && char.id > 2) {
-        const manualDeps = charState.manualDependencies || {};
-        const noOneRequired = [].includes(char.id);
-        if (!noOneRequired && Object.keys(manualDeps).length === 0) return false;
-        
-        for (const depName in manualDeps) {
-            if (manualDeps[depName]) {
-                const depChar = characters.find(c => c.name === depName);
-                if (depChar && !state.characters[depChar.id].storyComplete) {
-                    return false;
-                }
+// Check manual dependencies for characters with empty realizationDependencies
+if (char.realizationDependencies.length === 0 && char.id > 2) {
+    const manualDeps = charState.manualDependencies || {};
+    const noOneRequired = [].includes(char.id);
+    // Allow realization if under investigation (no manual dependencies set yet)
+    if (!noOneRequired && Object.keys(manualDeps).length === 0) {
+        return true; // Changed from false to true - allow realization when under investigation
+    }
+    
+    for (const depName in manualDeps) {
+        if (manualDeps[depName]) {
+            const depChar = characters.find(c => c.name === depName);
+            if (depChar && !state.characters[depChar.id].storyComplete) {
+                return false;
             }
         }
     }
+}
     
     return true;
 }
