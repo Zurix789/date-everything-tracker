@@ -2,8 +2,9 @@
 
 // Global filter state
 let currentFilters = {
-    main: { sort: 'dex', statFilter: '', relationshipFilter: '', storyFilter: '', timeslotFilter: '', nameSearch: '' },
-    ng: { sort: 'dex', statFilter: '', relationshipFilter: '', storyFilter: '', timeslotFilter: '', nameSearch: '' }
+    main: { sort: 'dex', statFilter: '', relationshipFilter: '', nameSearch: '' },
+    ng: { sort: 'dex', statFilter: '', relationshipFilter: '', nameSearch: '' },
+    collections: { sort: 'dex', completionFilter: '', metFilter: '', nameSearch: '' }
 };
 
 // Add this to the switchTab function in ui.js:
@@ -53,30 +54,36 @@ function toggleFilters(tabPrefix) {
 }
 
 function applyFilters(tabPrefix) {
+    if (tabPrefix === 'collections') {
+        applyCollectionsFilters();
+        return;
+    }
+    
     const sort = document.getElementById(`${tabPrefix}-sort`).value;
     const statFilter = document.getElementById(`${tabPrefix}-stat-filter`).value;
     const relationshipFilter = document.getElementById(`${tabPrefix}-relationship-filter`).value;
-    const storyFilter = document.getElementById(`${tabPrefix}-story-filter`).value;
-    const timeslotFilter = document.getElementById(`${tabPrefix}-timeslot-filter`).value;
     const nameSearch = document.getElementById(`${tabPrefix}-name-search`).value.toLowerCase();
     
     currentFilters[tabPrefix === 'main' ? 'main' : 'ng'] = {
-        sort, statFilter, relationshipFilter, storyFilter, timeslotFilter, nameSearch
+        sort, statFilter, relationshipFilter, nameSearch
     };
     
     renderCharacters();
 }
 
 function clearFilters(tabPrefix) {
+    if (tabPrefix === 'collections') {
+        clearCollectionsFilters();
+        return;
+    }
+    
     document.getElementById(`${tabPrefix}-sort`).value = 'dex';
     document.getElementById(`${tabPrefix}-stat-filter`).value = '';
     document.getElementById(`${tabPrefix}-relationship-filter`).value = '';
-    document.getElementById(`${tabPrefix}-story-filter`).value = '';
-    document.getElementById(`${tabPrefix}-timeslot-filter`).value = '';
     document.getElementById(`${tabPrefix}-name-search`).value = '';
     
     currentFilters[tabPrefix === 'main' ? 'main' : 'ng'] = {
-        sort: 'dex', statFilter: '', relationshipFilter: '', storyFilter: '', timeslotFilter: '', nameSearch: ''
+        sort: 'dex', statFilter: '', relationshipFilter: '', nameSearch: ''
     };
     
     renderCharacters();
@@ -97,20 +104,29 @@ function filterAndSortCharacters(charactersToRender) {
             if (charStat !== filters.statFilter) return false;
         }
         
-        // Relationship filter
-        if (filters.relationshipFilter) {
-            if (filters.relationshipFilter === 'none') {
-                if (charState.relationship !== null) return false;
-            } else {
-                if (charState.relationship !== filters.relationshipFilter) return false;
-            }
-        }
+// Relationship filter
+if (filters.relationshipFilter) {
+    if (filters.relationshipFilter === 'none') {
+        if (charState.relationship !== null) return false;
+    } else if (filters.relationshipFilter === 'not-met') {
+        if (charState.met !== false) return false;
+    } else if (filters.relationshipFilter === 'hide-completed') {
+        if (charState.storyComplete === true) return false;
+    } else {
+        if (charState.relationship !== filters.relationshipFilter) return false;
+    }
+}
         
-        // Name search
-        if (filters.nameSearch) {
-            const displayName = getCharacterDisplayNameUnified(char);
-            if (!displayName.toLowerCase().includes(filters.nameSearch)) return false;
-        }
+// Name search - search both name and object, works for met and unmet characters
+if (filters.nameSearch) {
+    const searchTerm = filters.nameSearch.toLowerCase();
+    const charName = char.name.toLowerCase(); // Always use the actual character name
+    const objectName = (char.object || '').toLowerCase();
+    
+    if (!charName.includes(searchTerm) && !objectName.includes(searchTerm)) {
+        return false;
+    }
+}
         // Story status filter
 if (filters.storyFilter) {
     if (filters.storyFilter === 'incomplete') {
@@ -147,8 +163,11 @@ if (filters.timeslotFilter) {
         switch (filters.sort) {
             case 'dex':
                 return a.id - b.id;
-            case 'name':
-                return getCharacterDisplayNameUnified(a).localeCompare(getCharacterDisplayNameUnified(b));
+case 'name':
+    // Sort by character name only, not the display name with numbers
+    const aName = a.name;
+    const bName = b.name;
+    return aName.localeCompare(bName);
             case 'stat':
                 const aStatDisplay = a.stat === 'choosable' ? (state.characters[a.id].chosenStat || 'choosable') : a.stat;
                 const bStatDisplay = b.stat === 'choosable' ? (state.characters[b.id].chosenStat || 'choosable') : b.stat;
@@ -607,7 +626,7 @@ function renderCharacters() {
         // Build manual dependencies display
         let manualDependenciesDisplay = '';
         if (charState.met && char.realizationDependencies.length === 0 && !canRealize) {
-            const noOneRequired = [].includes(char.id);
+            const noOneRequired = [68].includes(char.id);
             if (!noOneRequired) {
                 manualDependenciesDisplay = `
                     <div class="manual-dependency">
@@ -891,6 +910,100 @@ function updateRelationshipStats() {
         if (hateEl) hateEl.textContent = hateCount;
         if (noneEl) noneEl.textContent = noRelationshipCount;
     }
+}
+
+// Collections filtering and sorting functions
+function filterAndSortCollections(charactersToRender) {
+    const filters = currentFilters.collections;
+    
+    // Apply filters
+    let filteredCharacters = charactersToRender.filter(char => {
+        const charCollectables = getCharacterCollectables(char.id);
+        const hasBeenMet = hasBeenMetInEitherMode(char.id);
+        
+        // Completion filter
+        if (filters.completionFilter) {
+            const collectedCount = charCollectables.filter(c => hasCollectable(char.id, c.id)).length;
+            const isCompleted = collectedCount === charCollectables.length;
+            
+            if (filters.completionFilter === 'completed' && !isCompleted) return false;
+            if (filters.completionFilter === 'incomplete' && isCompleted) return false;
+        }
+        
+        // Met filter
+        if (filters.metFilter) {
+            if (filters.metFilter === 'met' && !hasBeenMet) return false;
+            if (filters.metFilter === 'not-met' && hasBeenMet) return false;
+        }
+        
+        // Name search - search both name and object
+        if (filters.nameSearch) {
+            const searchTerm = filters.nameSearch.toLowerCase();
+            const charName = char.name.toLowerCase();
+            const objectName = (char.object || '').toLowerCase();
+            
+            if (!charName.includes(searchTerm) && !objectName.includes(searchTerm)) {
+                return false;
+            }
+        }
+        
+        return true;
+    });
+    
+    // Apply sorting
+    filteredCharacters.sort((a, b) => {
+        const aCollectables = getCharacterCollectables(a.id);
+        const bCollectables = getCharacterCollectables(b.id);
+        
+        switch (filters.sort) {
+            case 'dex':
+                return a.id - b.id;
+            case 'name':
+                return a.name.localeCompare(b.name);
+            case 'completion-max':
+                const aPercent = aCollectables.length > 0 ? 
+                    (aCollectables.filter(c => hasCollectable(a.id, c.id)).length / aCollectables.length) : 0;
+                const bPercent = bCollectables.length > 0 ? 
+                    (bCollectables.filter(c => hasCollectable(b.id, c.id)).length / bCollectables.length) : 0;
+                return bPercent - aPercent; // Max first (descending)
+            case 'completion-min':
+                const aPercentMin = aCollectables.length > 0 ? 
+                    (aCollectables.filter(c => hasCollectable(a.id, c.id)).length / aCollectables.length) : 0;
+                const bPercentMin = bCollectables.length > 0 ? 
+                    (bCollectables.filter(c => hasCollectable(b.id, c.id)).length / bCollectables.length) : 0;
+                return aPercentMin - bPercentMin; // Min first (ascending)
+            default:
+                return a.id - b.id;
+        }
+    });
+    
+    return filteredCharacters;
+}
+
+function applyCollectionsFilters() {
+    const sort = document.getElementById('collections-sort').value;
+    const completionFilter = document.getElementById('collections-completion-filter').value;
+    const metFilter = document.getElementById('collections-met-filter').value;
+    const nameSearch = document.getElementById('collections-name-search').value.toLowerCase();
+    
+    currentFilters.collections = {
+        sort, completionFilter, metFilter, nameSearch
+    };
+    
+    renderCollections();
+}
+
+function clearCollectionsFilters() {
+    document.getElementById('collections-sort').value = 'dex';
+    document.getElementById('collections-completion-filter').value = '';
+    document.getElementById('collections-met-filter').value = '';
+    document.getElementById('collections-name-search').value = '';
+    
+    currentFilters.collections = {
+        sort: 'dex', completionFilter: '', metFilter: '', nameSearch: ''
+    };
+    
+    renderCollections();
 }
 
 // Make these functions globally available from ui.js as well

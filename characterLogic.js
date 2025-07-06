@@ -77,7 +77,7 @@ function canBeRealizedUnified(char) {
 // Check manual dependencies for characters with empty realizationDependencies
 if (char.realizationDependencies.length === 0 && char.id > 2) {
     const manualDeps = charState.manualDependencies || {};
-    const noOneRequired = [].includes(char.id);
+    const noOneRequired = [68].includes(char.id);
     // Allow realization if under investigation (no manual dependencies set yet)
     if (!noOneRequired && Object.keys(manualDeps).length === 0) {
         return true; // Changed from false to true - allow realization when under investigation

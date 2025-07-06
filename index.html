@@ -43,7 +43,7 @@
                             <label>Sort By:</label>
                             <select id="main-sort" onchange="applyFilters('main')">
                                 <option value="dex">Dex Number</option>
-                                <option value="name">Name (A-Z)</option>
+    <option value="name">By Name</option>
                                 <option value="stat">Stat Type</option>
                                 <option value="relationship">Relationship</option>
                             </select>
@@ -62,13 +62,15 @@
                         </div>
                         <div class="filter-group">
                             <label>Filter by Relationship:</label>
-                            <select id="main-relationship-filter" onchange="applyFilters('main')">
-                                <option value="">All Relationships</option>
-                                <option value="love">Love</option>
-                                <option value="friend">Friend</option>
-                                <option value="hate">Hate</option>
-                                <option value="none">None</option>
-                            </select>
+<select id="main-relationship-filter" onchange="applyFilters('main')">
+    <option value="">All Relationships</option>
+    <option value="love">Love</option>
+    <option value="friend">Friend</option>
+    <option value="hate">Hate</option>
+    <option value="none">None</option>
+    <option value="not-met">Not Met</option>
+    <option value="hide-completed">Hide Completed</option>
+</select>
                         </div>
                         <div class="filter-group">
     <label>Filter by Story Status:</label>
@@ -238,7 +240,7 @@
                             <label>Sort By:</label>
                             <select id="ng-sort" onchange="applyFilters('ng')">
                                 <option value="dex">Dex Number</option>
-                                <option value="name">Name (A-Z)</option>
+    <option value="name">By Name</option>
                                 <option value="stat">Stat Type</option>
                                 <option value="relationship">Relationship</option>
                             </select>
@@ -257,13 +259,15 @@
                         </div>
                         <div class="filter-group">
                             <label>Filter by Relationship:</label>
-                            <select id="ng-relationship-filter" onchange="applyFilters('ng')">
-                                <option value="">All Relationships</option>
-                                <option value="love">Love</option>
-                                <option value="friend">Friend</option>
-                                <option value="hate">Hate</option>
-                                <option value="none">None</option>
-                            </select>
+<select id="ng-relationship-filter" onchange="applyFilters('ng')">
+    <option value="">All Relationships</option>
+    <option value="love">Love</option>
+    <option value="friend">Friend</option>
+    <option value="hate">Hate</option>
+    <option value="none">None</option>
+    <option value="not-met">Not Met</option>
+    <option value="hide-completed">Hide Completed</option>
+</select>
                         </div>
                         <div class="filter-group">
     <label>Filter by Story Status:</label>
@@ -452,15 +456,62 @@
                 <h2>Collections</h2>
                 <p>Track your collectables from each character's storyline!</p>
                 
-                <div class="collections-controls">
-                    <button id="collectionsSpoilerToggle" class="toggle-btn" onclick="toggleCollectionsSpoilers()">
-                        Spoilers: OFF
-                    </button>
-                    <button id="collectionsDlcToggle" class="toggle-btn" onclick="toggleCollectionsDLC()">
-                        Show DLC: OFF
-                    </button>
-                    <button id="resetCollections" class="btn btn-danger" onclick="resetCollections()">Reset Collections</button>
-                </div>
+<div class="collections-controls">
+    <button id="collectionsSpoilerToggle" class="toggle-btn" onclick="toggleCollectionsSpoilers()">
+        Spoilers: OFF
+    </button>
+    <button id="collectionsDlcToggle" class="toggle-btn" onclick="toggleCollectionsDLC()">
+        Show DLC: OFF
+    </button>
+    <button id="resetCollections" class="btn btn-danger" onclick="resetCollections()">
+        Reset Collections
+    </button>
+</div>
+
+<!-- ADD THIS NEW SECTION -->
+<div class="filters-section">
+    <div class="filters-header">
+        <h3>Filters & Sorting</h3>
+        <button class="filters-toggle" onclick="toggleFilters('collections')">Show Filters</button>
+    </div>
+    <div class="filters-content" id="collections-filters">
+        <div class="filters-grid">
+            <div class="filter-group">
+                <label>Sort By:</label>
+                <select id="collections-sort" onchange="applyFilters('collections')">
+                    <option value="dex">By Dex Number</option>
+                    <option value="name">By Name</option>
+                    <option value="completion-max">Completion % (Max First)</option>
+                    <option value="completion-min">Completion % (Min First)</option>
+                </select>
+            </div>
+            <div class="filter-group">
+                <label>Filter by Completion:</label>
+                <select id="collections-completion-filter" onchange="applyFilters('collections')">
+                    <option value="">All Characters</option>
+                    <option value="completed">Collections Completed</option>
+                    <option value="incomplete">Collections Incomplete</option>
+                </select>
+            </div>
+            <div class="filter-group">
+                <label>Filter by Met Status:</label>
+                <select id="collections-met-filter" onchange="applyFilters('collections')">
+                    <option value="">All Characters</option>
+                    <option value="met">Met</option>
+                    <option value="not-met">Not Met</option>
+                </select>
+            </div>
+            <div class="filter-group">
+                <label>Search Name:</label>
+                <input type="text" id="collections-name-search" placeholder="Search..." oninput="applyFilters('collections')">
+            </div>
+        </div>
+        <div class="filters-actions">
+            <button class="btn btn-primary" onclick="applyFilters('collections')">Apply Filters</button>
+            <button class="btn btn-warning" onclick="clearFilters('collections')">Clear Filters</button>
+        </div>
+    </div>
+</div>
                 
                 <div class="collections-summary" id="collectionsSummary">
                     <div class="collections-stat">

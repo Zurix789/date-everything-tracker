@@ -130,7 +130,17 @@ function renderCollections() {
     
     collectionsGrid.innerHTML = '';
 
-    characters.forEach(char => {
+// Get characters with collectables and apply filters
+let charactersWithCollectables = characters.filter(char => {
+    const charCollectables = getCharacterCollectables(char.id);
+    return charCollectables.length > 0;
+});
+
+// Apply filters and sorting
+charactersWithCollectables = filterAndSortCollections(charactersWithCollectables);
+
+charactersWithCollectables.forEach(char => {
+    // Rest of the existing forEach code stays the same...
         const charState = getCurrentGameState().characters[char.id];
         const charCollectables = getCharacterCollectables(char.id);
         
@@ -439,3 +449,5 @@ window.toggleCollectionsDLC = toggleCollectionsDLC;
 window.resetCollections = resetCollections;
 window.renderCollections = renderCollections;
 window.updateCollectionsSummary = updateCollectionsSummary;
+window.applyCollectionsFilters = applyCollectionsFilters;
+window.clearCollectionsFilters = clearCollectionsFilters;
