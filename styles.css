@@ -1276,12 +1276,7 @@ select {
 }
 
 /* Mobile responsiveness - Container adjustments only */
-.collections-grid {
-       grid-template-columns: 1fr;
-       gap: 15px;
-       width: 100%;
-       max-width: 100%;
-   }/* Mobile responsiveness - Bounded cards with scaled content */
+/* Mobile responsiveness - Width-constrained cards with flexible height */
 @media (max-width: 768px) {
    .container {
        padding: 15px;
@@ -1290,8 +1285,15 @@ select {
    .character-grid {
        grid-template-columns: 1fr;
        gap: 15px;
-       width: 100%; /* Ensure grid uses full container width */
-       max-width: 100%; /* Prevent grid from exceeding container */
+       width: 100%;
+       max-width: 100%;
+   }
+   
+   .collections-grid {
+       grid-template-columns: 1fr;
+       gap: 15px;
+       width: 100%;
+       max-width: 100%;
    }
    
    .stats-display {
@@ -1320,23 +1322,19 @@ select {
        font-size: 0.9rem;
    }
    
-   /* Bounded character cards with width constraints */
+   /* Width-constrained character cards with flexible height for expansion */
    .character-card {
-       min-height: 200px; /* Reduced height */
-       max-height: 250px; /* Maximum height constraint */
-       padding: 12px; /* Reduced padding */
-       overflow: hidden; /* Prevent content from overflowing */
+       min-height: 200px;
+       padding: 12px;
        position: relative;
-       width: 100%; /* Ensure full container width usage */
-       max-width: calc(100vw - 50px); /* Never exceed viewport minus margins */
-       box-sizing: border-box; /* Include padding in width calculation */
+       width: 100%;
+       max-width: calc(100vw - 50px);
+       box-sizing: border-box;
    }
    
    .collection-character-card {
        min-height: 200px;
-       max-height: 250px;
        padding: 12px;
-       overflow: hidden;
        position: relative;
        width: 100%;
        max-width: calc(100vw - 50px);
@@ -1345,10 +1343,10 @@ select {
    
    /* Scaled character icon container */
    .character-icon {
-       width: 25%; /* Reduced width */
-       min-width: 60px; /* Smaller minimum */
-       height: 160px; /* Reduced height to fit in card */
-       max-height: 160px; /* Constrain height */
+       width: 25%;
+       min-width: 60px;
+       height: 160px;
+       max-height: 160px;
    }
    
    .collection-character-card .character-icon {
@@ -1360,14 +1358,14 @@ select {
    
    /* Scaled character portraits */
    .character-portrait {
-       width: 100px; /* Significantly reduced */
-       height: 150px; /* Scaled down proportionally */
-       max-width: 100px; /* Constrain width */
-       max-height: 150px; /* Constrain height */
-       top: 0; /* Remove overflow positioning */
-       left: 0; /* Remove overflow positioning */
-       background-size: contain; /* Ensure full image fits */
-       background-position: center; /* Center the image */
+       width: 100px;
+       height: 150px;
+       max-width: 100px;
+       max-height: 150px;
+       top: 0;
+       left: 0;
+       background-size: contain;
+       background-position: center;
    }
    
    .collection-character-card .character-portrait {
@@ -1381,18 +1379,17 @@ select {
        background-position: center;
    }
    
-   /* Ensure background images stay within card bounds */
+   /* Keep background images contained within card bounds */
    .character-card::before {
-       background-size: contain; /* Scale background to fit */
+       background-size: contain;
        background-position: right center;
-       opacity: 0.3; /* Reduce opacity so content is readable */
    }
    
    /* Scaled text and controls */
    .character-name {
-       font-size: 1rem; /* Smaller font */
-       margin-bottom: 6px; /* Reduced margin */
-       padding: 6px 8px; /* Smaller padding */
+       font-size: 1rem;
+       margin-bottom: 6px;
+       padding: 6px 8px;
    }
    
    .collection-character-card .character-name {
@@ -1402,41 +1399,38 @@ select {
    }
    
    .character-controls {
-       gap: 6px; /* Reduced gap */
-       margin-bottom: 8px; /* Reduced margin */
+       gap: 6px;
+       margin-bottom: 8px;
    }
    
    .btn {
-       padding: 4px 8px; /* Smaller buttons */
-       font-size: 0.75rem; /* Smaller text */
+       padding: 4px 8px;
+       font-size: 0.75rem;
    }
    
    .relationship-buttons {
-       gap: 3px; /* Tighter spacing */
+       gap: 3px;
    }
    
     .relationship-image-btn {
         width: auto;
         height: auto;
-        min-width: 45px; /* Smaller minimum */
-        min-height: 30px; /* Smaller height */
-        padding: 6px 8px; /* Reduced padding */
-        font-size: 0.7rem; /* Smaller font */
+        min-width: 45px;
+        min-height: 30px;
+        padding: 6px 8px;
+        font-size: 0.7rem;
         font-weight: bold;
         color: #764ba2;
     }
     
-    /* Hide images on mobile */
     .relationship-image-btn img {
         display: none;
     }
     
-    /* Show text on mobile */
     .relationship-image-btn .btn-text {
         display: block;
     }
     
-    /* Mobile specific hover and active states */
     .relationship-image-btn:hover {
         background: #f0f0ff;
         color: #5a4b8a;
@@ -1450,43 +1444,43 @@ select {
         border-color: #764ba2;
     }
    
-   /* Scaled collectables section */
+   /* Scaled collectables section - allows expansion */
    .collectables-section {
-       margin-top: 8px; /* Reduced margin */
+       margin-top: 8px;
    }
    
    .collectables-header h4 {
-       font-size: 0.9rem; /* Smaller heading */
+       font-size: 0.9rem;
    }
    
    .expand-btn {
-       padding: 6px 12px; /* Smaller button */
+       padding: 6px 12px;
        font-size: 0.8rem;
    }
    
    .collectables-grid {
-       grid-template-columns: repeat(auto-fill, minmax(120px, 1fr)); /* Smaller items */
-       gap: 8px; /* Reduced gap */
+       grid-template-columns: repeat(auto-fill, minmax(120px, 1fr));
+       gap: 8px;
    }
    
    .collectable-item {
-       padding: 8px; /* Reduced padding */
+       padding: 8px;
    }
    
    .collectable-image img {
-       width: 40px; /* Fixed smaller size */
+       width: 40px;
        height: 40px;
        max-width: 40px;
        max-height: 40px;
    }
    
    .collectable-clue {
-       font-size: 0.8rem; /* Smaller text */
+       font-size: 0.8rem;
        margin-bottom: 3px;
    }
    
    .collectable-description {
-       font-size: 0.7rem; /* Smaller description */
+       font-size: 0.7rem;
    }
    
    .filters-grid {
@@ -1520,6 +1514,31 @@ select {
    .coming-soon p {
        font-size: 1rem;
    }
+   
+   /* Time slot dropdown constraints */
+   .time-slot {
+       width: 100%;
+       max-width: 100%;
+       box-sizing: border-box;
+   }
+   
+   .time-slot select {
+       width: 100%;
+       max-width: calc(100vw - 80px);
+       box-sizing: border-box;
+       font-size: 0.9rem;
+       padding: 8px;
+       text-overflow: ellipsis;
+       white-space: nowrap;
+       overflow: hidden;
+   }
+   
+   .time-slot option {
+       max-width: 100%;
+       text-overflow: ellipsis;
+       white-space: nowrap;
+       overflow: hidden;
+   }
 }
 
 @media (max-width: 480px) {
@@ -1527,14 +1546,13 @@ select {
        padding: 10px;
    }
    
-   /* Even more constrained cards for small screens */
+   /* Even more constrained width for small screens, flexible height */
    .character-card,
    .collection-character-card {
-       min-height: 180px; /* Further reduced */
-       max-height: 220px;
+       min-height: 180px;
        padding: 10px;
        width: 100%;
-       max-width: calc(100vw - 30px); /* Tighter constraint for small screens */
+       max-width: calc(100vw - 30px);
        box-sizing: border-box;
    }
    
@@ -1551,7 +1569,7 @@ select {
    }
    
    .character-portrait {
-       width: 80px; /* Even smaller */
+       width: 80px;
        height: 120px;
        max-width: 80px;
        max-height: 120px;
@@ -1620,6 +1638,13 @@ select {
    
    h1 {
        font-size: 1.5rem;
+   }
+   
+   /* Tighter time slot dropdown constraints for small screens */
+   .time-slot select {
+       max-width: calc(100vw - 40px);
+       font-size: 0.8rem;
+       padding: 6px;
    }
 }
 /* Character name with background for visibility */
