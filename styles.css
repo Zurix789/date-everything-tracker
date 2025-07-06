@@ -1275,7 +1275,164 @@ select {
    background-image: url('https://dateeverything.wiki.gg/images/2/24/Badge_Sass.png');
 }
 
-/* Mobile responsiveness - Container adjustments only */
+/* Samsung Galaxy S22 Ultra and similar large phones (384px viewport) */
+@media (max-width: 400px) {
+   .container {
+       padding: 8px;
+   }
+   
+   /* Optimized for Galaxy S22 Ultra (384px viewport) */
+   .character-card,
+   .collection-character-card {
+       padding: 8px;
+       max-width: calc(100vw - 70px); /* Specific constraint for 384px viewport */
+   }
+   
+   .character-icon {
+       width: 20%;
+       min-width: 50px;
+       height: 130px;
+   }
+   
+   .collection-character-card .character-icon {
+       width: 20%;
+       min-width: 50px;
+       height: 130px;
+   }
+   
+   .character-portrait {
+       width: 75px;
+       height: 110px;
+       max-width: 75px;
+       max-height: 110px;
+   }
+   
+   .collection-character-card .character-portrait {
+       width: 75px;
+       height: 110px;
+       max-width: 75px;
+       max-height: 110px;
+   }
+   
+   .character-name {
+       font-size: 0.85rem;
+       padding: 4px 6px;
+   }
+   
+   .collection-character-card .character-name {
+       font-size: 0.85rem;
+       padding: 4px 6px;
+   }
+   
+   .btn {
+       padding: 3px 5px;
+       font-size: 0.68rem;
+   }
+   
+   .relationship-image-btn {
+       min-width: 38px;
+       padding: 3px 5px;
+       font-size: 0.62rem;
+   }
+   
+   .time-slot select {
+       max-width: calc(100vw - 80px);
+       font-size: 0.77rem;
+       padding: 5px;
+   }
+}
+
+/* Add extra small phone breakpoint for very narrow screens */
+@media (max-width: 360px) {
+   .container {
+       padding: 8px;
+   }
+   
+   /* Maximum constraints for very small phones */
+   .character-card,
+   .collection-character-card {
+       padding: 8px;
+       max-width: calc(100vw - 80px); /* Very aggressive constraint */
+   }
+   
+   .character-icon {
+       width: 18%;
+       min-width: 45px;
+       height: 120px;
+   }
+   
+   .collection-character-card .character-icon {
+       width: 18%;
+       min-width: 45px;
+       height: 120px;
+   }
+   
+   .character-portrait {
+       width: 70px;
+       height: 105px;
+       max-width: 70px;
+       max-height: 105px;
+   }
+   
+   .collection-character-card .character-portrait {
+       width: 70px;
+       height: 105px;
+       max-width: 70px;
+       max-height: 105px;
+   }
+   
+   .character-name {
+       font-size: 0.8rem;
+       padding: 3px 5px;
+   }
+   
+   .collection-character-card .character-name {
+       font-size: 0.8rem;
+       padding: 3px 5px;
+   }
+   
+   .btn {
+       padding: 2px 4px;
+       font-size: 0.65rem;
+   }
+   
+   .relationship-image-btn {
+       min-width: 35px;
+       padding: 3px 4px;
+       font-size: 0.6rem;
+   }
+   
+   .time-slot select {
+       max-width: calc(100vw - 90px);
+       font-size: 0.75rem;
+       padding: 4px;
+   }
+}/* Large screen constraints - prevent cards from getting too wide */
+@media (min-width: 1200px) and (max-width: 1500px) {
+   /* Samsung Galaxy S22 Ultra and similar high-res mobile devices */
+   .character-card,
+   .collection-character-card {
+       max-width: 420px; /* Constrain for 1440px width devices */
+       box-sizing: border-box;
+   }
+   
+   .character-grid {
+       grid-template-columns: repeat(auto-fill, minmax(380px, 420px));
+       justify-content: center;
+   }
+   
+   .collections-grid {
+       grid-template-columns: repeat(auto-fill, minmax(380px, 420px));
+       justify-content: center;
+   }
+   
+   .time-slot select {
+       max-width: calc(100vw - 100px);
+       box-sizing: border-box;
+   }
+}
+
+
 /* Mobile responsiveness - Width-constrained cards with flexible height */
 @media (max-width: 768px) {
    .container {
@@ -1552,7 +1709,7 @@ select {
        min-height: 180px;
        padding: 10px;
        width: 100%;
-       max-width: calc(100vw - 30px);
+       max-width: calc(100vw - 60px); /* More aggressive constraint */
        box-sizing: border-box;
    }
    
@@ -1642,7 +1799,7 @@ select {
    
    /* Tighter time slot dropdown constraints for small screens */
    .time-slot select {
-       max-width: calc(100vw - 40px);
+       max-width: calc(100vw - 70px); /* More aggressive constraint */
        font-size: 0.8rem;
        padding: 6px;
    }
