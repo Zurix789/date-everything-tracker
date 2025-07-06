@@ -293,7 +293,7 @@ h1 {
     position: absolute;
     top: -5px;
     left: -5px;
-    z-index: 2;
+    z-index: 1;
     background-image: var(--portrait-url);
 }
 
@@ -891,7 +891,7 @@ select {
     width: 35%;
     min-width: 100px;
     height: 250px;
-    z-index: 2;
+    z-index: 1;
 }
 
 .collection-character-card .character-portrait {
@@ -903,7 +903,7 @@ select {
     position: absolute;
     top: -5px;
     left: -5px;
-    z-index: 2;
+    z-index: 1;
     background-image: var(--portrait-url);
 }
 
@@ -1083,7 +1083,7 @@ select {
    margin-top: 10px;
    margin-bottom: 15px;
    font-size: 0.9rem;
-   z-index: 3;
+   z-index: 5;
    position: relative;
 }
 
