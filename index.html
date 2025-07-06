@@ -79,6 +79,14 @@
         <option value="realizable">Realizable</option>
     </select>
 </div>
+<div class="filter-group">
+    <label>Filter by Time Slots:</label>
+    <select id="main-timeslot-filter" onchange="applyFilters('main')">
+        <option value="">All Characters</option>
+        <option value="scheduled">Scheduled in Time Slots</option>
+        <option value="not-scheduled">Not Scheduled</option>
+    </select>
+</div>
                         <div class="filter-group">
                             <label>Search Name:</label>
                             <input type="text" id="main-name-search" placeholder="Search..." oninput="applyFilters('main')">
@@ -181,6 +189,11 @@
                         <option value="">Select Character</option>
                     </select>
                 </div>
+                    <div class="time-slot-controls">
+        <button class="btn btn-warning" onclick="resetTimeSlots()">
+            🔄 Reset Time Slots
+        </button>
+    </div>
             </div>
 
             <div class="character-grid" id="characterGrid">
@@ -235,6 +248,14 @@
         <option value="incomplete">Story Incomplete</option>
         <option value="complete">Story Complete</option>
         <option value="realizable">Realizable</option>
+    </select>
+</div>
+<div class="filter-group">
+    <label>Filter by Time Slots:</label>
+    <select id="main-timeslot-filter" onchange="applyFilters('main')">
+        <option value="">All Characters</option>
+        <option value="scheduled">Scheduled in Time Slots</option>
+        <option value="not-scheduled">Not Scheduled</option>
     </select>
 </div>
                         <div class="filter-group">
@@ -366,6 +387,11 @@
                         <option value="">Select Character</option>
                     </select>
                 </div>
+                    <div class="time-slot-controls">
+        <button class="btn btn-warning" onclick="resetTimeSlots()">
+            🔄 Reset Time Slots
+        </button>
+    </div>
             </div>
 
             <div class="character-grid" id="ngCharacterGrid">

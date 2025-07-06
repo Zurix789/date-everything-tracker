@@ -100,6 +100,7 @@ function setupEventListeners() {
     });
 
     // Time slot change handlers for main game
+// Time slot change handlers for main game
 ['9am', '12pm', '3pm', '6pm', '9pm'].forEach(slot => {
     const mainSlot = document.getElementById(`slot${slot}`);
     if (mainSlot) {
@@ -108,6 +109,8 @@ function setupEventListeners() {
             saveState();
             // Refresh all time slot dropdowns to reflect the change
             updateTimeSlots();
+            // Auto-refresh filters if time slot filter is active
+            refreshFiltersIfNeeded();
         });
     }
     
@@ -118,6 +121,8 @@ function setupEventListeners() {
             saveNgPlusState();
             // Refresh all time slot dropdowns to reflect the change
             updateTimeSlots();
+            // Auto-refresh filters if time slot filter is active
+            refreshFiltersIfNeeded();
         });
     }
 });
@@ -468,6 +473,16 @@ function toggleCharacterVariant(charId) {
     // Save state and update just this character in place
     saveStateUnified();
     renderSingleCharacterInPlace(charId);
+}
+// Check if time slot filter is active and refresh the display
+function refreshFiltersIfNeeded() {
+    const filterKey = isNgPlus ? 'ng' : 'main';
+    const filters = currentFilters[filterKey];
+    
+    // If time slot filter is active, re-render characters to show updated results
+    if (filters.timeslotFilter && filters.timeslotFilter !== '') {
+        renderCharacters();
+    }
 }
 
 // Make functions global for onclick handlers

@@ -2175,3 +2175,32 @@ select {
             font-size: 0.8rem;
             z-index: 999;
         }
+.time-slot-controls {
+    margin-top: 15px;
+    display: flex;
+    gap: 10px;
+    justify-content: center;
+    flex-wrap: wrap;
+}
+
+.time-slot-controls .btn {
+    padding: 10px 20px;
+    font-weight: bold;
+    border-radius: 8px;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+@media (max-width: 768px) {
+    .time-slot-controls {
+        flex-direction: column;
+        align-items: center;
+    }
+    
+    .time-slot-controls .btn {
+        width: 100%;
+        max-width: 250px;
+        justify-content: center;
+    }
+}

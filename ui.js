@@ -2,8 +2,8 @@
 
 // Global filter state
 let currentFilters = {
-    main: { sort: 'dex', statFilter: '', relationshipFilter: '', storyFilter: '', nameSearch: '' },
-    ng: { sort: 'dex', statFilter: '', relationshipFilter: '', storyFilter: '', nameSearch: '' }
+    main: { sort: 'dex', statFilter: '', relationshipFilter: '', storyFilter: '', timeslotFilter: '', nameSearch: '' },
+    ng: { sort: 'dex', statFilter: '', relationshipFilter: '', storyFilter: '', timeslotFilter: '', nameSearch: '' }
 };
 
 // Add this to the switchTab function in ui.js:
@@ -57,10 +57,11 @@ function applyFilters(tabPrefix) {
     const statFilter = document.getElementById(`${tabPrefix}-stat-filter`).value;
     const relationshipFilter = document.getElementById(`${tabPrefix}-relationship-filter`).value;
     const storyFilter = document.getElementById(`${tabPrefix}-story-filter`).value;
+    const timeslotFilter = document.getElementById(`${tabPrefix}-timeslot-filter`).value;
     const nameSearch = document.getElementById(`${tabPrefix}-name-search`).value.toLowerCase();
     
     currentFilters[tabPrefix === 'main' ? 'main' : 'ng'] = {
-        sort, statFilter, relationshipFilter, storyFilter, nameSearch
+        sort, statFilter, relationshipFilter, storyFilter, timeslotFilter, nameSearch
     };
     
     renderCharacters();
@@ -71,10 +72,11 @@ function clearFilters(tabPrefix) {
     document.getElementById(`${tabPrefix}-stat-filter`).value = '';
     document.getElementById(`${tabPrefix}-relationship-filter`).value = '';
     document.getElementById(`${tabPrefix}-story-filter`).value = '';
+    document.getElementById(`${tabPrefix}-timeslot-filter`).value = '';
     document.getElementById(`${tabPrefix}-name-search`).value = '';
     
     currentFilters[tabPrefix === 'main' ? 'main' : 'ng'] = {
-        sort: 'dex', statFilter: '', relationshipFilter: '', storyFilter: '', nameSearch: ''
+        sort: 'dex', statFilter: '', relationshipFilter: '', storyFilter: '', timeslotFilter: '', nameSearch: ''
     };
     
     renderCharacters();
@@ -120,6 +122,20 @@ if (filters.storyFilter) {
     } else if (filters.storyFilter === 'realizable') {
         // Show characters who can be realized (story complete + can realize)
         if (!charState.storyComplete || !canBeRealizedUnified(char)) return false;
+    }
+}
+// Time slot filter
+if (filters.timeslotFilter) {
+    const scheduledCharacterIds = Object.values(state.timeSlots)
+        .filter(charId => charId !== '')
+        .map(charId => parseInt(charId));
+    
+    if (filters.timeslotFilter === 'scheduled') {
+        // Show only characters scheduled in time slots
+        if (!scheduledCharacterIds.includes(char.id)) return false;
+    } else if (filters.timeslotFilter === 'not-scheduled') {
+        // Show only characters NOT scheduled in time slots
+        if (scheduledCharacterIds.includes(char.id)) return false;
     }
 }
         
@@ -266,6 +282,26 @@ function updateTimeSlots() {
             });
         }
     });
+}
+
+
+// Reset all time slots (clear all selections)
+function resetTimeSlots() {
+    if (confirm('Are you sure you want to clear all time slot selections?')) {
+        const state = getCurrentGameState();
+        const slots = ['9am', '12pm', '3pm', '6pm', '9pm'];
+        
+        // Clear all time slots
+        slots.forEach(slot => {
+            state.timeSlots[slot] = '';
+        });
+        
+        saveStateUnified();
+        updateTimeSlots();
+        // Auto-refresh filters if time slot filter is active
+        refreshFiltersIfNeeded();
+        alert('🔄 All time slots have been cleared!');
+    }
 }
 
 // Update starting stats for NG+ - ensure recalculation happens
