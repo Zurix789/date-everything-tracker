@@ -2292,7 +2292,7 @@ select {
     }
     
     .relationship-icon {
-        width: 24px;
-        height: 24px;
+        width: 25%;
+        height: 25%;
     }
 }
