@@ -242,9 +242,9 @@ function updateSummaryStats() {
         if (realizedEl) realizedEl.textContent = realizedCount;
         if (completionEl) completionEl.textContent = `${completionRate}%`;
     }
+    updateRelationshipStats();
 }
 
-// Update time slots dropdown - fixed to work with both states
 // Update time slots dropdown - fixed to work with both states and hide already scheduled characters
 function updateTimeSlots() {
     const state = getCurrentGameState();
@@ -701,7 +701,7 @@ function renderCharacters() {
                             </button>
                         ` : ''}
                         ${variantButton}
-                        ${charState.met ? `
+                        ${charState.met && !charState.realized ? `
 <div class="relationship-buttons">
     <button class="relationship-image-btn ${charState.relationship === 'love' ? 'active' : ''}" 
             onclick="setCharacterRelationshipUnified(${char.id}, 'love')"
@@ -840,6 +840,58 @@ function toggleCharacterDetails(charId) {
         document.addEventListener('DOMContentLoaded', function() {
             updateModeDisplay();
         });
+
+// Update relationship stats
+function updateRelationshipStats() {
+    const state = getCurrentGameState();
+    let loveCount = 0;
+    let friendCount = 0;
+    let hateCount = 0;
+    let noRelationshipCount = 0;
+    
+    characters.forEach(char => {
+        const charState = state.characters[char.id];
+        if (charState && charState.met) {
+            switch (charState.relationship) {
+                case 'love':
+                    loveCount++;
+                    break;
+                case 'friend':
+                    friendCount++;
+                    break;
+                case 'hate':
+                    hateCount++;
+                    break;
+                default:
+                    noRelationshipCount++;
+                    break;
+            }
+        }
+    });
+    
+    // Update the appropriate elements based on current tab
+    if (isNgPlus) {
+        const loveEl = document.getElementById('ngLoveCount');
+        const friendEl = document.getElementById('ngFriendCount');
+        const hateEl = document.getElementById('ngHateCount');
+        const noneEl = document.getElementById('ngNoRelationshipCount');
+        
+        if (loveEl) loveEl.textContent = loveCount;
+        if (friendEl) friendEl.textContent = friendCount;
+        if (hateEl) hateEl.textContent = hateCount;
+        if (noneEl) noneEl.textContent = noRelationshipCount;
+    } else {
+        const loveEl = document.getElementById('loveCount');
+        const friendEl = document.getElementById('friendCount');
+        const hateEl = document.getElementById('hateCount');
+        const noneEl = document.getElementById('noRelationshipCount');
+        
+        if (loveEl) loveEl.textContent = loveCount;
+        if (friendEl) friendEl.textContent = friendCount;
+        if (hateEl) hateEl.textContent = hateCount;
+        if (noneEl) noneEl.textContent = noRelationshipCount;
+    }
+}
 
 // Make these functions globally available from ui.js as well
 window.getCharacterPortraitUrl = getCharacterPortraitUrl;
