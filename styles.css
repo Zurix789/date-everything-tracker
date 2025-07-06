@@ -1276,17 +1276,12 @@ select {
 }
 
 /* Mobile responsiveness - Container adjustments only */
+/* Mobile responsiveness - Bounded cards with scaled content */
 @media (max-width: 768px) {
-   /* Only adjust the background container to accommodate existing card sizes */
    .container {
-       padding: 25px; /* More breathing room around content */
-       width: 98%; /* Wider to accommodate card overflow */
-       max-width: none; /* Remove width constraints */
-       margin: 10px auto; /* Better screen edge spacing */
-       border-radius: 15px; /* Slightly smaller radius for mobile */
+       padding: 15px;
    }
    
-   /* Keep all existing mobile styles unchanged */
    .character-grid {
        grid-template-columns: 1fr;
        gap: 15px;
@@ -1318,42 +1313,102 @@ select {
        font-size: 0.9rem;
    }
    
+   /* Bounded character cards */
    .character-card {
-       min-height: 230px;
-       padding: 15px;
+       min-height: 200px; /* Reduced height */
+       max-height: 250px; /* Maximum height constraint */
+       padding: 12px; /* Reduced padding */
+       overflow: hidden; /* Prevent content from overflowing */
+       position: relative;
    }
    
+   .collection-character-card {
+       min-height: 200px;
+       max-height: 250px;
+       padding: 12px;
+       overflow: hidden;
+       position: relative;
+   }
+   
+   /* Scaled character icon container */
    .character-icon {
-       width: 30%;
-       min-width: 80px;
-       height: 200px;
+       width: 25%; /* Reduced width */
+       min-width: 60px; /* Smaller minimum */
+       height: 160px; /* Reduced height to fit in card */
+       max-height: 160px; /* Constrain height */
    }
    
+   .collection-character-card .character-icon {
+       width: 25%;
+       min-width: 60px;
+       height: 160px;
+       max-height: 160px;
+   }
+   
+   /* Scaled character portraits */
    .character-portrait {
-       width: 150px;
-       height: 225px;
+       width: 100px; /* Significantly reduced */
+       height: 150px; /* Scaled down proportionally */
+       max-width: 100px; /* Constrain width */
+       max-height: 150px; /* Constrain height */
+       top: 0; /* Remove overflow positioning */
+       left: 0; /* Remove overflow positioning */
+       background-size: contain; /* Ensure full image fits */
+       background-position: center; /* Center the image */
+   }
+   
+   .collection-character-card .character-portrait {
+       width: 100px;
+       height: 150px;
+       max-width: 100px;
+       max-height: 150px;
+       top: 0;
+       left: 0;
+       background-size: contain;
+       background-position: center;
+   }
+   
+   /* Ensure background images stay within card bounds */
+   .character-card::before {
+       background-size: contain; /* Scale background to fit */
+       background-position: right center;
+       opacity: 0.3; /* Reduce opacity so content is readable */
+   }
+   
+   /* Scaled text and controls */
+   .character-name {
+       font-size: 1rem; /* Smaller font */
+       margin-bottom: 6px; /* Reduced margin */
+       padding: 6px 8px; /* Smaller padding */
+   }
+   
+   .collection-character-card .character-name {
+       font-size: 1rem;
+       margin-bottom: 6px;
+       padding: 6px 8px;
    }
    
    .character-controls {
-       gap: 8px;
+       gap: 6px; /* Reduced gap */
+       margin-bottom: 8px; /* Reduced margin */
    }
    
    .btn {
-       padding: 6px 12px;
-       font-size: 0.8rem;
+       padding: 4px 8px; /* Smaller buttons */
+       font-size: 0.75rem; /* Smaller text */
    }
    
    .relationship-buttons {
-       gap: 4px;
+       gap: 3px; /* Tighter spacing */
    }
    
     .relationship-image-btn {
         width: auto;
         height: auto;
-        min-width: 60px;
-        min-height: 40px;
-        padding: 8px 12px;
-        font-size: 0.85rem;
+        min-width: 45px; /* Smaller minimum */
+        min-height: 30px; /* Smaller height */
+        padding: 6px 8px; /* Reduced padding */
+        font-size: 0.7rem; /* Smaller font */
         font-weight: bold;
         color: #764ba2;
     }
@@ -1382,6 +1437,45 @@ select {
         border-color: #764ba2;
     }
    
+   /* Scaled collectables section */
+   .collectables-section {
+       margin-top: 8px; /* Reduced margin */
+   }
+   
+   .collectables-header h4 {
+       font-size: 0.9rem; /* Smaller heading */
+   }
+   
+   .expand-btn {
+       padding: 6px 12px; /* Smaller button */
+       font-size: 0.8rem;
+   }
+   
+   .collectables-grid {
+       grid-template-columns: repeat(auto-fill, minmax(120px, 1fr)); /* Smaller items */
+       gap: 8px; /* Reduced gap */
+   }
+   
+   .collectable-item {
+       padding: 8px; /* Reduced padding */
+   }
+   
+   .collectable-image img {
+       width: 40px; /* Fixed smaller size */
+       height: 40px;
+       max-width: 40px;
+       max-height: 40px;
+   }
+   
+   .collectable-clue {
+       font-size: 0.8rem; /* Smaller text */
+       margin-bottom: 3px;
+   }
+   
+   .collectable-description {
+       font-size: 0.7rem; /* Smaller description */
+   }
+   
    .filters-grid {
        grid-template-columns: 1fr;
        gap: 10px;
@@ -1395,11 +1489,6 @@ select {
    .collections-summary {
        grid-template-columns: repeat(3, 1fr);
        gap: 15px;
-   }
-   
-   .collectables-grid {
-       grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
-       gap: 10px;
    }
    
    .starter-stats {
@@ -1418,23 +1507,80 @@ select {
    .coming-soon p {
        font-size: 1rem;
    }
-   
-   /* Adjust body padding for mobile */
-   body {
-       padding: 10px;
-   }
 }
 
 @media (max-width: 480px) {
-   /* Further container adjustments for very small screens */
    .container {
-       padding: 20px;
-       width: 99%;
-       margin: 5px auto;
-       border-radius: 10px;
+       padding: 10px;
    }
    
-   /* Keep all existing extra small screen styles unchanged */
+   /* Even more constrained cards for small screens */
+   .character-card,
+   .collection-character-card {
+       min-height: 180px; /* Further reduced */
+       max-height: 220px;
+       padding: 10px;
+   }
+   
+   .character-icon {
+       width: 20%;
+       min-width: 50px;
+       height: 140px;
+   }
+   
+   .collection-character-card .character-icon {
+       width: 20%;
+       min-width: 50px;
+       height: 140px;
+   }
+   
+   .character-portrait {
+       width: 80px; /* Even smaller */
+       height: 120px;
+       max-width: 80px;
+       max-height: 120px;
+   }
+   
+   .collection-character-card .character-portrait {
+       width: 80px;
+       height: 120px;
+       max-width: 80px;
+       max-height: 120px;
+   }
+   
+   .character-name {
+       font-size: 0.9rem;
+       padding: 4px 6px;
+   }
+   
+   .collection-character-card .character-name {
+       font-size: 0.9rem;
+       padding: 4px 6px;
+   }
+   
+   .btn {
+       padding: 3px 6px;
+       font-size: 0.7rem;
+   }
+   
+   .relationship-image-btn {
+        min-width: 40px;
+        padding: 4px 6px;
+        font-size: 0.65rem;
+    }
+   
+   .collectables-grid {
+       grid-template-columns: 1fr;
+       gap: 6px;
+   }
+   
+   .collectable-image img {
+       width: 30px;
+       height: 30px;
+       max-width: 30px;
+       max-height: 30px;
+   }
+   
    .stats-display {
        grid-template-columns: 1fr;
        gap: 8px;
@@ -1456,35 +1602,8 @@ select {
        gap: 8px;
    }
    
-   .character-icon {
-       width: 25%;
-       min-width: 60px;
-       height: 150px;
-   }
-   
-   .character-portrait {
-       width: 120px;
-       height: 180px;
-   }
-   
-   .collectables-grid {
-       grid-template-columns: 1fr;
-       gap: 8px;
-   }
-   
-    .relationship-image-btn {
-        min-width: 50px;
-        padding: 6px 10px;
-        font-size: 0.8rem;
-    }
-   
    h1 {
        font-size: 1.5rem;
-   }
-   
-   /* Adjust body padding for extra small screens */
-   body {
-       padding: 5px;
    }
 }
 /* Character name with background for visibility */
