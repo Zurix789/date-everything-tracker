@@ -1276,7 +1276,12 @@ select {
 }
 
 /* Mobile responsiveness - Container adjustments only */
-/* Mobile responsiveness - Bounded cards with scaled content */
+.collections-grid {
+       grid-template-columns: 1fr;
+       gap: 15px;
+       width: 100%;
+       max-width: 100%;
+   }/* Mobile responsiveness - Bounded cards with scaled content */
 @media (max-width: 768px) {
    .container {
        padding: 15px;
@@ -1285,6 +1290,8 @@ select {
    .character-grid {
        grid-template-columns: 1fr;
        gap: 15px;
+       width: 100%; /* Ensure grid uses full container width */
+       max-width: 100%; /* Prevent grid from exceeding container */
    }
    
    .stats-display {
@@ -1313,13 +1320,16 @@ select {
        font-size: 0.9rem;
    }
    
-   /* Bounded character cards */
+   /* Bounded character cards with width constraints */
    .character-card {
        min-height: 200px; /* Reduced height */
        max-height: 250px; /* Maximum height constraint */
        padding: 12px; /* Reduced padding */
        overflow: hidden; /* Prevent content from overflowing */
        position: relative;
+       width: 100%; /* Ensure full container width usage */
+       max-width: calc(100vw - 50px); /* Never exceed viewport minus margins */
+       box-sizing: border-box; /* Include padding in width calculation */
    }
    
    .collection-character-card {
@@ -1328,6 +1338,9 @@ select {
        padding: 12px;
        overflow: hidden;
        position: relative;
+       width: 100%;
+       max-width: calc(100vw - 50px);
+       box-sizing: border-box;
    }
    
    /* Scaled character icon container */
@@ -1520,6 +1533,9 @@ select {
        min-height: 180px; /* Further reduced */
        max-height: 220px;
        padding: 10px;
+       width: 100%;
+       max-width: calc(100vw - 30px); /* Tighter constraint for small screens */
+       box-sizing: border-box;
    }
    
    .character-icon {
