@@ -2,8 +2,8 @@
 
 // Global filter state
 let currentFilters = {
-    main: { sort: 'dex', statFilter: '', relationshipFilter: '', nameSearch: '' },
-    ng: { sort: 'dex', statFilter: '', relationshipFilter: '', nameSearch: '' }
+    main: { sort: 'dex', statFilter: '', relationshipFilter: '', storyFilter: '', nameSearch: '' },
+    ng: { sort: 'dex', statFilter: '', relationshipFilter: '', storyFilter: '', nameSearch: '' }
 };
 
 // Add this to the switchTab function in ui.js:
@@ -56,10 +56,11 @@ function applyFilters(tabPrefix) {
     const sort = document.getElementById(`${tabPrefix}-sort`).value;
     const statFilter = document.getElementById(`${tabPrefix}-stat-filter`).value;
     const relationshipFilter = document.getElementById(`${tabPrefix}-relationship-filter`).value;
+    const storyFilter = document.getElementById(`${tabPrefix}-story-filter`).value;
     const nameSearch = document.getElementById(`${tabPrefix}-name-search`).value.toLowerCase();
     
     currentFilters[tabPrefix === 'main' ? 'main' : 'ng'] = {
-        sort, statFilter, relationshipFilter, nameSearch
+        sort, statFilter, relationshipFilter, storyFilter, nameSearch
     };
     
     renderCharacters();
@@ -69,10 +70,11 @@ function clearFilters(tabPrefix) {
     document.getElementById(`${tabPrefix}-sort`).value = 'dex';
     document.getElementById(`${tabPrefix}-stat-filter`).value = '';
     document.getElementById(`${tabPrefix}-relationship-filter`).value = '';
+    document.getElementById(`${tabPrefix}-story-filter`).value = '';
     document.getElementById(`${tabPrefix}-name-search`).value = '';
     
     currentFilters[tabPrefix === 'main' ? 'main' : 'ng'] = {
-        sort: 'dex', statFilter: '', relationshipFilter: '', nameSearch: ''
+        sort: 'dex', statFilter: '', relationshipFilter: '', storyFilter: '', nameSearch: ''
     };
     
     renderCharacters();
@@ -107,6 +109,19 @@ function filterAndSortCharacters(charactersToRender) {
             const displayName = getCharacterDisplayNameUnified(char);
             if (!displayName.toLowerCase().includes(filters.nameSearch)) return false;
         }
+        // Story status filter
+if (filters.storyFilter) {
+    if (filters.storyFilter === 'incomplete') {
+        // Show characters who are met but story not complete
+        if (!charState.met || charState.storyComplete) return false;
+    } else if (filters.storyFilter === 'complete') {
+        // Show characters who have completed stories
+        if (!charState.storyComplete) return false;
+    } else if (filters.storyFilter === 'realizable') {
+        // Show characters who can be realized (story complete + can realize)
+        if (!charState.storyComplete || !canBeRealizedUnified(char)) return false;
+    }
+}
         
         return true;
     });

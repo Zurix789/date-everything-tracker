@@ -71,6 +71,15 @@
                             </select>
                         </div>
                         <div class="filter-group">
+    <label>Filter by Story Status:</label>
+    <select id="main-story-filter" onchange="applyFilters('main')">
+        <option value="">All Stories</option>
+        <option value="incomplete">Story Incomplete</option>
+        <option value="complete">Story Complete</option>
+        <option value="realizable">Realizable</option>
+    </select>
+</div>
+                        <div class="filter-group">
                             <label>Search Name:</label>
                             <input type="text" id="main-name-search" placeholder="Search..." oninput="applyFilters('main')">
                         </div>
@@ -219,6 +228,15 @@
                                 <option value="none">None</option>
                             </select>
                         </div>
+                        <div class="filter-group">
+    <label>Filter by Story Status:</label>
+    <select id="ng-story-filter" onchange="applyFilters('ng')">
+        <option value="">All Stories</option>
+        <option value="incomplete">Story Incomplete</option>
+        <option value="complete">Story Complete</option>
+        <option value="realizable">Realizable</option>
+    </select>
+</div>
                         <div class="filter-group">
                             <label>Search Name:</label>
                             <input type="text" id="ng-name-search" placeholder="Search..." oninput="applyFilters('ng')">
