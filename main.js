@@ -100,23 +100,27 @@ function setupEventListeners() {
     });
 
     // Time slot change handlers for main game
-    ['9am', '12pm', '3pm', '6pm', '9pm'].forEach(slot => {
-        const mainSlot = document.getElementById(`slot${slot}`);
-        if (mainSlot) {
-            mainSlot.addEventListener('change', (e) => {
-                gameState.timeSlots[slot] = e.target.value;
-                saveState();
-            });
-        }
-        
-        const ngSlot = document.getElementById(`ngSlot${slot}`);
-        if (ngSlot) {
-            ngSlot.addEventListener('change', (e) => {
-                ngPlusGameState.timeSlots[slot] = e.target.value;
-                saveNgPlusState();
-            });
-        }
-    });
+['9am', '12pm', '3pm', '6pm', '9pm'].forEach(slot => {
+    const mainSlot = document.getElementById(`slot${slot}`);
+    if (mainSlot) {
+        mainSlot.addEventListener('change', (e) => {
+            gameState.timeSlots[slot] = e.target.value;
+            saveState();
+            // Refresh all time slot dropdowns to reflect the change
+            updateTimeSlots();
+        });
+    }
+    
+    const ngSlot = document.getElementById(`ngSlot${slot}`);
+    if (ngSlot) {
+        ngSlot.addEventListener('change', (e) => {
+            ngPlusGameState.timeSlots[slot] = e.target.value;
+            saveNgPlusState();
+            // Refresh all time slot dropdowns to reflect the change
+            updateTimeSlots();
+        });
+    }
+});
 
     // NG+ starting stats - Add both 'input' and 'change' events
     ['ngPlusSmarts', 'ngPlusPoise', 'ngPlusEmpathy', 'ngPlusCharm', 'ngPlusSass'].forEach(inputId => {

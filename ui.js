@@ -214,9 +214,13 @@ function updateSummaryStats() {
 }
 
 // Update time slots dropdown - fixed to work with both states
+// Update time slots dropdown - fixed to work with both states and hide already scheduled characters
 function updateTimeSlots() {
     const state = getCurrentGameState();
     const slots = ['9am', '12pm', '3pm', '6pm', '9pm'];
+    
+    // Get all currently scheduled character IDs (excluding empty slots)
+    const scheduledCharacterIds = Object.values(state.timeSlots).filter(charId => charId !== '');
     
     const availableCharacters = characters.filter(char => {
         const charState = state.characters[char.id];
@@ -230,13 +234,20 @@ function updateTimeSlots() {
             select.innerHTML = '<option value="">Select Character</option>';
             
             availableCharacters.forEach(char => {
-                const option = document.createElement('option');
-                option.value = char.id;
-                option.textContent = char.name;
-                if (state.timeSlots[slot] == char.id) {
-                    option.selected = true;
+                // Only show character if they're not already scheduled in another slot
+                // OR if they're scheduled in the current slot (so user can see/change their current selection)
+                const isScheduledElsewhere = scheduledCharacterIds.includes(char.id.toString()) && 
+                                           state.timeSlots[slot] !== char.id.toString();
+                
+                if (!isScheduledElsewhere) {
+                    const option = document.createElement('option');
+                    option.value = char.id;
+                    option.textContent = char.name;
+                    if (state.timeSlots[slot] == char.id) {
+                        option.selected = true;
+                    }
+                    select.appendChild(option);
                 }
-                select.appendChild(option);
             });
         }
     });
