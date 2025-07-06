@@ -870,6 +870,7 @@ const contentWarnings = {
     86: "Manipulation, sociopathic behavior",
     89: "Dominatrix, sexual scenarios",
     96: "Violence descriptions",
+    98: "Aggressive/abusive behavior",
     99: "Horror themes, disturbing content"
 };
 
