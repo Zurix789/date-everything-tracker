@@ -508,21 +508,30 @@ function toggleCharacterFavorite(characterId) {
     }
     saveFavorites();
     
-    // Update the star button appearance
-    updateFavoriteStarButton(characterId);
+    // Use the more robust update method
+    updateAllFavoriteStarButtons(characterId);
     
-    // If favorites filter is active, re-render to show/hide character
-    const filterKey = isNgPlus ? 'ng' : 'main';
+    // Check if favorites filter is active and re-render appropriate tabs
+    const filterKey = isNgPlus ? 'ng' : 'main'; 
     const filters = currentFilters[filterKey];
+    const collectionsFilters = currentFilters.collections;
+    
+    // Re-render main/NG+ tabs if favorites filter is active
     if (filters.relationshipFilter === 'favorites') {
         renderCharacters();
     }
+    
+    // Re-render collections tab if favorites filter is active
+    if (collectionsFilters.metFilter === 'favorites') {
+        renderCollections();
+    }
 }
 
-// Update the appearance of a specific star button
 function updateFavoriteStarButton(characterId) {
-    const starBtn = document.querySelector(`[data-character-id="${characterId}"] .favorite-star-btn`);
-    if (starBtn) {
+    // Find ALL star buttons for this character across ALL tabs
+    const allStarButtons = document.querySelectorAll(`[data-character-id="${characterId}"] .favorite-star-btn`);
+    
+    allStarButtons.forEach(starBtn => {
         if (characterFavorites.has(characterId)) {
             starBtn.classList.add('favorited');
             starBtn.innerHTML = '★';
@@ -530,7 +539,7 @@ function updateFavoriteStarButton(characterId) {
             starBtn.classList.remove('favorited');
             starBtn.innerHTML = '☆';
         }
-    }
+    });
 }
 
 // Check if a character is favorited
@@ -563,6 +572,40 @@ function addFavoriteStarToCharacterCard(card, characterId) {
 // Initialize favorites system - call this in your init() function
 function initializeFavorites() {
     loadFavorites();
+}
+function updateAllFavoriteStarButtons(characterId) {
+    // Method 1: Find by data attribute on card
+    const cards = document.querySelectorAll(`[data-character-id="${characterId}"]`);
+    cards.forEach(card => {
+        const starBtn = card.querySelector('.favorite-star-btn');
+        if (starBtn) {
+            if (characterFavorites.has(characterId)) {
+                starBtn.classList.add('favorited');
+                starBtn.innerHTML = '★';
+            } else {
+                starBtn.classList.remove('favorited');
+                starBtn.innerHTML = '☆';
+            }
+        }
+    });
+    
+    // Method 2: Find by direct selector (backup)
+    const directButtons = document.querySelectorAll('.favorite-star-btn');
+    directButtons.forEach(btn => {
+        const card = btn.closest('[data-character-id]');
+        if (card) {
+            const charId = parseInt(card.getAttribute('data-character-id'));
+            if (charId === characterId) {
+                if (characterFavorites.has(characterId)) {
+                    btn.classList.add('favorited');
+                    btn.innerHTML = '★';
+                } else {
+                    btn.classList.remove('favorited');
+                    btn.innerHTML = '☆';
+                }
+            }
+        }
+    });
 }
 
 // Make functions global for onclick handlers
