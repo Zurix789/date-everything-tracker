@@ -832,10 +832,9 @@ select {
 
 .collections-summary {
     display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
     gap: 20px;
-    max-width: 600px;
-    margin: 0 auto;
+    margin-bottom: 30px;
 }
 
 .collections-stat {
@@ -2309,4 +2308,111 @@ select {
         width: 50%;
         height: 50%;
     }
+}
+/* Collections Filter Mobile Responsive Fixes */
+
+/* Base filter input styling */
+.filter-group input[type="text"] {
+    padding: 8px;
+    border: 2px solid #ddd;
+    border-radius: 6px;
+    font-size: 0.9rem;
+    width: 100%;
+    box-sizing: border-box;
+}
+
+/* Ensure collections filters match Main/NG+ styling exactly */
+#collections-filters .filter-group input[type="text"] {
+    padding: 8px;
+    border: 2px solid #ddd;
+    border-radius: 6px;
+    font-size: 0.9rem;
+    width: 100%;
+    box-sizing: border-box;
+    max-width: 100%;
+}
+
+/* Mobile responsive adjustments */
+@media (max-width: 768px) {
+    /* Collections filters grid - single column on mobile */
+    #collections-filters .filters-grid {
+        grid-template-columns: 1fr;
+        gap: 10px;
+    }
+    
+    /* Ensure all filter inputs are properly constrained */
+    #collections-filters .filter-group input[type="text"] {
+        width: 100%;
+        max-width: calc(100vw - 80px);
+        box-sizing: border-box;
+        font-size: 0.9rem;
+        padding: 8px;
+    }
+    
+    /* Match the select styling */
+    #collections-filters .filter-group select {
+        width: 100%;
+        max-width: calc(100vw - 80px);
+        box-sizing: border-box;
+        font-size: 0.9rem;
+        padding: 8px;
+    }
+}
+
+@media (max-width: 480px) {
+    /* More aggressive constraints for smaller screens */
+    #collections-filters .filter-group input[type="text"] {
+        max-width: calc(100vw - 60px);
+        font-size: 0.8rem;
+        padding: 6px;
+    }
+    
+    #collections-filters .filter-group select {
+        max-width: calc(100vw - 60px);
+        font-size: 0.8rem;
+        padding: 6px;
+    }
+}
+
+@media (max-width: 400px) {
+    /* Samsung Galaxy S22 Ultra and similar large phones */
+    #collections-filters .filter-group input[type="text"] {
+        max-width: calc(100vw - 70px);
+        font-size: 0.77rem;
+        padding: 5px;
+    }
+    
+    #collections-filters .filter-group select {
+        max-width: calc(100vw - 70px);
+        font-size: 0.77rem;
+        padding: 5px;
+    }
+}
+
+@media (max-width: 360px) {
+    /* Very narrow screens */
+    #collections-filters .filter-group input[type="text"] {
+        max-width: calc(100vw - 80px);
+        font-size: 0.75rem;
+        padding: 4px;
+    }
+    
+    #collections-filters .filter-group select {
+        max-width: calc(100vw - 80px);
+        font-size: 0.75rem;
+        padding: 4px;
+    }
+}
+
+/* Force Mobile Mode overrides for collections */
+body.force-mobile-mode #collections-filters .filter-group input[type="text"] {
+    max-width: calc(100vw - 60px) !important;
+    font-size: 0.8rem !important;
+    padding: 6px !important;
+}
+
+body.force-mobile-mode #collections-filters .filter-group select {
+    max-width: calc(100vw - 60px) !important;
+    font-size: 0.8rem !important;
+    padding: 6px !important;
 }
