@@ -867,6 +867,7 @@ const contentWarnings = {
     76: "Toxic relationship dynamics",
     82: "Stalking behavior",
     86: "Manipulation, sociopathic behavior",
+    88: "Animal Death references",
     89: "Dominatrix, sexual scenarios",
     96: "Violence descriptions",
     98: "Aggressive/abusive behavior",
