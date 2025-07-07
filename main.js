@@ -1,4 +1,5 @@
 // Complete main.js file with all enhancements
+let characterFavorites = new Set();
 
 // Initialize app
 function init() {
@@ -9,6 +10,7 @@ function init() {
     // Then initialize characters (this ensures any new characters are added and new properties are set)
     initializeCharacters();
     initializeNgPlusCharacters();
+       initializeFavorites();
     
     // Update displays for main game (default tab)
     updateStats();
@@ -484,6 +486,84 @@ function refreshFiltersIfNeeded() {
         renderCharacters();
     }
 }
+// Load favorites from localStorage on page load
+function loadFavorites() {
+    const saved = localStorage.getItem('characterFavorites');
+    if (saved) {
+        characterFavorites = new Set(JSON.parse(saved));
+    }
+}
+
+// Save favorites to localStorage
+function saveFavorites() {
+    localStorage.setItem('characterFavorites', JSON.stringify([...characterFavorites]));
+}
+
+// Toggle favorite status for a character
+function toggleCharacterFavorite(characterId) {
+    if (characterFavorites.has(characterId)) {
+        characterFavorites.delete(characterId);
+    } else {
+        characterFavorites.add(characterId);
+    }
+    saveFavorites();
+    
+    // Update the star button appearance
+    updateFavoriteStarButton(characterId);
+    
+    // If favorites filter is active, re-render to show/hide character
+    const filterKey = isNgPlus ? 'ng' : 'main';
+    const filters = currentFilters[filterKey];
+    if (filters.relationshipFilter === 'favorites') {
+        renderCharacters();
+    }
+}
+
+// Update the appearance of a specific star button
+function updateFavoriteStarButton(characterId) {
+    const starBtn = document.querySelector(`[data-character-id="${characterId}"] .favorite-star-btn`);
+    if (starBtn) {
+        if (characterFavorites.has(characterId)) {
+            starBtn.classList.add('favorited');
+            starBtn.innerHTML = '★';
+        } else {
+            starBtn.classList.remove('favorited');
+            starBtn.innerHTML = '☆';
+        }
+    }
+}
+
+// Check if a character is favorited
+function isCharacterFavorited(characterId) {
+    return characterFavorites.has(characterId);
+}
+
+// Add favorite star button to character card
+function addFavoriteStarToCharacterCard(card, characterId) {
+    // Create the favorite star button
+    const starButton = document.createElement('button');
+    starButton.className = 'favorite-star-btn';
+    starButton.onclick = () => toggleCharacterFavorite(characterId);
+    
+    // Set initial state
+    if (isCharacterFavorited(characterId)) {
+        starButton.classList.add('favorited');
+        starButton.innerHTML = '★';
+    } else {
+        starButton.innerHTML = '☆';
+    }
+    
+    // Add to character card
+    card.appendChild(starButton);
+    
+    // Add data attribute to card for easy selection
+    card.setAttribute('data-character-id', characterId);
+}
+
+// Initialize favorites system - call this in your init() function
+function initializeFavorites() {
+    loadFavorites();
+}
 
 // Make functions global for onclick handlers
 window.toggleCharacterMetUnified = toggleCharacterMetUnified;
@@ -503,6 +583,11 @@ window.getEnhancedDisplayName = getEnhancedDisplayName;
 window.toggleFilters = toggleFilters;
 window.applyFilters = applyFilters;
 window.clearFilters = clearFilters;
+window.toggleCharacterFavorite = toggleCharacterFavorite;
+window.isCharacterFavorited = isCharacterFavorited;
+window.loadFavorites = loadFavorites;
+window.saveFavorites = saveFavorites;
+window.initializeFavorites = initializeFavorites;
 
 // Initialize when page loads
 document.addEventListener('DOMContentLoaded', init);

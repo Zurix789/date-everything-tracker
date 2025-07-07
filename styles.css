@@ -2416,3 +2416,63 @@ body.force-mobile-mode #collections-filters .filter-group select {
     font-size: 0.8rem !important;
     padding: 6px !important;
 }
+.favorite-star-btn {
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    background: rgba(255, 255, 255, 0.9);
+    border: 2px solid #ddd;
+    border-radius: 50%;
+    width: 40px;
+    height: 40px;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.2rem;
+    transition: all 0.3s ease;
+    z-index: 10;
+    backdrop-filter: blur(5px);
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+}
+
+.favorite-star-btn:hover {
+    transform: scale(1.1);
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+}
+
+.favorite-star-btn.favorited {
+    background: #ffd700;
+    border-color: #ffb700;
+    color: #b8860b;
+}
+
+.favorite-star-btn:not(.favorited) {
+    color: #ccc;
+}
+
+.favorite-star-btn:not(.favorited):hover {
+    color: #999;
+    border-color: #bbb;
+}
+
+/* Mobile responsive adjustments */
+@media (max-width: 768px) {
+    .favorite-star-btn {
+        width: 35px;
+        height: 35px;
+        font-size: 1rem;
+        top: 8px;
+        right: 8px;
+    }
+}
+
+@media (max-width: 480px) {
+    .favorite-star-btn {
+        width: 30px;
+        height: 30px;
+        font-size: 0.9rem;
+        top: 6px;
+        right: 6px;
+    }
+}

@@ -112,6 +112,9 @@ if (filters.relationshipFilter) {
         if (charState.met !== false) return false;
     } else if (filters.relationshipFilter === 'hide-completed') {
         if (charState.storyComplete === true) return false;
+    } else if (filters.relationshipFilter === 'favorites') {
+        // ADD THIS NEW CASE
+        if (!isCharacterFavorited(char.id)) return false;
     } else {
         if (charState.relationship !== filters.relationshipFilter) return false;
     }
@@ -791,6 +794,7 @@ function renderCharacters() {
                 </div>
             </div>
         `;
+        addFavoriteStarToCharacterCard(card, char.id);
 
         grid.appendChild(card);
     });
@@ -931,10 +935,12 @@ function filterAndSortCollections(charactersToRender) {
         }
         
         // Met filter
-        if (filters.metFilter) {
-            if (filters.metFilter === 'met' && !hasBeenMet) return false;
-            if (filters.metFilter === 'not-met' && hasBeenMet) return false;
-        }
+if (filters.metFilter) {
+    if (filters.metFilter === 'met' && !hasBeenMet) return false;
+    if (filters.metFilter === 'not-met' && hasBeenMet) return false;
+    // ADD THIS NEW CASE
+    if (filters.metFilter === 'favorites' && !isCharacterFavorited(char.id)) return false;
+}
         
         // Name search - search both name and object
         if (filters.nameSearch) {
