@@ -769,9 +769,8 @@ const characters = [
         requirements: { smarts: 5, poise: 70, empathy: 70, charm: 75, sass: 30 }, 
         locationRequirement: 'attic',
         storyRequirements: {},
-        realizationDependencies: [], // Reggie, Nightmare, Doug, xxXShadowl0rd420Xxx, The Sassy Chap, Textbox-Chan, Willi, Daemon
+        realizationDependencies: [],
         bidirectionalDependencies: [],
-        specialRequirement: 'storyRequiredCharacters'
     },
     { 
         id: 97, name: 'xxXShadowl0rd420Xxx', object: 'Darkness', stat: 'smarts', 

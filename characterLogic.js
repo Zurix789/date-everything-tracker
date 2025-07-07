@@ -21,21 +21,10 @@ function canCompleteStoryUnified(char) {
     if (char.storyRequirements.charm && state.stats.charm < char.storyRequirements.charm) return false;
     if (char.storyRequirements.sass && state.stats.sass < char.storyRequirements.sass) return false;
     
-    // Check special requirements for Zoey
-    if (char.id === 96) {
-        const requiredCharacters = [100, 99, 98, 97, 95, 94, 57, 68];
-        return requiredCharacters.every(id => state.characters[id].met);
-    }
-    
     // Check special requirement for Textbox-Chan
     if (char.id === 94) {
         const metCount = Object.values(state.characters).filter(c => c.met).length;
         return metCount >= 80;
-    }
-    
-    // Check requirement for I, Ronaldini
-    if (char.id === 44) {
-        return state.characters[79].storyComplete; // Bobby's story complete
     }
     
     return true;
@@ -177,16 +166,6 @@ function getStoryRequirementsStatusUnified(char) {
     });
     
     // Special requirements
-    if (char.id === 96) {
-        const requiredCharacters = [100, 99, 98, 97, 95, 94, 57, 68];
-        const requiredNames = ['Reggie', 'Nightmare', 'Doug', 'xxXShadowl0rd420Xxx', 'The Sassy Chap', 'Textbox-Chan', 'Willi', 'Daemon'];
-        const allMet = requiredCharacters.every(id => state.characters[id].met);
-        requirements.push({
-            text: `Must have met: ${requiredNames.join(', ')}`,
-            met: allMet
-        });
-    }
-    
     if (char.id === 94) {
         const metCount = Object.values(state.characters).filter(c => c.met).length;
         requirements.push({
@@ -194,13 +173,7 @@ function getStoryRequirementsStatusUnified(char) {
             met: metCount >= 80
         });
     }
-    
-    if (char.id === 44) {
-        requirements.push({
-            text: 'Bobby\'s story must be completed',
-            met: state.characters[79].storyComplete
-        });
-    }
+
     
     return requirements;
 }

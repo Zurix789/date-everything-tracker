@@ -285,6 +285,7 @@ charactersWithCollectables.forEach(char => {
                 </div>
             </div>
         `;
+        addFavoriteStarToCharacterCard(card, char.id);
 
         collectionsGrid.appendChild(card);
     });
