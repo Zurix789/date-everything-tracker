@@ -272,7 +272,7 @@ h1 {
     font-weight: bold;
     margin-bottom: 10px;
     color: #764ba2;
-    z-index: 3;
+    z-index: 10 !important;
     position: relative;
 }
 
@@ -431,19 +431,37 @@ h1 {
     display: none;
 }
 
+
+/* Ensure location tracker content doesn't overlap with character info */
 .location-tracker {
     background: #f8f9fa;
     padding: 15px;
     border-radius: 10px;
     margin-top: 15px;
-    z-index: 3;
+    z-index: 3; /* Lower z-index to appear behind character name */
     position: relative;
+    max-height: 300px; /* Add max height */
+    overflow-y: auto; /* Enable vertical scrolling */
+    clear: both; /* Ensure it doesn't float alongside other elements */
+}
+
+.location-tracker h4 {
+    margin-bottom: 15px;
+    color: #764ba2;
+    font-weight: bold;
+    position: sticky; /* Make header sticky when scrolling */
+    top: 0;
+    background: #f8f9fa;
+    padding-bottom: 10px;
+    z-index: 2; /* Higher than location tracker but lower than character name */
 }
 
 .location-grid {
     display: grid;
     grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
     gap: 10px;
+    padding-right: 5px; /* Add padding to prevent scrollbar overlap */
+    z-index: 1;
 }
 
 .location-item {
@@ -454,10 +472,75 @@ h1 {
     background: white;
     border-radius: 6px;
     font-size: 0.9rem;
+    transition: background-color 0.2s ease;
+    z-index: 1;
 }
 
-.checkbox {
+.location-item:hover {
+    background: #f0f0f0;
+    z-index: 1;
+}
+
+.location-item input[type="checkbox"] {
     margin-right: 8px;
+    flex-shrink: 0; /* Prevent checkbox from shrinking */
+    z-index: 1; /* Lower z-index */
+}
+
+.location-item label {
+    cursor: pointer;
+    user-select: none;
+    line-height: 1.2;
+    z-index: 1; /* Lower z-index */
+}
+
+/* Enhanced scrollbar styling for webkit browsers */
+.location-tracker::-webkit-scrollbar {
+    width: 8px;
+}
+
+.location-tracker::-webkit-scrollbar-track {
+    background: #e9ecef;
+    border-radius: 4px;
+}
+
+.location-tracker::-webkit-scrollbar-thumb {
+    background: #764ba2;
+    border-radius: 4px;
+}
+
+.location-tracker::-webkit-scrollbar-thumb:hover {
+    background: #5a4b8a;
+}
+
+/* Mobile responsiveness for location tracker */
+@media (max-width: 768px) {
+    .location-tracker {
+        max-height: 250px; /* Slightly smaller on mobile */
+        padding: 12px;
+    }
+    
+    .location-grid {
+        grid-template-columns: 1fr; /* Single column on mobile */
+        gap: 8px;
+    }
+    
+    .location-item {
+        padding: 10px;
+        font-size: 0.85rem;
+    }
+}
+
+@media (max-width: 480px) {
+    .location-tracker {
+        max-height: 200px; /* Even smaller on very small screens */
+        padding: 10px;
+    }
+    
+    .location-item {
+        padding: 8px;
+        font-size: 0.8rem;
+    }
 }
 
 select {
@@ -1845,7 +1928,7 @@ select {
     font-size: 0.9rem;
     color: #333;
     font-weight: bold;
-    z-index: 3;
+    z-index: 10 !important;
     position: relative;
 }
 
@@ -2474,5 +2557,1052 @@ body.force-mobile-mode #collections-filters .filter-group select {
         font-size: 0.9rem;
         top: 6px;
         right: 6px;
+    }
+}
+
+/* Complete Walkthrough Styles - Clean CSS File */
+
+/* Walkthrough Grid Layout - Force one card per row, full width */
+#walkthroughCharacterGrid {
+    display: flex !important;
+    flex-direction: column !important;
+    gap: 20px;
+    width: 100%;
+    max-width: 100%;
+}
+
+/* Override any grid layout that might be inherited */
+.walkthrough-character-grid {
+    display: flex !important;
+    flex-direction: column !important;
+    gap: 20px;
+    width: 100%;
+    max-width: 100%;
+}
+
+/* Walkthrough Character Cards - Full width, one per row with relationship backgrounds */
+.walkthrough-character-card {
+    background: white;
+    border-radius: 15px;
+    padding: 20px;
+    margin-bottom: 20px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    border: 2px solid #e9ecef;
+    transition: all 0.3s ease;
+    position: relative;
+    display: flex;
+    gap: 20px;
+    min-height: 350px; /* Match main tab min-height */
+    width: 100%;
+    max-width: 100%;
+    box-sizing: border-box;
+}
+
+.walkthrough-character-card:hover {
+    border-color: #764ba2;
+    box-shadow: 0 6px 12px rgba(0, 0, 0, 0.15);
+}
+
+.walkthrough-character-card.expanded {
+    background: #f8f9fa;
+    border-color: #667eea;
+    flex-direction: column;
+}
+
+/* Relationship background styling - matching main tab exactly */
+.walkthrough-character-card.relationship-love {
+    border-left: 5px solid #ff6b6b;
+    background: linear-gradient(135deg, #ffe6e6 0%, #fff 100%);
+}
+
+.walkthrough-character-card.relationship-love::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    left: 0;
+    background-image: url('background_love.png');
+    background-size: cover;
+    background-repeat: no-repeat;
+    background-position: right center;
+    z-index: 1;
+    pointer-events: none;
+    border-radius: 13px; /* Slightly smaller than card border radius */
+}
+
+.walkthrough-character-card.relationship-friend {
+    border-left: 5px solid #ffa726;
+    background: linear-gradient(135deg, #fff8e1 0%, #fff 100%);
+}
+
+.walkthrough-character-card.relationship-friend::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    left: 0;
+    background-image: url('background_friend.png');
+    background-size: cover;
+    background-repeat: no-repeat;
+    background-position: right center;
+    z-index: 1;
+    pointer-events: none;
+    border-radius: 13px;
+}
+
+.walkthrough-character-card.relationship-hate {
+    border-left: 5px solid #10175E;
+    background: linear-gradient(135deg, #ffebee 0%, #fff 100%);
+}
+
+.walkthrough-character-card.relationship-hate::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    left: 0;
+    background-image: url('background_hate.png');
+    background-size: cover;
+    background-repeat: no-repeat;
+    background-position: right center;
+    z-index: 1;
+    pointer-events: none;
+    border-radius: 13px;
+}
+
+/* Ensure all content stays above the background */
+.walkthrough-character-card > * {
+    position: relative;
+    z-index: 3;
+}
+
+/* Walkthrough character header - now using same icon system as main */
+.walkthrough-character-header {
+    display: flex;
+    gap: 20px;
+    width: 100%;
+    align-items: flex-start;
+}
+
+.walkthrough-character-card .character-icon {
+    position: relative;
+    width: 200px;
+    min-width: 200px;
+    height: 250px;
+    z-index: 2;
+    flex-shrink: 0;
+}
+
+.walkthrough-character-card .character-portrait {
+    width: 200px;
+    height: 300px;
+    background-size: contain;
+    background-position: top left;
+    background-repeat: no-repeat;
+    position: absolute;
+    top: -5px;
+    left: -5px;
+    z-index: 1;
+    background-image: var(--portrait-url);
+}
+
+/* Portrait states matching main tab exactly */
+.walkthrough-character-card .character-portrait.not-met {
+    filter: brightness(0) saturate(100%);
+}
+
+.walkthrough-character-card .character-portrait.love {
+    background-image: var(--portrait-love-url, var(--portrait-url));
+}
+
+.walkthrough-character-card .character-portrait.friend {
+    background-image: var(--portrait-friend-url, var(--portrait-url));
+}
+
+.walkthrough-character-card .character-portrait.hate {
+    background-image: var(--portrait-hate-url, var(--portrait-url));
+}
+
+.walkthrough-character-card .character-portrait.realized {
+    background-image: var(--portrait-realized-url, var(--portrait-url));
+}
+
+.walkthrough-character-info {
+    flex: 1;
+    z-index: 3;
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+/* Match main tab character name styling */
+.walkthrough-character-name {
+    font-size: 1.2rem;
+    font-weight: bold;
+    color: #764ba2;
+    margin-bottom: 10px;
+    background: rgba(255, 255, 255, 0.9);
+    padding: 8px 12px;
+    border-radius: 8px;
+    backdrop-filter: blur(5px);
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    display: inline-block;
+    z-index: 3;
+    position: relative;
+    align-self: flex-start;
+}
+
+/* Match main tab character stat display */
+.walkthrough-character-stat {
+    background: rgba(255, 255, 255, 0.9);
+    padding: 8px 12px;
+    border-radius: 8px;
+    backdrop-filter: blur(5px);
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    display: inline-block;
+    font-size: 0.9rem;
+    color: #333;
+    font-weight: bold;
+    z-index: 3;
+    position: relative;
+    align-self: flex-start;
+}
+
+/* Match main tab character controls styling */
+.walkthrough-character-controls {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+    margin-bottom: 15px;
+    z-index: 3;
+    position: relative;
+}
+
+.walkthrough-character-controls .btn {
+    padding: 8px 16px;
+    border: none;
+    border-radius: 6px;
+    cursor: pointer;
+    font-size: 0.9rem;
+    transition: all 0.2s ease;
+    z-index: 3;
+    position: relative;
+}
+
+/* Match main tab button styles exactly */
+.walkthrough-character-controls .btn-primary {
+    background: #667eea;
+    color: white;
+}
+
+.walkthrough-character-controls .btn-primary:hover {
+    background: #5a6fd8;
+}
+
+.walkthrough-character-controls .btn-success {
+    background: #4CAF50;
+    color: white;
+}
+
+.walkthrough-character-controls .btn-success:hover {
+    background: #45a049;
+}
+
+.walkthrough-character-controls .btn-secondary {
+    background: #6c757d;
+    color: white;
+}
+
+.walkthrough-character-controls .btn-secondary:hover {
+    background: #5a6268;
+}
+
+.walkthrough-character-controls .btn-warning {
+    background: #ffc107;
+    color: #212529;
+}
+
+.walkthrough-character-controls .btn-warning:hover {
+    background: #e0a800;
+}
+
+/* Sync button specific styling */
+.sync-button {
+    background: linear-gradient(135deg, #667eea, #764ba2);
+    color: white;
+    border: none;
+    padding: 8px 16px;
+    border-radius: 6px;
+    cursor: pointer;
+    font-size: 0.9rem;
+    font-weight: bold;
+    transition: all 0.2s ease;
+    display: flex;
+    align-items: center;
+    gap: 6px;
+}
+
+.sync-button:hover {
+    background: linear-gradient(135deg, #5a6fd8, #5a4b8a);
+    transform: translateY(-1px);
+    box-shadow: 0 2px 8px rgba(118, 75, 162, 0.3);
+}
+
+.sync-button .sync-icon {
+    font-size: 1rem;
+}
+
+/* Match main tab relationship button styling */
+.walkthrough-character-card .relationship-buttons {
+    display: flex;
+    gap: 8px;
+    z-index: 3;
+    position: relative;
+    flex-wrap: wrap;
+    margin-top: 10px;
+}
+
+.walkthrough-character-card .relationship-image-btn {
+    padding: 8px;
+    border: 2px solid #ddd;
+    background: white;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    z-index: 3;
+    position: relative;
+    width: 50px;
+    height: 50px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.walkthrough-character-card .relationship-image-btn img {
+    width: 45px;
+    height: 45px;
+    object-fit: contain;
+}
+
+.walkthrough-character-card .relationship-image-btn:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+    border-color: #999;
+}
+
+.walkthrough-character-card .relationship-image-btn.selected,
+.walkthrough-character-card .relationship-image-btn.active {
+    border-color: #764ba2;
+    background: #f0f0ff;
+    box-shadow: 0 2px 4px rgba(118, 75, 162, 0.3);
+}
+
+/* Status badges - keep existing styling but ensure consistency */
+.walkthrough-status-badges {
+    display: flex;
+    gap: 8px;
+    margin-top: 10px;
+    z-index: 3;
+    position: relative;
+}
+
+.status-badge {
+    padding: 4px 8px;
+    border-radius: 12px;
+    font-size: 0.8rem;
+    font-weight: bold;
+}
+
+.status-badge.met {
+    background: #d4edda;
+    color: #155724;
+}
+
+.status-badge.story-complete {
+    background: #cce5ff;
+    color: #004085;
+}
+
+.status-badge.realized {
+    background: #fff3cd;
+    color: #856404;
+}
+
+/* Interactions section styling - keep unique but ensure consistency with design language */
+.interactions-section {
+    margin-top: 20px;
+    padding: 20px;
+    background: #f1f3f4;
+    border-radius: 10px;
+    border-left: 4px solid #667eea;
+    z-index: 3;
+    position: relative;
+    width: 100%;
+}
+
+.interactions-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 15px;
+}
+
+.interactions-title {
+    font-size: 1.1rem;
+    font-weight: bold;
+    color: #495057;
+}
+
+.interaction-item {
+    background: white;
+    border-radius: 8px;
+    padding: 15px;
+    margin-bottom: 10px;
+    border-left: 4px solid #dee2e6;
+    transition: all 0.2s ease;
+}
+
+.interaction-item.completed {
+    border-left-color: #28a745;
+    background: #f8fff9;
+}
+
+.interaction-checkbox {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin-bottom: 10px;
+}
+
+.interaction-checkbox input[type="checkbox"] {
+    width: 18px;
+    height: 18px;
+    accent-color: #667eea;
+}
+
+.interaction-title {
+    font-weight: bold;
+    color: #495057;
+}
+
+.completion-indicator {
+    color: #28a745;
+    font-weight: bold;
+    font-size: 0.9rem;
+    margin-left: 8px;
+}
+
+.conversation-choices {
+    margin-top: 10px;
+    padding-left: 20px;
+    transition: all 0.3s ease;
+}
+
+.conversation-choices h5 {
+    color: #6c757d;
+    margin-bottom: 8px;
+    font-size: 0.9rem;
+}
+
+/* Multi-step interaction styling */
+.conversation-step {
+    margin-bottom: 15px;
+    padding: 12px;
+    border-radius: 8px;
+    transition: all 0.3s ease;
+    border: 2px solid #e9ecef;
+    background: white;
+}
+
+.conversation-step.completed-step {
+    background: #f8fff9;
+    border-color: #28a745;
+}
+
+.conversation-step.future-step {
+    background: #f8f9fa;
+    border-color: #dee2e6;
+    opacity: 0.6;
+}
+
+.step-question {
+    font-weight: bold;
+    color: #495057;
+    margin-bottom: 10px;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    flex-wrap: wrap;
+}
+
+.step-number {
+    background: #667eea;
+    color: white;
+    padding: 2px 8px;
+    border-radius: 12px;
+    font-size: 0.8rem;
+    font-weight: bold;
+}
+
+.step-choice-indicator {
+    background: #28a745;
+    color: white;
+    padding: 2px 8px;
+    border-radius: 12px;
+    font-size: 0.8rem;
+    font-weight: bold;
+    margin-left: auto;
+}
+
+.step-choices {
+    margin-top: 10px;
+}
+
+.choice-option {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    margin-bottom: 5px;
+    padding: 5px;
+    border-radius: 4px;
+    transition: background 0.2s ease;
+}
+
+.choice-option:hover {
+    background: rgba(102, 126, 234, 0.1);
+}
+
+.choice-option input[type="radio"] {
+    accent-color: #667eea;
+}
+
+.choice-love { color: #e91e63; }
+.choice-friend { color: #2196f3; }
+.choice-hate { color: #f44336; }
+
+.relationship-path-indicator {
+    display: inline-block;
+    width: 12px;
+    height: 12px;
+    border-radius: 50%;
+    margin-right: 5px;
+}
+
+.path-love { background: #e91e63; }
+.path-friend { background: #2196f3; }
+.path-hate { background: #f44336; }
+.path-neutral { background: #6c757d; }
+
+.interaction-progress {
+    margin-top: 15px;
+    background: #e9ecef;
+    border-radius: 10px;
+    overflow: hidden;
+}
+
+.interaction-progress-bar {
+    height: 8px;
+    background: linear-gradient(90deg, #667eea, #764ba2);
+    transition: width 0.3s ease;
+}
+
+.interaction-progress-text {
+    text-align: center;
+    padding: 5px;
+    font-size: 0.8rem;
+    color: #6c757d;
+}
+
+/* Requirements section - match main tab styling */
+.walkthrough-requirements {
+    background: #fff3cd;
+    padding: 15px;
+    border-radius: 8px;
+    margin-top: 15px;
+    border-left: 4px solid #ffc107;
+    z-index: 3;
+    position: relative;
+}
+
+.walkthrough-requirements h5 {
+    color: #856404;
+    margin-bottom: 10px;
+}
+
+.requirement-item {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    margin-bottom: 5px;
+    font-size: 0.9rem;
+}
+
+.requirement-met {
+    color: #28a745;
+}
+
+.requirement-unmet {
+    color: #dc3545;
+}
+
+/* Mobile responsiveness for walkthrough cards */
+@media (max-width: 768px) {
+    .walkthrough-character-card {
+        flex-direction: column;
+        min-height: 200px; /* Match main tab mobile min-height */
+        padding: 12px;
+        gap: 10px;
+        width: 100%;
+        max-width: 100%;
+    }
+    
+    .walkthrough-character-header {
+        flex-direction: column;
+        gap: 10px;
+    }
+    
+    .walkthrough-character-card .character-icon {
+        width: 150px;
+        min-width: 150px;
+        height: 200px;
+        align-self: center;
+    }
+    
+    .walkthrough-character-card .character-portrait {
+        width: 150px;
+        height: 225px;
+    }
+    
+    .walkthrough-character-name {
+        font-size: 1.1rem;
+        padding: 6px 10px;
+        align-self: flex-start;
+    }
+    
+    .walkthrough-character-stat {
+        font-size: 0.85rem;
+        padding: 6px 10px;
+        align-self: flex-start;
+    }
+    
+    .walkthrough-character-controls {
+        gap: 8px;
+    }
+    
+    .walkthrough-character-controls .btn {
+        padding: 6px 12px;
+        font-size: 0.8rem;
+    }
+    
+    .walkthrough-character-card .relationship-image-btn {
+        width: 40px;
+        height: 40px;
+    }
+    
+    .walkthrough-character-card .relationship-image-btn img {
+        width: 35px;
+        height: 35px;
+    }
+    
+    .interactions-section {
+        padding: 15px;
+    }
+    
+    .interaction-item {
+        padding: 12px;
+    }
+    
+    .conversation-step {
+        padding: 10px;
+    }
+    
+    .step-question {
+        font-size: 0.9rem;
+    }
+}
+
+@media (max-width: 480px) {
+    .walkthrough-character-card {
+        padding: 10px;
+        gap: 8px;
+        width: 100%;
+        max-width: 100%;
+        box-sizing: border-box;
+    }
+    
+    .walkthrough-character-card .character-icon {
+        width: 120px;
+        min-width: 120px;
+        height: 160px;
+    }
+    
+    .walkthrough-character-card .character-portrait {
+        width: 120px;
+        height: 180px;
+    }
+    
+    .walkthrough-character-name {
+        font-size: 1rem;
+        padding: 4px 8px;
+    }
+    
+    .walkthrough-character-stat {
+        font-size: 0.8rem;
+        padding: 4px 8px;
+    }
+    
+    .walkthrough-character-controls .btn {
+        padding: 4px 8px;
+        font-size: 0.75rem;
+    }
+    
+    .walkthrough-character-card .relationship-image-btn {
+        width: 35px;
+        height: 35px;
+    }
+    
+    .walkthrough-character-card .relationship-image-btn img {
+        width: 30px;
+        height: 30px;
+    }
+    
+    .interactions-section {
+        padding: 10px;
+    }
+    
+    .interaction-item {
+        padding: 10px;
+    }
+    
+    .conversation-choices {
+        padding-left: 10px;
+    }
+    
+    .conversation-step {
+        padding: 8px;
+    }
+}
+/* Enhanced Walkthrough Styles - Add these to your styles.css */
+
+/* Reset button styling */
+.interaction-reset-container {
+    padding: 10px 0;
+    border-top: 1px solid #e9ecef;
+    text-align: center;
+}
+
+.btn-xs {
+    padding: 2px 6px;
+    font-size: 0.7em;
+    border-radius: 3px;
+}
+
+/* Enhanced choice options with better hover states */
+.choice-option {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    margin-bottom: 5px;
+    padding: 8px;
+    border-radius: 6px;
+    transition: all 0.2s ease;
+    cursor: pointer;
+    border: 1px solid transparent;
+}
+
+.choice-option:hover {
+    background: rgba(102, 126, 234, 0.1);
+    border-color: rgba(102, 126, 234, 0.2);
+    transform: translateX(2px);
+}
+
+.choice-option input[type="radio"] {
+    accent-color: #667eea;
+    cursor: pointer;
+}
+
+.choice-option input[type="radio"]:disabled {
+    cursor: not-allowed;
+}
+
+.choice-option label {
+    cursor: pointer;
+    flex: 1;
+    user-select: none;
+}
+
+.choice-option label:hover {
+    color: #667eea;
+}
+
+/* Enhanced step styling */
+.multi-step-header {
+    margin-bottom: 15px;
+}
+
+.multi-step-header h5 {
+    color: #495057;
+    font-weight: bold;
+    margin: 0;
+    padding-bottom: 5px;
+    border-bottom: 2px solid #667eea;
+}
+
+.conversation-step {
+    margin-bottom: 20px;
+    padding: 15px;
+    border-radius: 10px;
+    transition: all 0.3s ease;
+    border: 2px solid #e9ecef;
+    background: white;
+    position: relative;
+}
+
+.conversation-step.completed-step {
+    background: linear-gradient(135deg, #f8fff9 0%, #e8f5e8 100%);
+    border-color: #28a745;
+    box-shadow: 0 2px 8px rgba(40, 167, 69, 0.1);
+}
+
+.conversation-step.future-step {
+    background: #f8f9fa;
+    border-color: #dee2e6;
+    opacity: 0.7;
+    position: relative;
+}
+
+.conversation-step.future-step::before {
+    content: "🔒";
+    position: absolute;
+    top: 15px;
+    right: 15px;
+    font-size: 1.2em;
+    opacity: 0.5;
+}
+
+.step-question {
+    font-weight: bold;
+    color: #495057;
+    margin-bottom: 12px;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    flex-wrap: wrap;
+}
+
+.step-number {
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    color: white;
+    padding: 4px 12px;
+    border-radius: 15px;
+    font-size: 0.8rem;
+    font-weight: bold;
+    white-space: nowrap;
+}
+
+.step-choice-indicator {
+    background: linear-gradient(135deg, #28a745 0%, #20c997 100%);
+    color: white;
+    padding: 4px 12px;
+    border-radius: 15px;
+    font-size: 0.8rem;
+    font-weight: bold;
+    white-space: nowrap;
+}
+
+/* Enhanced interaction item styling */
+.interaction-item {
+    background: white;
+    border-radius: 12px;
+    padding: 20px;
+    margin-bottom: 15px;
+    border-left: 4px solid #dee2e6;
+    transition: all 0.3s ease;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+}
+
+.interaction-item:hover {
+    box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+    transform: translateY(-1px);
+}
+
+.interaction-item.completed {
+    border-left-color: #28a745;
+    background: linear-gradient(135deg, #f8fff9 0%, #ffffff 100%);
+}
+
+.interaction-checkbox {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    margin-bottom: 15px;
+}
+
+.interaction-checkbox input[type="checkbox"] {
+    width: 20px;
+    height: 20px;
+    accent-color: #667eea;
+    cursor: pointer;
+}
+
+.interaction-title {
+    font-weight: bold;
+    color: #495057;
+    font-size: 1.1rem;
+    cursor: pointer;
+}
+
+.completion-indicator {
+    color: #28a745;
+    font-weight: bold;
+    font-size: 0.9rem;
+    margin-left: 8px;
+    padding: 2px 8px;
+    background: rgba(40, 167, 69, 0.1);
+    border-radius: 12px;
+}
+
+/* Enhanced conversation choices container */
+.conversation-choices {
+    margin-top: 15px;
+    padding: 15px;
+    background: #f8f9fa;
+    border-radius: 8px;
+    border: 1px solid #e9ecef;
+    transition: all 0.3s ease;
+}
+
+.conversation-choices h5 {
+    color: #495057;
+    margin-bottom: 12px;
+    font-size: 1rem;
+    font-weight: 600;
+}
+
+/* Enhanced button styling */
+.btn-outline-secondary {
+    border: 2px solid #6c757d;
+    color: #6c757d;
+    background: transparent;
+    padding: 6px 12px;
+    border-radius: 6px;
+    font-weight: 500;
+    transition: all 0.2s ease;
+}
+
+.btn-outline-secondary:hover {
+    background: #6c757d;
+    color: white;
+    transform: translateY(-1px);
+    box-shadow: 0 2px 8px rgba(108, 117, 125, 0.3);
+}
+
+/* Enhanced relationship path indicators */
+.relationship-path-indicator {
+    display: inline-block;
+    width: 14px;
+    height: 14px;
+    border-radius: 50%;
+    margin-right: 8px;
+    border: 2px solid rgba(255,255,255,0.8);
+    box-shadow: 0 1px 3px rgba(0,0,0,0.2);
+}
+
+.path-love { 
+    background: linear-gradient(135deg, #e91e63 0%, #ad1457 100%);
+}
+
+.path-friend { 
+    background: linear-gradient(135deg, #2196f3 0%, #1565c0 100%);
+}
+
+.path-hate { 
+    background: linear-gradient(135deg, #f44336 0%, #c62828 100%);
+}
+
+.path-neutral { 
+    background: linear-gradient(135deg, #6c757d 0%, #495057 100%);
+}
+
+/* Success alert styling */
+.alert-success {
+    background: linear-gradient(135deg, #d4edda 0%, #c3e6cb 100%);
+    border: 1px solid #b6d7a8;
+    color: #155724;
+    padding: 12px 16px;
+    border-radius: 8px;
+    font-weight: 500;
+    box-shadow: 0 4px 12px rgba(40, 167, 69, 0.15);
+    animation: slideInRight 0.3s ease-out;
+}
+
+@keyframes slideInRight {
+    from {
+        transform: translateX(100%);
+        opacity: 0;
+    }
+    to {
+        transform: translateX(0);
+        opacity: 1;
+    }
+}
+
+/* Enhanced progress styling */
+.interaction-progress {
+    background: #e9ecef;
+    border-radius: 10px;
+    height: 8px;
+    margin: 10px 0;
+    overflow: hidden;
+}
+
+.interaction-progress-bar {
+    background: linear-gradient(90deg, #667eea 0%, #764ba2 100%);
+    height: 100%;
+    border-radius: 10px;
+    transition: width 0.5s ease;
+    position: relative;
+}
+
+.interaction-progress-bar::after {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: linear-gradient(90deg, transparent 0%, rgba(255,255,255,0.3) 50%, transparent 100%);
+    animation: shine 2s infinite;
+}
+
+@keyframes shine {
+    0% { transform: translateX(-100%); }
+    100% { transform: translateX(100%); }
+}
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+    .step-question {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 8px;
+    }
+    
+    .choice-option {
+        padding: 10px;
+    }
+    
+    .conversation-step {
+        padding: 12px;
+    }
+    
+    .step-number,
+    .step-choice-indicator {
+        font-size: 0.75rem;
+        padding: 3px 8px;
     }
 }

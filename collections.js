@@ -441,6 +441,43 @@ function resetCollections() {
     }
 }
 
+// Function to get collectables for a character
+function getCharacterCollectables(characterId) {
+    return collectables[characterId] || [];
+}
+
+// Function to check if user has a collectable
+function hasCollectable(characterId, collectableId) {
+    const state = getCurrentGameState();
+    if (!state.collectables) {
+        state.collectables = {};
+    }
+    if (!state.collectables[characterId]) {
+        state.collectables[characterId] = {};
+    }
+    return state.collectables[characterId][collectableId] || false;
+}
+
+// Function to toggle collectable status
+function toggleCollectable(characterId, collectableId) {
+    const state = getCurrentGameState();
+    if (!state.collectables) {
+        state.collectables = {};
+    }
+    if (!state.collectables[characterId]) {
+        state.collectables[characterId] = {};
+    }
+    
+    state.collectables[characterId][collectableId] = !state.collectables[characterId][collectableId];
+    saveStateUnified();
+    
+    // Update only the specific item and summary stats if we're on the collections tab
+    if (document.getElementById('collections-tab').classList.contains('active')) {
+        updateCollectableItem(characterId, collectableId);
+        updateCollectionsSummary();
+    }
+}
+
 // Make functions globally available immediately
 window.toggleCollectable = toggleCollectable;
 window.hasCollectable = hasCollectable;

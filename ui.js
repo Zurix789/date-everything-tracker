@@ -2,9 +2,10 @@
 
 // Global filter state
 let currentFilters = {
-    main: { sort: 'dex', statFilter: '', relationshipFilter: '', nameSearch: '' },
-    ng: { sort: 'dex', statFilter: '', relationshipFilter: '', nameSearch: '' },
-    collections: { sort: 'dex', completionFilter: '', metFilter: '', nameSearch: '' }
+    main: { sort: 'dex', statFilter: '', relationshipFilter: '', nameSearch: '', storyFilter: '', timeslotFilter: '' },
+    ng: { sort: 'dex', statFilter: '', relationshipFilter: '', nameSearch: '', storyFilter: '', timeslotFilter: '' },
+    collections: { sort: 'dex', completionFilter: '', metFilter: '', nameSearch: '' },
+    walkthrough: { sort: 'dex', statFilter: '', relationshipFilter: '', nameSearch: '', storyFilter: '' }
 };
 
 // Add this to the switchTab function in ui.js:
@@ -32,10 +33,24 @@ function switchTab(tabName) {
     updateTimeSlots();
     renderCharacters();
     
-    // Initialize collections tab if selected
+    // Initialize specific tabs
     if (tabName === 'collections') {
         renderCollections();
         updateCollectionsSummary();
+    } else if (tabName === 'walkthrough') {
+        // Properly initialize walkthrough instead of just rendering
+        if (typeof initializeWalkthrough === 'function') {
+            initializeWalkthrough();
+        } else {
+            // Fallback if function doesn't exist yet
+            console.warn('initializeWalkthrough function not found, trying direct render');
+            if (typeof renderWalkthroughCharacters === 'function') {
+                renderWalkthroughCharacters();
+            }
+            if (typeof updateWalkthroughStats === 'function') {
+                updateWalkthroughStats();
+            }
+        }
     }
 }
 
@@ -57,21 +72,44 @@ function applyFilters(tabPrefix) {
     if (tabPrefix === 'collections') {
         applyCollectionsFilters();
         return;
+    } else if (tabPrefix === 'walkthrough') {
+        applyWalkthroughFilters();
+        return;
     }
     
     const sort = document.getElementById(`${tabPrefix}-sort`).value;
     const statFilter = document.getElementById(`${tabPrefix}-stat-filter`).value;
     const relationshipFilter = document.getElementById(`${tabPrefix}-relationship-filter`).value;
+    const storyFilter = document.getElementById(`${tabPrefix}-story-filter`).value;
+    const timeslotFilter = document.getElementById(`${tabPrefix}-timeslot-filter`).value;
     const nameSearch = document.getElementById(`${tabPrefix}-name-search`).value.toLowerCase();
     
     currentFilters[tabPrefix === 'main' ? 'main' : 'ng'] = {
-        sort, statFilter, relationshipFilter, nameSearch
+        sort, statFilter, relationshipFilter, storyFilter, timeslotFilter, nameSearch
     };
     
     renderCharacters();
 }
 
 function clearFilters(tabPrefix) {
+    if (tabPrefix === 'walkthrough') {
+        document.getElementById('walkthrough-sort').value = 'dex';
+        document.getElementById('walkthrough-stat-filter').value = '';
+        document.getElementById('walkthrough-relationship-filter').value = '';
+        document.getElementById('walkthrough-story-filter').value = '';
+        document.getElementById('walkthrough-name-search').value = '';
+        
+        currentFilters.walkthrough = {
+            sort: 'dex',
+            statFilter: '',
+            relationshipFilter: '',
+            storyFilter: '',
+            nameSearch: ''
+        };
+        
+        renderWalkthroughCharacters();
+        return;
+    }
     if (tabPrefix === 'collections') {
         clearCollectionsFilters();
         return;
@@ -80,10 +118,12 @@ function clearFilters(tabPrefix) {
     document.getElementById(`${tabPrefix}-sort`).value = 'dex';
     document.getElementById(`${tabPrefix}-stat-filter`).value = '';
     document.getElementById(`${tabPrefix}-relationship-filter`).value = '';
+    document.getElementById(`${tabPrefix}-story-filter`).value = '';
+    document.getElementById(`${tabPrefix}-timeslot-filter`).value = '';
     document.getElementById(`${tabPrefix}-name-search`).value = '';
     
     currentFilters[tabPrefix === 'main' ? 'main' : 'ng'] = {
-        sort: 'dex', statFilter: '', relationshipFilter: '', nameSearch: ''
+        sort: 'dex', statFilter: '', relationshipFilter: '', storyFilter: '', timeslotFilter: '', nameSearch: ''
     };
     
     renderCharacters();
@@ -552,7 +592,7 @@ function renderCharacters() {
         if (char.hasLocations && locationData[char.id] && charState.met) {
             locationTracker = `
                 <div class="location-tracker">
-                    <h4>${locationData[char.id].name}</h4>
+                    <h4 class="character-name">${locationData[char.id].name}</h4>
                     <div class="location-grid">
                         ${locationData[char.id].locations.map(loc => `
                             <div class="location-item">
@@ -1010,6 +1050,23 @@ function clearCollectionsFilters() {
     };
     
     renderCollections();
+}
+function applyWalkthroughFilters() {
+    const sort = document.getElementById('walkthrough-sort').value;
+    const statFilter = document.getElementById('walkthrough-stat-filter').value;
+    const relationshipFilter = document.getElementById('walkthrough-relationship-filter').value;
+    const storyFilter = document.getElementById('walkthrough-story-filter').value;
+    const nameSearch = document.getElementById('walkthrough-name-search').value.toLowerCase();
+    
+    currentFilters.walkthrough = {
+        sort,
+        statFilter,
+        relationshipFilter,
+        storyFilter,
+        nameSearch
+    };
+    
+    renderWalkthroughCharacters();
 }
 
 // Make these functions globally available from ui.js as well

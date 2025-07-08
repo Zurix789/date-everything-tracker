@@ -607,6 +607,173 @@ function updateAllFavoriteStarButtons(characterId) {
         }
     });
 }
+// Complete Sync Integration Script
+// Add this to your main.js or create as a new file: syncIntegration.js
+
+// Enhanced integration with existing walkthrough functions
+function integrateEnhancedSyncWithWalkthrough() {
+    // Override existing walkthrough functions to trigger sync updates
+    const originalWalkthroughFunctions = {
+        toggleWalkthroughCharacterMet: window.toggleWalkthroughCharacterMet,
+        toggleWalkthroughStoryComplete: window.toggleWalkthroughStoryComplete,
+        toggleWalkthroughRealized: window.toggleWalkthroughRealized,
+        setWalkthroughRelationship: window.setWalkthroughRelationship
+    };
+
+    // Enhanced wrapper functions that trigger immediate sync
+    window.toggleWalkthroughCharacterMet = function(charId) {
+        if (originalWalkthroughFunctions.toggleWalkthroughCharacterMet) {
+            originalWalkthroughFunctions.toggleWalkthroughCharacterMet(charId);
+            triggerManualChange('walkthrough', charId);
+        }
+    };
+
+    window.toggleWalkthroughStoryComplete = function(charId) {
+        if (originalWalkthroughFunctions.toggleWalkthroughStoryComplete) {
+            originalWalkthroughFunctions.toggleWalkthroughStoryComplete(charId);
+            triggerManualChange('walkthrough', charId);
+        }
+    };
+
+    window.toggleWalkthroughRealized = function(charId) {
+        if (originalWalkthroughFunctions.toggleWalkthroughRealized) {
+            originalWalkthroughFunctions.toggleWalkthroughRealized(charId);
+            triggerManualChange('walkthrough', charId);
+        }
+    };
+
+    window.setWalkthroughRelationship = function(charId, relationship) {
+        if (originalWalkthroughFunctions.setWalkthroughRelationship) {
+            originalWalkthroughFunctions.setWalkthroughRelationship(charId, relationship);
+            triggerManualChange('walkthrough', charId);
+        }
+    };
+}
+
+// Enhanced integration with main game functions
+function integrateEnhancedSyncWithMainGame() {
+    // Override main game functions to trigger sync updates
+    const originalMainFunctions = {
+        toggleCharacterMetUnified: window.toggleCharacterMetUnified,
+        toggleStoryCompleteUnified: window.toggleStoryCompleteUnified,
+        toggleRealizedUnified: window.toggleRealizedUnified,
+        setCharacterRelationshipUnified: window.setCharacterRelationshipUnified
+    };
+
+    window.toggleCharacterMetUnified = function(charId) {
+        if (originalMainFunctions.toggleCharacterMetUnified) {
+            originalMainFunctions.toggleCharacterMetUnified(charId);
+            const source = isNgPlus ? 'ngplus' : 'main';
+            triggerManualChange(source, charId);
+        }
+    };
+
+    window.toggleStoryCompleteUnified = function(charId) {
+        if (originalMainFunctions.toggleStoryCompleteUnified) {
+            originalMainFunctions.toggleStoryCompleteUnified(charId);
+            const source = isNgPlus ? 'ngplus' : 'main';
+            triggerManualChange(source, charId);
+        }
+    };
+
+    window.toggleRealizedUnified = function(charId) {
+        if (originalMainFunctions.toggleRealizedUnified) {
+            originalMainFunctions.toggleRealizedUnified(charId);
+            const source = isNgPlus ? 'ngplus' : 'main';
+            triggerManualChange(source, charId);
+        }
+    };
+
+    window.setCharacterRelationshipUnified = function(charId, relationship) {
+        if (originalMainFunctions.setCharacterRelationshipUnified) {
+            originalMainFunctions.setCharacterRelationshipUnified(charId, relationship);
+            const source = isNgPlus ? 'ngplus' : 'main';
+            triggerManualChange(source, charId);
+        }
+    };
+}
+
+// Trigger manual change tracking for immediate sync
+function triggerManualChange(source, charId) {
+    if (enhancedAutoSync.enabled) {
+        // Mark this character as recently changed for priority sync
+        enhancedAutoSync.recentChanges = enhancedAutoSync.recentChanges || {};
+        enhancedAutoSync.recentChanges[charId] = {
+            source: source,
+            timestamp: Date.now()
+        };
+        
+        // Trigger immediate sync check on next cycle
+        if (enhancedAutoSync.interval) {
+            // Clear and restart interval to sync immediately
+            clearInterval(enhancedAutoSync.interval);
+            performEnhancedAutoSync();
+            
+            // Restart normal interval
+            enhancedAutoSync.interval = setInterval(() => {
+                performEnhancedAutoSync();
+            }, enhancedAutoSync.syncFrequency);
+        }
+    }
+}
+
+// Enhanced UI event handlers for walkthrough tab
+function setupEnhancedWalkthroughEventHandlers() {
+    // Hint mode toggle for walkthrough
+    const walkthroughHintBtn = document.getElementById('walkthroughHintMode');
+    if (walkthroughHintBtn) {
+        walkthroughHintBtn.addEventListener('click', () => {
+            if (typeof walkthroughState !== 'undefined') {
+                walkthroughState.hintMode = !walkthroughState.hintMode;
+                walkthroughHintBtn.textContent = `Hint Mode: ${walkthroughState.hintMode ? 'ON' : 'OFF'}`;
+                walkthroughHintBtn.classList.toggle('active', walkthroughState.hintMode);
+                if (typeof saveWalkthroughState === 'function') {
+                    saveWalkthroughState();
+                }
+                if (typeof renderWalkthroughCharacters === 'function') {
+                    renderWalkthroughCharacters();
+                }
+            }
+        });
+    }
+
+    // Attic toggle for walkthrough
+    const walkthroughAtticBtn = document.getElementById('walkthroughAtticUnlocked');
+    if (walkthroughAtticBtn) {
+        walkthroughAtticBtn.addEventListener('click', () => {
+            if (typeof walkthroughState !== 'undefined') {
+                walkthroughState.atticUnlocked = !walkthroughState.atticUnlocked;
+                walkthroughAtticBtn.textContent = `Attic: ${walkthroughState.atticUnlocked ? 'Unlocked' : 'Locked'}`;
+                walkthroughAtticBtn.classList.toggle('active', walkthroughState.atticUnlocked);
+                if (typeof saveWalkthroughState === 'function') {
+                    saveWalkthroughState();
+                }
+                if (typeof renderWalkthroughCharacters === 'function') {
+                    renderWalkthroughCharacters();
+                }
+            }
+        });
+    }
+
+    // DLC toggle for walkthrough
+    const walkthroughDlcBtn = document.getElementById('walkthroughDlcPurchased');
+    if (walkthroughDlcBtn) {
+        walkthroughDlcBtn.addEventListener('click', () => {
+            if (typeof walkthroughState !== 'undefined') {
+                walkthroughState.dlcPurchased = !walkthroughState.dlcPurchased;
+                walkthroughDlcBtn.textContent = `DLC: ${walkthroughState.dlcPurchased ? 'Purchased' : 'Not Purchased'}`;
+                walkthroughDlcBtn.classList.toggle('active', walkthroughState.dlcPurchased);
+                if (typeof saveWalkthroughState === 'function') {
+                    saveWalkthroughState();
+                }
+                if (typeof renderWalkthroughCharacters === 'function') {
+                    renderWalkthroughCharacters();
+                }
+            }
+        });
+    }
+}
+
 
 // Make functions global for onclick handlers
 window.toggleCharacterMetUnified = toggleCharacterMetUnified;

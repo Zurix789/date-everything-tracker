@@ -61,7 +61,7 @@ const characters = [
         id: 8, name: 'Wyndolyn', object: 'Window', stat: 'empathy', 
         requirements: { smarts: 45, poise: 55, empathy: 85, charm: 35, sass: 30 }, 
         locationRequirement: 'none',
-        storyRequirements: { attic: true },
+        storyRequirements: {},
         realizationDependencies: [], // Further testing required
         bidirectionalDependencies: [],
         hasLocations: true 

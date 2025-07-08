@@ -282,7 +282,7 @@
 </div>
 <div class="filter-group">
     <label>Filter by Time Slots:</label>
-    <select id="main-timeslot-filter" onchange="applyFilters('main')">
+    <select id="ng-timeslot-filter" onchange="applyFilters('ng')">
         <option value="">All Characters</option>
         <option value="scheduled">Scheduled in Time Slots</option>
         <option value="not-scheduled">Not Scheduled</option>
@@ -302,7 +302,7 @@
 
             <!-- NG+ content -->
             <div class="ng-plus-starter">
-                <h3>🌟 New Game Plus - Starting Stats</h3>
+                <h3>New Game Plus - Starting Stats</h3>
                 <p>Set your starting stats for a new playthrough!</p>
                 <div class="starter-stats">
                     <div class="starter-stat">
@@ -552,28 +552,114 @@
             </div>
         </div>
 
-        <div id="walkthrough-tab" class="tab-content">
-            <div class="coming-soon">
-                <h2>Character Guides & Walkthroughs</h2>
-                <p>Guides and Walkthrough to achieve all endings with each character coming soon!</p>
-            </div>
+<!-- Enhanced Walkthrough Tab Section with Bi-Directional Auto-Sync -->
+<!-- Replace the walkthrough tab content in your index.html with this -->
+
+<div id="walkthrough-tab" class="tab-content">
+    <!-- Filters Section for Walkthrough -->
+    <div class="filters-section">
+        <div class="filters-header">
+            <h3>Character Guide Filters & Sorting</h3>
+            <button class="filters-toggle" onclick="toggleFilters('walkthrough')">Show Filters</button>
         </div>
-        
-        <div id="dateadex-tab" class="tab-content">
-            <div class="coming-soon">
-                <h2>Date-a-Dex</h2>
-                <p>Comprehensive character information and dating guides coming soon!</p>
+        <div class="filters-content" id="walkthrough-filters">
+            <div class="filters-grid">
+                <div class="filter-group">
+                    <label>Sort By:</label>
+                    <select id="walkthrough-sort" onchange="applyFilters('walkthrough')">
+                        <option value="dex">Dex Number</option>
+                        <option value="name">By Name</option>
+                        <option value="stat">Stat Type</option>
+                        <option value="relationship">Relationship</option>
+                    </select>
+                </div>
+                <div class="filter-group">
+                    <label>Filter by Stat:</label>
+                    <select id="walkthrough-stat-filter" onchange="applyFilters('walkthrough')">
+                        <option value="">All Stats</option>
+                        <option value="smarts">Smarts</option>
+                        <option value="poise">Poise</option>
+                        <option value="empathy">Empathy</option>
+                        <option value="charm">Charm</option>
+                        <option value="sass">Sass</option>
+                        <option value="choosable">Choosable</option>
+                    </select>
+                </div>
+                <div class="filter-group">
+                    <label>Filter by Relationship:</label>
+                    <select id="walkthrough-relationship-filter" onchange="applyFilters('walkthrough')">
+                        <option value="">All Relationships</option>
+                        <option value="love">Love</option>
+                        <option value="friend">Friend</option>
+                        <option value="hate">Hate</option>
+                        <option value="none">None</option>
+                        <option value="not-met">Not Met</option>
+                        <option value="hide-completed">Hide Completed</option>
+                    </select>
+                </div>
+                <div class="filter-group">
+                    <label>Filter by Story Status:</label>
+                    <select id="walkthrough-story-filter" onchange="applyFilters('walkthrough')">
+                        <option value="">All Stories</option>
+                        <option value="incomplete">Story Incomplete</option>
+                        <option value="complete">Story Complete</option>
+                        <option value="realizable">Realizable</option>
+                    </select>
+                </div>
+                <div class="filter-group">
+                    <label>Search Name:</label>
+                    <input type="text" id="walkthrough-name-search" placeholder="Search..." oninput="applyFilters('walkthrough')">
+                </div>
+            </div>
+            <div class="filters-actions">
+                <button class="btn btn-primary" onclick="applyFilters('walkthrough')">Apply Filters</button>
+                <button class="btn btn-warning" onclick="clearFilters('walkthrough')">Clear Filters</button>
             </div>
         </div>
     </div>
+
+
+    <!-- Stats display -->
+    <div class="stats-display">
+        <div class="stat-item">
+            <div>Smarts</div>
+            <span class="stat-value" id="walkthroughSmartsValue">0</span>
+        </div>
+        <div class="stat-item">
+            <div>Poise</div>
+            <span class="stat-value" id="walkthroughPoiseValue">0</span>
+        </div>
+        <div class="stat-item">
+            <div>Empathy</div>
+            <span class="stat-value" id="walkthroughEmpathyValue">0</span>
+        </div>
+        <div class="stat-item">
+            <div>Charm</div>
+            <span class="stat-value" id="walkthroughCharmValue">0</span>
+        </div>
+        <div class="stat-item">
+            <div>Sass</div>
+            <span class="stat-value" id="walkthroughSassValue">0</span>
+        </div>
+    </div>
+
+
+    <!-- Character grid -->
+    <div class="character-grid" id="walkthroughCharacterGrid">
+        <!-- Walkthrough characters will be populated here -->
+    </div>
 </div>
 
-    <script src="data.js"></script>
-    <script src="collectables.js"></script>
-    <script src="gameState.js"></script>
-    <script src="characterLogic.js"></script>
-    <script src="ui.js"></script>
-    <script src="collections.js"></script>
-    <script src="main.js"></script>
+
+
+<script src="data.js"></script>
+<script src="collectables.js"></script>
+<script src="walkthroughInteractions.js"></script>
+<script src="gameState.js"></script>
+<script src="characterLogic.js"></script>
+<script src="ui.js"></script>
+<script src="collections.js"></script>
+<script src="walkthrough.js"></script>
+<script src="main.js"></script>
 </body>
 </html>
