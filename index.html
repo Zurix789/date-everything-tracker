@@ -26,7 +26,7 @@
             <button class="tab-button" onclick="switchTab('collections')">Collections</button>
             <button class="tab-button disabled">Achievements</button>
             <button class="tab-button disabled">Speedrunning</button>
-            <button class="tab-button disabled">Walkthrough/Guides</button>
+            <button class="tab-button" onclick="switchTab('walkthrough')">Walkthrough/Guides</button>
             <button class="tab-button disabled">Date-a-Dex</button>
         </div>
         
@@ -389,21 +389,21 @@
     <div class="relationship-grid">
         <div class="relationship-card love">
             <img src="love_icon.webp" alt="Love" class="relationship-icon" />
-            <span class="relationship-number" id="loveCount">0</span>
+            <span class="relationship-number" id="ngLoveCount">0</span>
             <div>Love</div>
         </div>
         <div class="relationship-card friend">
             <img src="friend_icon.webp" alt="Friend" class="relationship-icon" />
-            <span class="relationship-number" id="friendCount">0</span>
+            <span class="relationship-number" id="ngFriendCount">0</span>
             <div>Friend</div>
         </div>
         <div class="relationship-card hate">
             <img src="hate_icon.webp" alt="Hate" class="relationship-icon" />
-            <span class="relationship-number" id="hateCount">0</span>
+            <span class="relationship-number" id="ngHateCount">0</span>
             <div>Hate</div>
         </div>
         <div class="relationship-card none">
-            <span class="relationship-number" id="noRelationshipCount">0</span>
+            <span class="relationship-number" id="ngNoRelationshipCount">0</span>
             <div>No Relationship</div>
         </div>
     </div>
