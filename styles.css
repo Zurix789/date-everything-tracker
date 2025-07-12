@@ -788,6 +788,7 @@ select {
     z-index: 3;
     position: relative;
     left: 25px;
+    max-width: 90%;
 }
 
 .requirements-list ul {
@@ -817,6 +818,7 @@ select {
     z-index: 3;
     position: relative;
     left: 25px;
+    max-width: 90%;
 }
 
 .dependency-requirements {
