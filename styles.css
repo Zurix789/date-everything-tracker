@@ -787,6 +787,7 @@ select {
     border-left: 4px solid #ffc107;
     z-index: 3;
     position: relative;
+    left: 25px;
 }
 
 .requirements-list ul {
@@ -815,16 +816,19 @@ select {
     border-left: 4px solid #2196F3;
     z-index: 3;
     position: relative;
+    left: 25px;
 }
 
 .dependency-requirements {
     background: #f3e5f5;
     padding: 10px;
     border-radius: 6px;
+    max-width: 90%;
     margin-top: 10px;
     border-left: 4px solid #9c27b0;
     z-index: 3;
     position: relative;
+    left: 25px;
 }
 
 .dependency-requirements ul {
@@ -848,6 +852,7 @@ select {
     border-left: 4px solid #9c27b0;
     z-index: 3;
     position: relative;
+    left: 25px;
 }
 
 .dependency-item {
@@ -856,6 +861,8 @@ select {
     gap: 8px;
     margin: 5px 0;
     font-size: 0.9rem;
+    left: 15px;
+    padding: 10px;
 }
 
 .dependency-met {
@@ -879,6 +886,7 @@ select {
     z-index: 3;
     align-items: center;
     position: relative;
+    left: 25px;
 }
 
 .manual-dependency input {
