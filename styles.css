@@ -1633,300 +1633,6 @@ select {
             font-size: 1.1rem;
         }
 
-        /* Force Mobile Mode - Override all desktop styles */
-        body.force-mobile-mode .character-card,
-        body.force-mobile-mode .collection-character-card {
-            min-height: 180px !important;
-            padding: 10px !important;
-            width: 100% !important;
-            max-width: calc(100vw - 60px) !important;
-            box-sizing: border-box !important;
-        }
-
-        body.force-mobile-mode .character-grid,
-        body.force-mobile-mode .collections-grid {
-            grid-template-columns: 1fr !important;
-            gap: 15px !important;
-            width: 100% !important;
-            max-width: 100% !important;
-        }
-
-        body.force-mobile-mode .character-icon {
-            width: 20% !important;
-            min-width: 50px !important;
-            height: 140px !important;
-            max-height: 140px !important;
-        }
-
-        body.force-mobile-mode .collection-character-card .character-icon {
-            width: 20% !important;
-            min-width: 50px !important;
-            height: 140px !important;
-            max-height: 140px !important;
-        }
-
-        body.force-mobile-mode .character-portrait {
-            width: 80px !important;
-            height: 120px !important;
-            max-width: 80px !important;
-            max-height: 120px !important;
-            top: 0 !important;
-            left: 0 !important;
-            background-size: contain !important;
-            background-position: center !important;
-        }
-
-        body.force-mobile-mode .collection-character-card .character-portrait {
-            width: 80px !important;
-            height: 120px !important;
-            max-width: 80px !important;
-            max-height: 120px !important;
-            top: 0 !important;
-            left: 0 !important;
-            background-size: contain !important;
-            background-position: center !important;
-        }
-
-        body.force-mobile-mode .character-name {
-            font-size: 0.9rem !important;
-            padding: 4px 6px !important;
-            margin-bottom: 6px !important;
-        }
-
-        body.force-mobile-mode .collection-character-card .character-name {
-            font-size: 0.9rem !important;
-            padding: 4px 6px !important;
-            margin-bottom: 6px !important;
-        }
-
-        body.force-mobile-mode .character-controls {
-            gap: 6px !important;
-            margin-bottom: 8px !important;
-        }
-
-        body.force-mobile-mode .btn {
-            padding: 3px 6px !important;
-            font-size: 0.7rem !important;
-        }
-
-        body.force-mobile-mode .relationship-image-btn {
-            min-width: 40px !important;
-            padding: 4px 6px !important;
-            font-size: 0.65rem !important;
-        }
-
-        body.force-mobile-mode .relationship-image-btn img {
-            display: none !important;
-        }
-
-        body.force-mobile-mode .relationship-image-btn .btn-text {
-            display: block !important;
-        }
-
-        body.force-mobile-mode .collectables-grid {
-            grid-template-columns: 1fr !important;
-            gap: 8px !important;
-        }
-
-        body.force-mobile-mode .collectable-image img {
-            width: 30px !important;
-            height: 30px !important;
-            max-width: 30px !important;
-            max-height: 30px !important;
-        }
-
-        body.force-mobile-mode .collectable-clue {
-            font-size: 0.8rem !important;
-        }
-
-        body.force-mobile-mode .collectable-description {
-            font-size: 0.7rem !important;
-        }
-
-        body.force-mobile-mode .stats-display {
-            grid-template-columns: 1fr !important;
-            gap: 8px !important;
-            padding: 10px !important;
-        }
-
-        body.force-mobile-mode .summary-stats {
-            grid-template-columns: 1fr !important;
-            gap: 10px !important;
-        }
-
-        body.force-mobile-mode .collections-summary {
-            grid-template-columns: 1fr !important;
-            gap: 10px !important;
-        }
-
-        body.force-mobile-mode .main-controls {
-            flex-direction: column !important;
-            gap: 10px !important;
-        }
-
-        body.force-mobile-mode .tab-buttons {
-            flex-direction: column !important;
-            gap: 5px !important;
-        }
-
-        body.force-mobile-mode .tab-button {
-            padding: 10px 16px !important;
-            font-size: 0.9rem !important;
-        }
-
-        body.force-mobile-mode .time-slot select {
-            max-width: calc(100vw - 70px) !important;
-            font-size: 0.8rem !important;
-            padding: 6px !important;
-        }
-
-        body.force-mobile-mode .container {
-            padding: 10px !important;
-        }
-
-        body.force-mobile-mode h1 {
-            font-size: 1.5rem !important;
-        }
-
-        /* Force Desktop Mode - Override mobile media queries */
-        body.force-desktop-mode .character-card,
-        body.force-desktop-mode .collection-character-card {
-            min-height: 350px !important;
-            padding: 20px !important;
-            max-width: 450px !important;
-        }
-
-        body.force-desktop-mode .character-grid,
-        body.force-desktop-mode .collections-grid {
-            grid-template-columns: repeat(auto-fill, minmax(400px, 1fr)) !important;
-            gap: 10px !important;
-        }
-
-        body.force-desktop-mode .character-icon {
-            width: 35% !important;
-            min-width: 100px !important;
-            height: 250px !important;
-        }
-
-        body.force-desktop-mode .collection-character-card .character-icon {
-            width: 35% !important;
-            min-width: 100px !important;
-            height: 250px !important;
-        }
-
-        body.force-desktop-mode .character-portrait {
-            width: 200px !important;
-            height: 300px !important;
-            top: -5px !important;
-            left: -5px !important;
-        }
-
-        body.force-desktop-mode .collection-character-card .character-portrait {
-            width: 200px !important;
-            height: 300px !important;
-            top: -5px !important;
-            left: -5px !important;
-        }
-
-        body.force-desktop-mode .character-name {
-            font-size: 1.2rem !important;
-            margin-bottom: 10px !important;
-            padding: 8px 12px !important;
-        }
-
-        body.force-desktop-mode .collection-character-card .character-name {
-            font-size: 1.2rem !important;
-            margin-bottom: 10px !important;
-            padding: 8px 12px !important;
-        }
-
-        body.force-desktop-mode .btn {
-            padding: 8px 16px !important;
-            font-size: 0.9rem !important;
-        }
-
-        body.force-desktop-mode .relationship-image-btn {
-            min-width: auto !important;
-            padding: 8px 16px !important;
-            font-size: 0.9rem !important;
-        }
-
-        body.force-desktop-mode .relationship-image-btn img {
-            display: inline !important;
-        }
-
-        body.force-desktop-mode .relationship-image-btn .btn-text {
-            display: none !important;
-        }
-
-        body.force-desktop-mode .stats-display {
-            grid-template-columns: repeat(auto-fit, minmax(120px, 1fr)) !important;
-            gap: 15px !important;
-            padding: 20px !important;
-        }
-
-        body.force-desktop-mode .summary-stats {
-            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)) !important;
-            gap: 20px !important;
-        }
-
-        body.force-desktop-mode .collections-summary {
-            grid-template-columns: repeat(auto-fit, minmax(120px, 1fr)) !important;
-            gap: 20px !important;
-        }
-
-        body.force-desktop-mode .main-controls {
-            flex-direction: row !important;
-            gap: 20px !important;
-        }
-
-        body.force-desktop-mode .tab-buttons {
-            flex-direction: row !important;
-            gap: 10px !important;
-        }
-
-        body.force-desktop-mode .tab-button {
-            padding: 12px 24px !important;
-            font-size: 1rem !important;
-        }
-
-        body.force-desktop-mode .container {
-            padding: 30px !important;
-        }
-
-        body.force-desktop-mode h1 {
-            font-size: 2.5rem !important;
-        }
-
-        /* Demo styles for visualization */
-        .demo-container {
-            max-width: 800px;
-            margin: 80px auto 20px auto;
-            padding: 20px;
-            background: white;
-            border-radius: 15px;
-            box-shadow: 0 4px 12px rgba(0,0,0,0.1);
-        }
-
-        .demo-card {
-            background: #f8f9fa;
-            padding: 20px;
-            border-radius: 10px;
-            margin: 20px 0;
-            border-left: 4px solid #764ba2;
-        }
-
-        .mode-indicator {
-            position: fixed;
-            top: 70px;
-            right: 20px;
-            background: rgba(118, 75, 162, 0.9);
-            color: white;
-            padding: 8px 12px;
-            border-radius: 20px;
-            font-size: 0.8rem;
-            z-index: 999;
-        }
 .time-slot-controls {
     margin-top: 15px;
     display: flex;
@@ -3018,10 +2724,10 @@ body.force-mobile-mode #collections-filters .filter-group select {
    }
    
    .character-portrait {
-       width: 70px;
-       height: 105px;
-       max-width: 70px;
-       max-height: 105px;
+       width: 700%;
+       height: 700%;
+       top: 0px;
+       left: -120px;
    }
    
    .collection-character-card .character-portrait {
@@ -3046,12 +2752,6 @@ body.force-mobile-mode #collections-filters .filter-group select {
        font-size: 0.65rem;
    }
    
-   .relationship-image-btn {
-       min-width: 35px;
-       padding: 3px 4px;
-       font-size: 0.6rem;
-   }
-   
    .time-slot select {
        max-width: calc(100vw - 90px);
        font-size: 0.75rem;
@@ -3073,10 +2773,52 @@ body.force-mobile-mode #collections-filters .filter-group select {
 
     .character-portrait[data-char-id="72"],
     [data-char-id="72"] .character-portrait {
-        width: 250%;
-        height: 250%;
-        top: -20px;
-        left: -15px;
+        width: 700%;
+        height: 700%;
+        top: 0px;
+        left: -40px;
+    }
+
+    .character-portrait[data-char-id="9"],
+    [data-char-id="9"] .character-portrait,
+    .character-portrait[data-char-id="19"],
+    [data-char-id="19"] .character-portrait {
+        width: 700%;
+        height: 700%;
+        top: 0px;
+        left: -90px;
+    }
+
+    .relationship-image-btn {
+        width: auto;
+        height: auto;
+        min-width: 45px;
+        min-height: 30px;
+        padding: 6px 8px;
+        font-size: 0.7rem;
+        font-weight: bold;
+        color: #764ba2;
+    }
+    
+    .relationship-image-btn img {
+        display: none;
+    }
+    
+    .relationship-image-btn .btn-text {
+        display: block;
+    }
+    
+    .relationship-image-btn:hover {
+        background: #f0f0ff;
+        color: #5a4b8a;
+        transform: none;
+        box-shadow: 0 2px 4px rgba(118, 75, 162, 0.2);
+    }
+    
+    .relationship-image-btn.active {
+        background: #764ba2;
+        color: white;
+        border-color: #764ba2;
     }
 }
 
@@ -3085,7 +2827,7 @@ body.force-mobile-mode #collections-filters .filter-group select {
    ============================================================================= */
 
 /* Samsung Galaxy S22 Ultra and similar large phones (384px viewport) */
-@media (max-width: 400px) {
+@media (max-width: 400px) and (min-width: 361px) {
    .container {
        padding: 8px;
    }
@@ -3108,29 +2850,6 @@ body.force-mobile-mode #collections-filters .filter-group select {
        min-width: 50px;
        height: 130px;
    }
-   
-    .character-portrait {
-        width: 250%;
-        height: 250%;
-        top: -20px;
-        left: -40px;
-    }
-
-    .character-portrait[data-char-id="9"],
-    [data-char-id="9"] .character-portrait {
-        width: 250%;
-        height: 250%;
-        top: -20px;
-        left: -80px;
-    }
-
-    .character-portrait[data-char-id="19"],
-    [data-char-id="19"] .character-portrait {
-        width: 250%;
-        height: 250%;
-        top: -20px;
-        left: -80px;
-    }
 
    
    .collection-character-card .character-portrait {
@@ -3155,11 +2874,37 @@ body.force-mobile-mode #collections-filters .filter-group select {
        font-size: 0.68rem;
    }
    
-   .relationship-image-btn {
-       min-width: 38px;
-       padding: 3px 5px;
-       font-size: 0.62rem;
-   }
+    .relationship-image-btn {
+        width: auto;
+        height: auto;
+        min-width: 45px;
+        min-height: 30px;
+        padding: 6px 8px;
+        font-size: 0.7rem;
+        font-weight: bold;
+        color: #764ba2;
+    }
+    
+    .relationship-image-btn img {
+        display: none;
+    }
+    
+    .relationship-image-btn .btn-text {
+        display: block;
+    }
+    
+    .relationship-image-btn:hover {
+        background: #f0f0ff;
+        color: #5a4b8a;
+        transform: none;
+        box-shadow: 0 2px 4px rgba(118, 75, 162, 0.2);
+    }
+    
+    .relationship-image-btn.active {
+        background: #764ba2;
+        color: white;
+        border-color: #764ba2;
+    }
    
    .time-slot select {
        max-width: calc(100vw - 80px);
@@ -3209,34 +2954,34 @@ body.force-mobile-mode #collections-filters .filter-group select {
     }
 
     .character-portrait {
-        width: 240%;
-        height: 240%;
-        top: -18px;
-        left: -35px;
+        width: 600%;
+        height: 600%;
+        top: 10px;
+        left: -140px;
     }
 
     .character-portrait[data-char-id="9"],
     [data-char-id="9"] .character-portrait {
-        width: 240%;
-        height: 240%;
-        top: -18px;
-        left: -70px;
+        width: 600%;
+        height: 600%;
+        top: 10px;
+        left: -115px;
     }
 
     .character-portrait[data-char-id="19"],
     [data-char-id="19"] .character-portrait {
-        width: 240%;
-        height: 240%;
-        top: -18px;
-        left: -70px;
+        width: 600%;
+        height: 600%;
+        top: -10px;
+        left: -115px;
     }
 
     .character-portrait[data-char-id="72"],
     [data-char-id="72"] .character-portrait {
-        width: 240%;
-        height: 240%;
-        top: -18px;
-        left: -18px;
+        width: 600%;
+        height: 600%;
+        top: 10px;
+        left: -30px;
     }
     
     .collection-character-card[data-char-id="72"] .character-portrait,
@@ -3251,7 +2996,7 @@ body.force-mobile-mode #collections-filters .filter-group select {
    MOBILE-480PX.CSS - Small Mobile Screens (max-width: 480px)
    ============================================================================= */
 
-@media (max-width: 480px) {
+@media (max-width: 480px) and (min-width: 401px) {
    .container {
        padding: 10px;
    }
@@ -3283,13 +3028,6 @@ body.force-mobile-mode #collections-filters .filter-group select {
        height: 140px;
    }
    
-   .character-portrait {
-       width: 80px;
-       height: 120px;
-       max-width: 80px;
-       max-height: 120px;
-   }
-   
    .collection-character-card .character-portrait {
        width: 80px;
        height: 120px;
@@ -3312,10 +3050,36 @@ body.force-mobile-mode #collections-filters .filter-group select {
        font-size: 0.7rem;
    }
    
-   .relationship-image-btn {
-        min-width: 40px;
-        padding: 4px 6px;
-        font-size: 0.65rem;
+    .relationship-image-btn {
+        width: auto;
+        height: auto;
+        min-width: 45px;
+        min-height: 30px;
+        padding: 6px 8px;
+        font-size: 0.7rem;
+        font-weight: bold;
+        color: #764ba2;
+    }
+    
+    .relationship-image-btn img {
+        display: none;
+    }
+    
+    .relationship-image-btn .btn-text {
+        display: block;
+    }
+    
+    .relationship-image-btn:hover {
+        background: #f0f0ff;
+        color: #5a4b8a;
+        transform: none;
+        box-shadow: 0 2px 4px rgba(118, 75, 162, 0.2);
+    }
+    
+    .relationship-image-btn.active {
+        background: #764ba2;
+        color: white;
+        border-color: #764ba2;
     }
    
    .collectables-grid {
@@ -3501,32 +3265,32 @@ body.force-mobile-mode #collections-filters .filter-group select {
     }
 
     .character-portrait {
-        width: 250%;
-        height: 250%;
+        width: 350%;
+        height: 350%;
         top: -20px;
-        left: -40px;
+        left: -80px;
     }
 
     .character-portrait[data-char-id="9"],
     [data-char-id="9"] .character-portrait {
-        width: 250%;
-        height: 250%;
+        width: 350%;
+        height: 350%;
         top: -20px;
         left: -80px;
     }
 
     .character-portrait[data-char-id="19"],
     [data-char-id="19"] .character-portrait {
-        width: 250%;
-        height: 250%;
+        width: 350%;
+        height: 350%;
         top: -20px;
         left: -80px;
     }
 
     .character-portrait[data-char-id="72"],
     [data-char-id="72"] .character-portrait {
-        width: 250%;
-        height: 250%;
+        width: 350%;
+        height: 350%;
         top: -20px;
         left: -20px;
     }
@@ -3544,7 +3308,7 @@ body.force-mobile-mode #collections-filters .filter-group select {
    ============================================================================= */
 
 /* Mobile responsiveness - Width-constrained cards with flexible height */
-@media (max-width: 768px) {
+@media (max-width: 768px) and (min-width: 481px) {
    .container {
        padding: 15px;
    }
@@ -3624,16 +3388,6 @@ body.force-mobile-mode #collections-filters .filter-group select {
    }
    
    /* Scaled character portraits */
-   .character-portrait {
-       width: 100px;
-       height: 150px;
-       max-width: 100px;
-       max-height: 150px;
-       top: 0;
-       left: 0;
-       background-size: contain;
-       background-position: center;
-   }
    
    .collection-character-card .character-portrait {
        width: 100px;
@@ -3682,7 +3436,7 @@ body.force-mobile-mode #collections-filters .filter-group select {
     .relationship-image-btn {
         width: auto;
         height: auto;
-        min-width: 45px;
+        min-width: 120px;
         min-height: 30px;
         padding: 6px 8px;
         font-size: 0.7rem;
@@ -4080,7 +3834,7 @@ body.force-mobile-mode #collections-filters .filter-group select {
         width: 260%;
         height: 260%;
         top: -22px;
-        left: -42px;
+        left: -70px;
     }
 
     .character-portrait[data-char-id="9"],
@@ -4088,7 +3842,7 @@ body.force-mobile-mode #collections-filters .filter-group select {
         width: 260%;
         height: 260%;
         top: -22px;
-        left: -85px;
+        left: -50px;
     }
 
     .character-portrait[data-char-id="19"],
@@ -4096,7 +3850,7 @@ body.force-mobile-mode #collections-filters .filter-group select {
         width: 260%;
         height: 260%;
         top: -22px;
-        left: -85px;
+        left: -50px;
     }
 
     .character-portrait[data-char-id="72"],
@@ -4120,7 +3874,7 @@ body.force-mobile-mode #collections-filters .filter-group select {
    ============================================================================= */
 
 /* Tablet responsive adjustments (up to 1023px) */
-@media (max-width: 1024px){
+@media (max-width: 1024px) and (min-width: 769px){
     .collection-character-card .character-portrait {
         width: 280%;
         height: 280%;
@@ -4149,13 +3903,6 @@ body.force-mobile-mode #collections-filters .filter-group select {
         left: -95px;
     }
 
-    .character-portrait {
-        width: 280%;
-        height: 280%;
-        top: -25px;
-        left: -45px;
-    }
-
     .character-portrait[data-char-id="9"],
     [data-char-id="9"] .character-portrait {
         width: 280%;
@@ -4177,7 +3924,7 @@ body.force-mobile-mode #collections-filters .filter-group select {
         width: 280%;
         height: 280%;
         top: -25px;
-        left: -28px;
+        left: 0px;
     }
     
     .collection-character-card[data-char-id="72"] .character-portrait,
