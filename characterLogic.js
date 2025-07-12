@@ -1,4 +1,15 @@
 // Unified functions that work for both main and NG+
+
+function capStatsAt100(stats) {
+    return {
+        smarts: Math.min(stats.smarts || 0, 100),
+        poise: Math.min(stats.poise || 0, 100),
+        empathy: Math.min(stats.empathy || 0, 100),
+        charm: Math.min(stats.charm || 0, 100),
+        sass: Math.min(stats.sass || 0, 100)
+    };
+}
+
 function canMeetCharacterUnified(char) {
     const state = getCurrentGameState();
     if (char.locationRequirement === 'attic' && !state.atticUnlocked) return false;
@@ -315,6 +326,7 @@ function toggleLocationUnified(charId, location) {
     saveStateUnified();
 }
 
+// FIXED: Modified recalculateStatsUnified function to handle main game starting stats
 function recalculateStatsUnified() {
     const state = getCurrentGameState();
     
@@ -328,8 +340,14 @@ function recalculateStatsUnified() {
             sass: state.startingStats.sass || 0
         };
     } else {
-        // Reset to zero for main game
-        state.stats = { smarts: 0, poise: 0, empathy: 0, charm: 0, sass: 0 };
+        // FIXED: For main game, use starting stats if they exist, otherwise zero
+        state.stats = {
+            smarts: state.startingStats ? state.startingStats.smarts || 0 : 0,
+            poise: state.startingStats ? state.startingStats.poise || 0 : 0,
+            empathy: state.startingStats ? state.startingStats.empathy || 0 : 0,
+            charm: state.startingStats ? state.startingStats.charm || 0 : 0,
+            sass: state.startingStats ? state.startingStats.sass || 0 : 0
+        };
     }
     
     // Add stats from relationships
@@ -344,5 +362,14 @@ function recalculateStatsUnified() {
         }
     });
     
+    // Cap all stats at 100
+    state.stats = capStatsAt100(state.stats);
+    
+    // Update the display and apply shimmer effects
     updateStats();
+    
+    // Apply shimmer effects after a small delay to ensure DOM updates
+    setTimeout(() => {
+        refreshAllStatEffects();
+    }, 50);
 }

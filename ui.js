@@ -170,17 +170,26 @@ if (filters.nameSearch) {
         return false;
     }
 }
-        // Story status filter
+// Story status filter
 if (filters.storyFilter) {
     if (filters.storyFilter === 'incomplete') {
         // Show characters who are met but story not complete
         if (!charState.met || charState.storyComplete) return false;
     } else if (filters.storyFilter === 'complete') {
-        // Show characters who have completed stories
+        // Show characters who have completed stories BUT are NOT realizable and NOT realized
         if (!charState.storyComplete) return false;
+        // Exclude characters that can be realized
+        if (canBeRealizedUnified(char)) return false;
+        // Exclude characters that are already realized
+        if (charState.realized) return false;
     } else if (filters.storyFilter === 'realizable') {
-        // Show characters who can be realized (story complete + can realize)
+        // Show characters who can be realized (story complete + can realize) BUT not yet realized
         if (!charState.storyComplete || !canBeRealizedUnified(char)) return false;
+        // Exclude characters that are already realized
+        if (charState.realized) return false;
+    } else if (filters.storyFilter === 'realized') {
+        // Show characters who are already realized
+        if (!charState.realized) return false;
     }
 }
 // Time slot filter
@@ -250,11 +259,26 @@ function updateStats() {
         const charmEl = document.getElementById('ngCharmValue');
         const sassEl = document.getElementById('ngSassValue');
         
-        if (smartsEl) smartsEl.textContent = state.stats.smarts;
-        if (poiseEl) poiseEl.textContent = state.stats.poise;
-        if (empathyEl) empathyEl.textContent = state.stats.empathy;
-        if (charmEl) charmEl.textContent = state.stats.charm;
-        if (sassEl) sassEl.textContent = state.stats.sass;
+        if (smartsEl) {
+            smartsEl.textContent = state.stats.smarts;
+            updateStatMaxEffect(smartsEl, state.stats.smarts);
+        }
+        if (poiseEl) {
+            poiseEl.textContent = state.stats.poise;
+            updateStatMaxEffect(poiseEl, state.stats.poise);
+        }
+        if (empathyEl) {
+            empathyEl.textContent = state.stats.empathy;
+            updateStatMaxEffect(empathyEl, state.stats.empathy);
+        }
+        if (charmEl) {
+            charmEl.textContent = state.stats.charm;
+            updateStatMaxEffect(charmEl, state.stats.charm);
+        }
+        if (sassEl) {
+            sassEl.textContent = state.stats.sass;
+            updateStatMaxEffect(sassEl, state.stats.sass);
+        }
     } else {
         // Main game stat elements
         const smartsEl = document.getElementById('smartsValue');
@@ -263,11 +287,46 @@ function updateStats() {
         const charmEl = document.getElementById('charmValue');
         const sassEl = document.getElementById('sassValue');
         
-        if (smartsEl) smartsEl.textContent = state.stats.smarts;
-        if (poiseEl) poiseEl.textContent = state.stats.poise;
-        if (empathyEl) empathyEl.textContent = state.stats.empathy;
-        if (charmEl) charmEl.textContent = state.stats.charm;
-        if (sassEl) sassEl.textContent = state.stats.sass;
+        if (smartsEl) {
+            smartsEl.textContent = state.stats.smarts;
+            updateStatMaxEffect(smartsEl, state.stats.smarts);
+        }
+        if (poiseEl) {
+            poiseEl.textContent = state.stats.poise;
+            updateStatMaxEffect(poiseEl, state.stats.poise);
+        }
+        if (empathyEl) {
+            empathyEl.textContent = state.stats.empathy;
+            updateStatMaxEffect(empathyEl, state.stats.empathy);
+        }
+        if (charmEl) {
+            charmEl.textContent = state.stats.charm;
+            updateStatMaxEffect(charmEl, state.stats.charm);
+        }
+        if (sassEl) {
+            sassEl.textContent = state.stats.sass;
+            updateStatMaxEffect(sassEl, state.stats.sass);
+        }
+    }
+    
+    // Also update walkthrough stats if on walkthrough tab
+    if (currentTab === 'walkthrough') {
+        updateWalkthroughStatEffects();
+    }
+}
+
+function updateStatMaxEffect(statElement, statValue) {
+    if (!statElement) return;
+    
+    const statItem = statElement.closest('.stat-item');
+    if (!statItem) return;
+    
+    if (statValue >= 100) {
+        statItem.classList.add('max-stat');
+        statElement.classList.add('max-stat');
+    } else {
+        statItem.classList.remove('max-stat');
+        statElement.classList.remove('max-stat');
     }
 }
 
@@ -375,14 +434,14 @@ function updateStartingStats() {
     const charmInput = document.getElementById('ngPlusCharm');
     const sassInput = document.getElementById('ngPlusSass');
     
-    // Update the starting stats
-    ngPlusGameState.startingStats = {
+    // Update the starting stats with 100 cap
+    ngPlusGameState.startingStats = capStatsAt100({
         smarts: parseInt(smartsInput.value) || 0,
         poise: parseInt(poiseInput.value) || 0,
         empathy: parseInt(empathyInput.value) || 0,
         charm: parseInt(charmInput.value) || 0,
         sass: parseInt(sassInput.value) || 0
-    };
+    });
     
     // Force immediate recalculation and display update
     if (isNgPlus) {
@@ -400,9 +459,17 @@ function updateStartingStats() {
             }
         });
         
+        // Cap all stats at 100 after adding relationship bonuses
+        ngPlusGameState.stats = capStatsAt100(ngPlusGameState.stats);
+        
         // Update the display immediately
         updateStats();
         updateSummaryStats();
+        
+        // Apply shimmer effects after a small delay
+        setTimeout(() => {
+            refreshAllStatEffects();
+        }, 50);
     }
     
     // Save the state
@@ -557,6 +624,13 @@ function renderCharacters() {
                 portraitClasses += ' not-met';
             } else if (charState.realized) {
                 portraitClasses += ' realized';
+                // NEW: Add relationship class for realized characters to enable specific styling
+                if (charState.relationship === 'love') {
+                    portraitClasses += ' love';
+                } else if (charState.relationship === 'friend') {
+                    portraitClasses += ' friend';
+                }
+                // Note: hate relationship typically can't be realized
             } else if (charState.relationship === 'love') {
                 portraitClasses += ' love';
             } else if (charState.relationship === 'friend') {
@@ -575,6 +649,8 @@ function renderCharacters() {
                 --portrait-friend-url: url('${urls.friend}');
                 --portrait-hate-url: url('${urls.hate}');
                 --portrait-realized-url: url('${urls.realized}');
+                --portrait-realized-love-url: url('${urls.realizedLove || urls.realized}');
+                --portrait-realized-friend-url: url('${urls.realizedFriend || urls.realized}');
             `;
             
             characterPortrait = `<div class="${portraitClasses}" style="${portraitStyle}"></div>`;
@@ -587,12 +663,15 @@ function renderCharacters() {
         const realizationDependencies = getRealizationDependenciesStatusUnified(char);
         const canCompleteStoryNow = canCompleteStoryUnified(char);
         
+        // Check if character is hated (prevents realization)
+        const isHated = charState.met && charState.relationship === 'hate';
+        
         // Build location tracker
         let locationTracker = '';
-        if (char.hasLocations && locationData[char.id] && charState.met) {
+        if (char.hasLocations && locationData[char.id] && charState.met && !charState.storyComplete) {
             locationTracker = `
                 <div class="location-tracker">
-                    <h4 class="character-name">${locationData[char.id].name}</h4>
+                    <h4>${locationData[char.id].name}</h4>
                     <div class="location-grid">
                         ${locationData[char.id].locations.map(loc => `
                             <div class="location-item">
@@ -607,68 +686,84 @@ function renderCharacters() {
             `;
         }
 
-        // Build requirements display
+        // Build requirements display (only show if not hated)
         let requirementsDisplay = '';
-        if (charState.met && requirements.length > 0 && !canRealize) {
-            requirementsDisplay = `
-                <div class="requirements-list">
-                    <strong>Realization Requirements:</strong>
-                    <ul>
-                        ${requirements.map(req => `
-                            <li class="${req.met ? 'met-requirement' : 'unmet-requirement'}">
-                                ${req.text}${req.current !== undefined ? ` (Current: ${req.current})` : ''}
-                            </li>
-                        `).join('')}
-                    </ul>
-                </div>
-            `;
+        if (charState.met && requirements.length > 0 && !canRealize && !isHated) {
+            // Filter out met requirements, only show unmet ones
+            const unmetRequirements = requirements.filter(req => !req.met);
+            
+            if (unmetRequirements.length > 0) {
+                requirementsDisplay = `
+                    <div class="requirements-list">
+                        <strong>Realization Requirements:</strong>
+                        <ul>
+                            ${unmetRequirements.map(req => `
+                                <li class="unmet-requirement">
+                                    ${req.text}${req.current !== undefined ? ` (Current: ${req.current})` : ''}
+                                </li>
+                            `).join('')}
+                        </ul>
+                    </div>
+                `;
+            }
         }
 
         // Build story requirements display
         let storyRequirementsDisplay = '';
         if (charState.met && storyRequirements.length > 0 && !canCompleteStoryNow) {
-            storyRequirementsDisplay = `
-                <div class="story-requirements">
-                    <strong>Story Completion Requirements:</strong>
-                    <ul>
-                        ${storyRequirements.map(req => `
-                            <li class="${req.met ? 'met-requirement' : 'unmet-requirement'}">
-                                ${req.text}
-                            </li>
-                        `).join('')}
-                    </ul>
-                </div>
-            `;
+            // Filter out met requirements, only show unmet ones
+            const unmetStoryRequirements = storyRequirements.filter(req => !req.met);
+            
+            if (unmetStoryRequirements.length > 0) {
+                storyRequirementsDisplay = `
+                    <div class="story-requirements">
+                        <strong>Story Completion Requirements:</strong>
+                        <ul>
+                            ${unmetStoryRequirements.map(req => `
+                                <li class="unmet-requirement">
+                                    ${req.text}
+                                </li>
+                            `).join('')}
+                        </ul>
+                    </div>
+                `;
+            }
         }
 
-        // Build dependencies display
+        // Build dependencies display (only show if not hated)
         let dependenciesDisplay = '';
-        if (charState.met && realizationDependencies.length > 0 && !canRealize) {
+        if (charState.met && realizationDependencies.length > 0 && !canRealize && !isHated) {
             const bidirectionalDeps = realizationDependencies.filter(dep => dep.type === 'bidirectional');
             const onewayDeps = realizationDependencies.filter(dep => dep.type === 'oneway');
             
-            dependenciesDisplay = `
-                <div class="dependency-requirements">
-                    <strong>Character Story Dependencies:</strong>
-                    <ul>
-                        ${bidirectionalDeps.map(dep => `
-                            <li class="${dep.met ? 'met-requirement' : 'unmet-requirement'}">
-                                ${dep.name}'s story needs to be complete for Realization
-                            </li>
-                        `).join('')}
-                        ${onewayDeps.map(dep => `
-                            <li class="${dep.met ? 'met-requirement' : 'unmet-requirement'}">
-                                ${dep.name}'s story needs to be complete for Realization
-                            </li>
-                        `).join('')}
-                    </ul>
-                </div>
-            `;
+            // Filter out met dependencies, only show unmet ones
+            const unmetBidirectionalDeps = bidirectionalDeps.filter(dep => !dep.met);
+            const unmetOnewayDeps = onewayDeps.filter(dep => !dep.met);
+            
+            if (unmetBidirectionalDeps.length > 0 || unmetOnewayDeps.length > 0) {
+                dependenciesDisplay = `
+                    <div class="dependency-requirements">
+                        <strong>Character Story Dependencies:</strong>
+                        <ul>
+                            ${unmetBidirectionalDeps.map(dep => `
+                                <li class="unmet-requirement">
+                                    ${dep.name}'s story needs to be complete for Realization
+                                </li>
+                            `).join('')}
+                            ${unmetOnewayDeps.map(dep => `
+                                <li class="unmet-requirement">
+                                    ${dep.name}'s story needs to be complete for Realization
+                                </li>
+                            `).join('')}
+                        </ul>
+                    </div>
+                `;
+            }
         }
 
-        // Build manual dependencies display
+        // Build manual dependencies display (only show if not hated)
         let manualDependenciesDisplay = '';
-        if (charState.met && char.realizationDependencies.length === 0 && !canRealize) {
+        if (charState.met && char.realizationDependencies.length === 0 && !canRealize && !isHated) {
             const noOneRequired = [68].includes(char.id);
             if (!noOneRequired) {
                 manualDependenciesDisplay = `
@@ -689,9 +784,9 @@ function renderCharacters() {
             }
         }
 
-        // Add content warning if applicable
+        // Add content warning if applicable - UPDATED TO USE SETTINGS
         let contentWarning = '';
-        if (contentWarnings[char.id]) {
+        if (shouldShowContentWarning(char.id)) {
             contentWarning = `
                 <div class="content-warning">
                     <div class="content-warning-header">
@@ -704,14 +799,14 @@ function renderCharacters() {
             `;
         }
 
-        // Special message for hate relationship preventing realization
+        // Special message for hate relationship preventing realization - UPDATED
         let hateMessage = '';
-        if (charState.met && charState.storyComplete && charState.relationship === 'hate') {
+        if (isHated) {
             hateMessage = `
                 <div class="manual-dependency" style="background: #ffebee; border-left-color: #f44336;">
                     <strong>💔 Cannot Realize</strong>
                     <p style="margin: 5px 0; font-size: 0.9rem; color: #c62828;">
-                        This character hates you and cannot be realized. Try a different relationship outcome.
+                        This character hates you and cannot be realized.
                     </p>
                 </div>
             `;
@@ -723,7 +818,7 @@ function renderCharacters() {
             const buttonText = getVariantButtonText(char, charState);
             
             variantButton = `
-                <button class="btn btn-primary" onclick="toggleCharacterVariant(${char.id})" style="margin-left: 10px;">
+                <button class="btn btn-primary" onclick="toggleCharacterVariant(${char.id})">
                     ${buttonText}
                 </button>
             `;
@@ -751,41 +846,67 @@ function renderCharacters() {
                 <div style="flex: 1;">
                     <div class="character-name">${displayName}</div>
                     ${contentWarning}
-                    <div class="character-controls">
-                        <button class="btn ${charState.met ? 'btn-success' : 'btn-primary'} ${!charState.met && !canMeetCharacterUnified(char) ? 'disabled' : ''}" 
-                                onclick="toggleCharacterMetUnified(${char.id})"
-                                ${!charState.met && !canMeetCharacterUnified(char) ? 'disabled' : ''}>
-                            ${charState.met ? 'Met' : 'Not Met'}
-                        </button>
-                        ${hasDetails && charState.met ? `
-                            <button class="btn btn-primary" onclick="toggleCharacterDetails(${char.id})" id="expand-btn-${char.id}">
-                                Expand
+                    
+                    ${charState.realized ? `
+                        <!-- REALIZED STATE - Hide most buttons, show only icon and essential info -->
+                        <div class="character-controls" style="margin-bottom: 8px;">
+                            <div class="realized-icon-button" onclick="toggleRealizedUnified(${char.id})" style="cursor: pointer; transition: all 0.2s ease;">
+                                <img src="realized_icon.png" alt="Realized" style="width: 100%; height: 100%; filter: drop-shadow(0 2px 4px rgba(0, 0, 0, 0.2));" />
+                            </div>
+                            ${hasDetails ? `
+                                <button class="btn btn-primary" onclick="toggleCharacterDetails(${char.id})" id="expand-btn-${char.id}">
+                                    Expand
+                                </button>
+                            ` : ''}
+                        </div>
+                    ` : `
+                        <!-- NORMAL STATE - Show all buttons when not realized -->
+                        
+                        <!-- LINE 1: Met button and Expand/Collapse button -->
+                        <div class="character-controls" style="margin-bottom: 8px;">
+                            <button class="btn ${charState.met ? 'btn-success' : 'btn-primary'} ${!charState.met && !canMeetCharacterUnified(char) ? 'disabled' : ''}" 
+                                    onclick="toggleCharacterMetUnified(${char.id})"
+                                    ${!charState.met && !canMeetCharacterUnified(char) ? 'disabled' : ''}>
+                                ${charState.met ? 'Met' : 'Not Met'}
                             </button>
-                        ` : ''}
-                        ${variantButton}
-                        ${charState.met && !charState.realized ? `
-<div class="relationship-buttons">
-    <button class="relationship-image-btn ${charState.relationship === 'love' ? 'active' : ''}" 
-            onclick="setCharacterRelationshipUnified(${char.id}, 'love')"
-            title="Love">
-        <img src="love_icon.webp" alt="Love" />
-        <span class="btn-text">Love</span>
-    </button>
-    <button class="relationship-image-btn ${charState.relationship === 'friend' ? 'active' : ''}" 
-            onclick="setCharacterRelationshipUnified(${char.id}, 'friend')"
-            title="Friend">
-        <img src="friend_icon.webp" alt="Friend" />
-        <span class="btn-text">Friend</span>
-    </button>
-    <button class="relationship-image-btn ${charState.relationship === 'hate' ? 'active' : ''}" 
-            onclick="setCharacterRelationshipUnified(${char.id}, 'hate')"
-            title="Hate">
-        <img src="hate_icon.webp" alt="Hate" />
-        <span class="btn-text">Hate</span>
-    </button>
-</div>
+                            ${hasDetails && charState.met ? `
+                                <button class="btn btn-primary" onclick="toggleCharacterDetails(${char.id})" id="expand-btn-${char.id}">
+                                    Expand
+                                </button>
+                            ` : ''}
+                        </div>
+
+                        <!-- LINE 2: Character variations (only if applicable)
+                        ${variantButton ? `
+                            <div class="character-controls" style="margin-bottom: 8px;">
+                                ${variantButton}
+                            </div>
+                        ` : ''} -->
+
+                        <!-- LINE 3: Relationship status (only when met and not realized) -->
+                        ${charState.met ? `
+                            <div class="relationship-buttons" style="margin-bottom: 8px;">
+                                <button class="relationship-image-btn ${charState.relationship === 'love' ? 'active' : ''}" 
+                                        onclick="setCharacterRelationshipUnified(${char.id}, 'love')"
+                                        title="Love">
+                                    <img src="love_icon.webp" alt="Love" />
+                                    <span class="btn-text">Love</span>
+                                </button>
+                                <button class="relationship-image-btn ${charState.relationship === 'friend' ? 'active' : ''}" 
+                                        onclick="setCharacterRelationshipUnified(${char.id}, 'friend')"
+                                        title="Friend">
+                                    <img src="friend_icon.webp" alt="Friend" />
+                                    <span class="btn-text">Friend</span>
+                                </button>
+                                <button class="relationship-image-btn ${charState.relationship === 'hate' ? 'active' : ''}" 
+                                        onclick="setCharacterRelationshipUnified(${char.id}, 'hate')"
+                                        title="Hate">
+                                    <img src="hate_icon.webp" alt="Hate" />
+                                    <span class="btn-text">Hate</span>
+                                </button>
+                            </div>
                             ${char.stat === 'choosable' && charState.relationship ? `
-                                <div style="margin-top: 10px;">
+                                <div style="margin-bottom: 8px;">
                                     <strong>Choose Stat:</strong>
                                     <select onchange="setChosenStatUnified(${char.id}, this.value)" value="${charState.chosenStat || ''}">
                                         <option value="">Select Stat</option>
@@ -798,44 +919,64 @@ function renderCharacters() {
                                 </div>
                             ` : ''}
                         ` : ''}
-                    </div>
-                    ${charState.met ? `
-                        <div style="margin-top: 10px;">
-                            <button class="btn ${charState.storyComplete ? 'btn-success' : 'btn-warning'} ${!charState.storyComplete && !canCompleteStoryNow ? 'disabled' : ''}" 
-                                    onclick="toggleStoryCompleteUnified(${char.id})"
-                                    ${!charState.storyComplete && !canCompleteStoryNow ? 'disabled' : ''}>
-                                Story: ${charState.storyComplete ? 'Complete' : 'Incomplete'}
-                            </button>
-                            <button class="btn ${charState.realized ? 'btn-success' : 'btn-primary'} ${!charState.realized && !canRealize ? 'disabled' : ''}" 
-                                    onclick="toggleRealizedUnified(${char.id})" 
-                                    ${!charState.realized && !canRealize ? 'disabled' : ''}>
-                                ${charState.realized ? 'Realized' : 'Not Realized'}
-                            </button>
-                        </div>
-<div class="character-stat-display">
-    <strong>Stat:</strong> ${statDisplay}
-</div>
-                        ${hateMessage}
-                        ${hasDetails ? `
-                            <div class="character-details collapsed" id="character-details-${char.id}">
-                                ${detailsContent}
+
+                        <!-- LINE 4: Story Complete/Incomplete (only when met) -->
+                        ${charState.met ? `
+                            <div class="character-controls" style="margin-bottom: 8px;">
+                                <button class="btn ${charState.storyComplete ? 'btn-success' : 'btn-warning'} ${!charState.storyComplete && !canCompleteStoryNow ? 'disabled' : ''}" 
+                                        onclick="toggleStoryCompleteUnified(${char.id})"
+                                        ${!charState.storyComplete && !canCompleteStoryNow ? 'disabled' : ''}>
+                                    Story: ${charState.storyComplete ? 'Complete' : 'Incomplete'}
+                                </button>
                             </div>
                         ` : ''}
+
+                        <!-- LINE 5: Realized button (only when met, not realized, and NOT hated) -->
+                        ${charState.met && !isHated ? `
+                            <div class="character-controls" style="margin-bottom: 8px;">
+                                <button class="btn ${charState.realized ? 'btn-success' : 'btn-primary'} ${!charState.realized && !canRealize ? 'disabled' : ''}" 
+                                        onclick="toggleRealizedUnified(${char.id})" 
+                                        ${!charState.realized && !canRealize ? 'disabled' : ''}>
+                                    ${charState.realized ? 'Realized' : 'Not Realized'}
+                                </button>
+                            </div>
+                        ` : ''}
+
+                        <!-- Stat Display (only when met) -->
+                        ${charState.met ? `
+                            <div class="character-stat-display">
+                                <strong>Stat:</strong> ${statDisplay}
+                            </div>
+                        ` : ''}
+                    `}
+
+                    <!-- Hate Message (if applicable) -->
+                    ${hateMessage}
+
+                    <!-- Collapsible Details -->
+                    ${hasDetails ? `
+                        <div class="character-details collapsed" id="character-details-${char.id}">
+                            ${detailsContent}
+                        </div>
                     ` : ''}
+
+                    <!-- Requirements to meet (when not met and cannot meet) -->
                     ${!charState.met && !canMeetCharacterUnified(char) ? `
                         <div style="margin-top: 10px; padding: 10px; background: #fff3cd; border-radius: 6px; border-left: 4px solid #ffc107;">
                             <strong>Requirements to meet:</strong>
                             <ul style="margin-left: 20px; margin-top: 5px;">
                                 ${char.locationRequirement === 'attic' ? '<li>Attic must be unlocked</li>' : ''}
-                                ${char.locationRequirement === 'dlc' ? '<li>DLC must be purchased</li>' : ''}
+                                ${char.locationRequirement === 'dlc' ? '<li>DLC content must be enabled</li>' : ''}
+                                ${char.locationRequirement === 'ngplus' ? '<li>NG+ must be enabled</li>' : ''}
+                                ${char.genderRequirement && char.genderRequirement !== 'both' ? `<li>Player must be ${char.genderRequirement}</li>` : ''}
                             </ul>
                         </div>
                     ` : ''}
                 </div>
             </div>
         `;
+        
         addFavoriteStarToCharacterCard(card, char.id);
-
         grid.appendChild(card);
     });
 }
@@ -944,6 +1085,7 @@ function updateRelationshipStats() {
         if (hateEl) hateEl.textContent = hateCount;
         if (noneEl) noneEl.textContent = noRelationshipCount;
     } else {
+        const realizedEl = document.getElementById('realizedCount');
         const loveEl = document.getElementById('loveCount');
         const friendEl = document.getElementById('friendCount');
         const hateEl = document.getElementById('hateCount');
@@ -1067,6 +1209,132 @@ function applyWalkthroughFilters() {
     };
     
     renderWalkthroughCharacters();
+}
+
+function updateCharacterCardRealized(characterCard, charState) {
+    if (!characterCard) return;
+    
+    if (charState.realized) {
+        characterCard.classList.add('realized');
+        // Remove any old realized styling if it exists
+        characterCard.classList.remove('relationship-love', 'relationship-hate');
+        
+        // The CSS will handle the friends background and shimmer effect
+    } else {
+        characterCard.classList.remove('realized');
+    }
+}
+
+function updateWalkthroughStatEffects() {
+    const walkthroughStats = getWalkthroughStats(); // Get current walkthrough stats
+    
+    const statElements = [
+        { element: document.getElementById('walkthroughSmartsValue'), value: walkthroughStats.smarts || 0 },
+        { element: document.getElementById('walkthroughPoiseValue'), value: walkthroughStats.poise || 0 },
+        { element: document.getElementById('walkthroughEmpathyValue'), value: walkthroughStats.empathy || 0 },
+        { element: document.getElementById('walkthroughCharmValue'), value: walkthroughStats.charm || 0 },
+        { element: document.getElementById('walkthroughSassValue'), value: walkthroughStats.sass || 0 }
+    ];
+    
+    statElements.forEach(({ element, value }) => {
+        if (element) {
+            updateStatMaxEffect(element, value);
+        }
+    });
+}
+
+function getWalkthroughStats() {
+    // Return walkthrough stats - you may need to adapt this based on your walkthrough implementation
+    if (typeof walkthroughState !== 'undefined' && walkthroughState.stats) {
+        return walkthroughState.stats;
+    }
+    // If walkthrough doesn't have its own stats, return zeros
+    return { smarts: 0, poise: 0, empathy: 0, charm: 0, sass: 0 };
+}
+
+function refreshAllStatEffects() {
+    const state = getCurrentGameState();
+    
+    // Update main/NG+ stats
+    updateStats();
+    
+    // Update walkthrough stats if applicable
+    if (currentTab === 'walkthrough') {
+        updateWalkthroughStatEffects();
+    }
+}
+
+function toggleRealizedUnified(charId) {
+    const state = getCurrentGameState();
+    const char = characters.find(c => c.id === charId);
+    
+    if (!state.characters[charId].realized && !canBeRealizedUnified(char)) {
+        return;
+    }
+    
+    state.characters[charId].realized = !state.characters[charId].realized;
+    saveStateUnified(); // This is the correct function name
+    renderCharacters();
+    updateSummaryStats();
+}
+
+function generateContentWarningDisplay(char) {
+    // Only show content warning if settings allow it AND character has a warning
+    if (shouldShowContentWarning(char.id)) {
+        return `
+            <div class="content-warning">
+                <div class="content-warning-header">
+                    ⚠️ Content Warning
+                </div>
+                <div class="content-warning-text">
+                    ${contentWarnings[char.id]}
+                </div>
+            </div>
+        `;
+    }
+    return '';
+}
+
+function generateCollectionsContentWarning(char) {
+    const isDLCChar = isDLCCharacter(char.id);
+    const hasBeenMet = hasBeenMetInEitherMode(char.id);
+    
+    // Only show content warning if settings allow it
+    if (!shouldShowContentWarning(char.id)) {
+        return '';
+    }
+    
+    if (isDLCChar) {
+        // For DLC: show warning if (Spoilers ON) OR (MET)
+        if (collectionsShowSpoilers || hasBeenMet) {
+            return `
+                <div class="content-warning">
+                    <div class="content-warning-header">
+                        ⚠️ Content Warning
+                    </div>
+                    <div class="content-warning-text">
+                        ${contentWarnings[char.id]}
+                    </div>
+                </div>
+            `;
+        }
+    } else {
+        // For regular characters: show warning if (Spoilers ON) OR (MET)
+        if (collectionsShowSpoilers || hasBeenMet) {
+            return `
+                <div class="content-warning">
+                    <div class="content-warning-header">
+                        ⚠️ Content Warning
+                    </div>
+                    <div class="content-warning-text">
+                        ${contentWarnings[char.id]}
+                    </div>
+                </div>
+            `;
+        }
+    }
+    
+    return '';
 }
 
 // Make these functions globally available from ui.js as well

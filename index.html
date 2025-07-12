@@ -8,6 +8,15 @@
     <link rel="icon" type="image/x-icon" href="https://dateeverything.wiki.gg/favicon.ico">
 </head>
 <body>
+
+        <div class="popup-overlay" id="popupOverlay">
+        <div class="popup">
+            <div class="popup-icon">⚠️</div>
+            <h2>Notice</h2>
+            <p>Due to a large bug, the NG+ (New Game Plus) has been removed. I apologize for any inconvenience this will cause.</p>
+            <button class="popup-button" onclick="closePopup()">Got it</button>
+        </div>
+    </div>
         <!-- Display Mode Toggle Button -->
     <button class="display-mode-toggle" onclick="toggleDisplayMode()">
         <span class="icon">⚙️</span>
@@ -16,19 +25,32 @@
 
     <!-- Mode Indicator -->
     <div class="mode-indicator" id="modeIndicator">Auto Mode (Responsive)</div>
+
+
 <div class="container">
     <h1>Date Everything Tracker</h1>
     
     <div class="tab-container">
         <div class="tab-buttons">
-            <button class="tab-button active" onclick="switchTab('main')">Main Game</button>
-            <button class="tab-button" onclick="switchTab('ngplus')">NG+</button>
+            <button class="tab-button active" onclick="switchTab('main')">Tracker</button>
+            <!--<button class="tab-button" onclick="switchTab('ngplus')">NG+</button>-->
             <button class="tab-button" onclick="switchTab('collections')">Collections</button>
             <button class="tab-button disabled">Achievements</button>
             <button class="tab-button disabled">Speedrunning</button>
             <button class="tab-button disabled">Walkthrough/Guides</button>
             <button class="tab-button disabled">Date-a-Dex</button>
         </div>
+
+        <div class="settings-panel">
+    <h3>Settings</h3>
+    <div class="setting-item">
+        <label>Content Warnings:</label>
+        <button id="contentWarningToggle" class="toggle-btn" onclick="toggleContentWarnings()">
+            Content Warnings: ON
+        </button>
+        <p class="setting-description">Show content warnings for characters with potentially sensitive themes</p>
+    </div>
+</div>
         
         <div id="main-tab" class="tab-content active">
             <!-- Filters Section -->
@@ -70,17 +92,18 @@
     <option value="none">None</option>
     <option value="not-met">Not Met</option>
     <option value="hide-completed">Hide Completed</option>
-    <option value="favorites">Favorites Only</option>
+        <option value="favorites">Favorites Only</option>
 </select>
                         </div>
                         <div class="filter-group">
     <label>Filter by Story Status:</label>
-    <select id="main-story-filter" onchange="applyFilters('main')">
-        <option value="">All Stories</option>
-        <option value="incomplete">Story Incomplete</option>
-        <option value="complete">Story Complete</option>
-        <option value="realizable">Realizable</option>
-    </select>
+<select id="main-story-filter" onchange="applyFilters('main')">
+    <option value="">All Stories</option>
+    <option value="incomplete">Story Incomplete</option>
+    <option value="complete">Story Complete</option>
+    <option value="realizable">Realizable</option>
+    <option value="realized">Realized</option>
+</select>
 </div>
 <div class="filter-group">
     <label>Filter by Time Slots:</label>
@@ -118,6 +141,40 @@
                 </div>
             </div>
 
+            <!-- NEW: Stat Adjustments Section -->
+            <div class="stat-adjustments">
+                <div class="control-group">
+                    <button id="toggleStatAdjustments" class="btn btn-secondary">📊 Stat Adjustments</button>
+                </div>
+                
+                <div id="statAdjustmentsPanel" class="ng-plus-starter" style="display: none;">
+                    <h3>Starting Stat Adjustments</h3>
+                    <p>Set your base starting stats before relationship bonuses are applied. Changes apply automatically!</p>
+                    <div class="starter-stats">
+                        <div class="starter-stat">
+                            <label>Smarts:</label>
+                            <input type="number" id="mainStartingSmarts" min="0" max="100" value="0">
+                        </div>
+                        <div class="starter-stat">
+                            <label>Poise:</label>
+                            <input type="number" id="mainStartingPoise" min="0" max="100" value="0">
+                        </div>
+                        <div class="starter-stat">
+                            <label>Empathy:</label>
+                            <input type="number" id="mainStartingEmpathy" min="0" max="100" value="0">
+                        </div>
+                        <div class="starter-stat">
+                            <label>Charm:</label>
+                            <input type="number" id="mainStartingCharm" min="0" max="100" value="0">
+                        </div>
+                        <div class="starter-stat">
+                            <label>Sass:</label>
+                            <input type="number" id="mainStartingSass" min="0" max="100" value="0">
+                        </div>
+                    </div>
+                </div>
+            </div>
+
             <div class="stats-display">
                 <div class="stat-item">
                     <div>Smarts</div>
@@ -152,40 +209,43 @@
                 </div>
                 <div class="summary-card">
                     <span class="summary-number" id="realizedCount">0</span>
-                    <div>Characters Realized</div>
+                    <div>Realized</div>
                 </div>
                 <div class="summary-card">
-                    <span class="summary-number" id="completionRate">0%</span>
-                    <div>Completion Rate</div>
+                    <span class="summary-number" id="completionRate">0</span>
+                    <div>Completion %</div>
                 </div>
             </div>
-<div class="relationship-stats">
-    <h3>Relationship Breakdown</h3>
-    <div class="relationship-grid">
-        <div class="relationship-card love">
-            <img src="love_icon.webp" alt="Love" class="relationship-icon" />
-            <span class="relationship-number" id="loveCount">0</span>
-            <div>Love</div>
-        </div>
-        <div class="relationship-card friend">
-            <img src="friend_icon.webp" alt="Friend" class="relationship-icon" />
-            <span class="relationship-number" id="friendCount">0</span>
-            <div>Friend</div>
-        </div>
-        <div class="relationship-card hate">
-            <img src="hate_icon.webp" alt="Hate" class="relationship-icon" />
-            <span class="relationship-number" id="hateCount">0</span>
-            <div>Hate</div>
-        </div>
-        <div class="relationship-card none">
-            <span class="relationship-number" id="noRelationshipCount">0</span>
-            <div>No Relationship</div>
+
+    <div class="relationship-stats">
+        <h3>Relationship Breakdown</h3>
+        <div class="relationship-grid">
+            <div class="relationship-card love">
+                <img src="love_icon.webp" alt="Love" class="relationship-icon" />
+                <span class="relationship-number" id="loveCount">0</span>
+                <div>Love</div>
+            </div>
+            <div class="relationship-card friend">
+                <img src="friend_icon.webp" alt="Friend" class="relationship-icon" />
+                <span class="relationship-number" id="friendCount">0</span>
+                <div>Friend</div>
+            </div>
+            <div class="relationship-card hate">
+                <img src="hate_icon.webp" alt="Hate" class="relationship-icon" />
+                <span class="relationship-number" id="hateCount">0</span>
+                <div>Hate</div>
+            </div>
+
+            <div class="relationship-card none">
+                <span class="relationship-number" id="noRelationshipCount">0</span>
+                <div>No Relationship</div>
+            </div>
         </div>
     </div>
-</div>
 
+            <!-- Time Slots Section -->
             <div class="time-slots">
-                <h3>Daily Time Slots</h3>
+                <h3>Time Slots</h3>
                 <div class="time-slot">
                     <div class="time-label">9am:</div>
                     <select id="slot9am">
@@ -273,12 +333,13 @@
                         </div>
                         <div class="filter-group">
     <label>Filter by Story Status:</label>
-    <select id="ng-story-filter" onchange="applyFilters('ng')">
-        <option value="">All Stories</option>
-        <option value="incomplete">Story Incomplete</option>
-        <option value="complete">Story Complete</option>
-        <option value="realizable">Realizable</option>
-    </select>
+<select id="ng-story-filter" onchange="applyFilters('ng')">
+    <option value="">All Stories</option>
+    <option value="incomplete">Story Incomplete</option>
+    <option value="complete">Story Complete</option>
+    <option value="realizable">Realizable</option>
+    <option value="realized">Realized</option>
+</select>
 </div>
 <div class="filter-group">
     <label>Filter by Time Slots:</label>
@@ -377,40 +438,17 @@
                 </div>
                 <div class="summary-card">
                     <span class="summary-number" id="ngRealizedCount">0</span>
-                    <div>Characters Realized</div>
+                    <div>Realized</div>
                 </div>
                 <div class="summary-card">
-                    <span class="summary-number" id="ngCompletionRate">0%</span>
-                    <div>Completion Rate</div>
+                    <span class="summary-number" id="ngCompletionRate">0</span>
+                    <div>Completion %</div>
                 </div>
             </div>
-<div class="relationship-stats">
-    <h3>Relationship Breakdown</h3>
-    <div class="relationship-grid">
-        <div class="relationship-card love">
-            <img src="love_icon.webp" alt="Love" class="relationship-icon" />
-            <span class="relationship-number" id="ngLoveCount">0</span>
-            <div>Love</div>
-        </div>
-        <div class="relationship-card friend">
-            <img src="friend_icon.webp" alt="Friend" class="relationship-icon" />
-            <span class="relationship-number" id="ngFriendCount">0</span>
-            <div>Friend</div>
-        </div>
-        <div class="relationship-card hate">
-            <img src="hate_icon.webp" alt="Hate" class="relationship-icon" />
-            <span class="relationship-number" id="ngHateCount">0</span>
-            <div>Hate</div>
-        </div>
-        <div class="relationship-card none">
-            <span class="relationship-number" id="ngNoRelationshipCount">0</span>
-            <div>No Relationship</div>
-        </div>
-    </div>
-</div>
 
+            <!-- NG+ Time Slots Section -->
             <div class="time-slots">
-                <h3>Daily Time Slots</h3>
+                <h3>Time Slots</h3>
                 <div class="time-slot">
                     <div class="time-label">9am:</div>
                     <select id="ngSlot9am">
@@ -448,210 +486,230 @@
     </div>
             </div>
 
-            <div class="character-grid" id="ngCharacterGrid">
-                <!-- NG+ Characters will be populated here -->
+            <div class="character-grid" id="characterGrid">
+                <!-- Characters will be populated here -->
             </div>
         </div>
-        
+
+        <!-- Collections Tab -->
         <div id="collections-tab" class="tab-content">
-            <div class="collections-header">
+            <!-- Collections content will go here -->
+            <div class="coming-soon">
                 <h2>Collections</h2>
-                <p>Track your collectables from each character's storyline!</p>
+                <p>Track your collectibles and achievements from Date Everything.</p><br />
                 
+                <!-- Filters Section for Collections -->
+                <div class="filters-section">
+                    <div class="filters-header">
+                        <h3>Filters & Sorting</h3>
+                        <button class="filters-toggle" onclick="toggleFilters('collections')">Show Filters</button>
+                    </div>
+                    <div class="filters-content" id="collections-filters">
+                        <div class="filters-grid">
+                            <div class="filter-group">
+                                <label>Sort By:</label>
+                                <select id="collections-sort" onchange="applyFilters('collections')">
+                                    <option value="dex">Dex Number</option>
+        <option value="name">By Name</option>
+                                    <option value="completion">Completion Rate</option>
+                                </select>
+                            </div>
+                            <div class="filter-group">
+                                <label>Filter by Completion:</label>
+                                <select id="collections-completion-filter" onchange="applyFilters('collections')">
+                                    <option value="">All Characters</option>
+                                    <option value="complete">Fully Complete</option>
+                                    <option value="partial">Partially Complete</option>
+                                    <option value="none">No Progress</option>
+                                </select>
+                            </div>
+                            <div class="filter-group">
+                                <label>Filter by Met Status:</label>
+                                <select id="collections-met-filter" onchange="applyFilters('collections')">
+                                    <option value="">All Characters</option>
+                                    <option value="met">Met Only</option>
+                                    <option value="not-met">Not Met Only</option>
+                                </select>
+                            </div>
+                            <div class="filter-group">
+                                <label>Search Name:</label>
+                                <input type="text" id="collections-name-search" placeholder="Search..." oninput="applyFilters('collections')">
+                            </div>
+                        </div>
+                        <div class="filters-actions">
+                            <button class="btn btn-primary" onclick="applyFilters('collections')">Apply Filters</button>
+                            <button class="btn btn-warning" onclick="clearFilters('collections')">Clear Filters</button>
+                        </div>
+                    </div>
+                </div>
 
+                <!-- Collections Summary -->
+                <div class="collections-summary">
+                    <div class="summary-card">
+                        <span class="summary-number" id="totalCollectibles">0</span>
+                        <div>Total Collectibles</div>
+                    </div>
+                    <div class="summary-card">
+                        <span class="summary-number" id="collectedCount">0</span>
+                        <div>Collected</div>
+                    </div>
+                    <div class="summary-card">
+                        <span class="summary-number" id="collectionRate">0</span>
+                        <div>Collection %</div>
+                    </div>
+                </div>
 
-<!-- ADD THIS NEW SECTION -->
-<div class="filters-section">
-    <div class="filters-header">
-        <h3>Filters & Sorting</h3>
-        <button class="filters-toggle" onclick="toggleFilters('collections')">Show Filters</button>
-    </div>
-    <div class="filters-content" id="collections-filters">
-        <div class="filters-grid">
-            <div class="filter-group">
-                <label>Sort By:</label>
-                <select id="collections-sort" onchange="applyFilters('collections')">
-                    <option value="dex">By Dex Number</option>
-                    <option value="name">By Name</option>
-                    <option value="completion-max">Completion % (Max First)</option>
-                    <option value="completion-min">Completion % (Min First)</option>
-                </select>
-            </div>
-            <div class="filter-group">
-                <label>Filter by Completion:</label>
-                <select id="collections-completion-filter" onchange="applyFilters('collections')">
-                    <option value="">All Characters</option>
-                    <option value="completed">Collections Completed</option>
-                    <option value="incomplete">Collections Incomplete</option>
-                </select>
-            </div>
-            <div class="filter-group">
-                <label>Filter by Met Status:</label>
-                <select id="collections-met-filter" onchange="applyFilters('collections')">
-                    <option value="">All Characters</option>
-                    <option value="met">Met</option>
-                    <option value="not-met">Not Met</option>
-                        <option value="favorites">Favorites Only</option>
-                </select>
-            </div>
-            <div class="filter-group">
-                <label>Search Name:</label>
-                <input type="text" id="collections-name-search" placeholder="Search..." oninput="applyFilters('collections')">
+                <!-- Collections Grid -->
+                <div class="collections-grid" id="collectionsGrid">
+                    <!-- Collections will be populated here -->
+                </div>
             </div>
         </div>
-        <div class="filters-actions">
-            <button class="btn btn-primary" onclick="applyFilters('collections')">Apply Filters</button>
-            <button class="btn btn-warning" onclick="clearFilters('collections')">Clear Filters</button>
+
+        <!-- Walkthrough Tab -->
+        <div id="walkthrough-tab" class="tab-content">
+    <div class="walkthrough-container">
+        <h2>Walkthrough & Guides</h2>
+        <p>Interactive character guides and stat management for optimal playthroughs.</p>
+
+        <!-- Filters Section for Walkthrough -->
+        <div class="filters-section">
+            <div class="filters-header">
+                <h3>Filters & Sorting</h3>
+                <button class="filters-toggle" onclick="toggleFilters('walkthrough')">Show Filters</button>
+            </div>
+            <div class="filters-content" id="walkthrough-filters">
+                <div class="filters-grid">
+                    <div class="filter-group">
+                        <label>Sort By:</label>
+                        <select id="walkthrough-sort" onchange="applyFilters('walkthrough')">
+                            <option value="dex">Dex Number</option>
+<option value="name">By Name</option>
+                            <option value="stat">Stat Type</option>
+                            <option value="relationship">Relationship</option>
+                        </select>
+                    </div>
+                    <div class="filter-group">
+                        <label>Filter by Stat:</label>
+                        <select id="walkthrough-stat-filter" onchange="applyFilters('walkthrough')">
+                            <option value="">All Stats</option>
+                            <option value="smarts">Smarts</option>
+                            <option value="poise">Poise</option>
+                            <option value="empathy">Empathy</option>
+                            <option value="charm">Charm</option>
+                            <option value="sass">Sass</option>
+                            <option value="choosable">Choosable</option>
+                        </select>
+                    </div>
+                    <div class="filter-group">
+                        <label>Filter by Relationship:</label>
+                        <select id="walkthrough-relationship-filter" onchange="applyFilters('walkthrough')">
+                            <option value="">All Relationships</option>
+                            <option value="love">Love</option>
+                            <option value="friend">Friend</option>
+                            <option value="hate">Hate</option>
+                            <option value="none">None</option>
+                            <option value="not-met">Not Met</option>
+                            <option value="hide-completed">Hide Completed</option>
+                        </select>
+                    </div>
+                    <div class="filter-group">
+                        <label>Filter by Story Status:</label>
+<select id="walkthrough-story-filter" onchange="applyFilters('walkthrough')">
+    <option value="">All Stories</option>
+    <option value="incomplete">Story Incomplete</option>
+    <option value="complete">Story Complete</option>
+    <option value="realizable">Realizable</option>
+    <option value="realized">Realized</option>
+</select>
+                    </div>
+                    <div class="filter-group">
+                        <label>Search Name:</label>
+                        <input type="text" id="walkthrough-name-search" placeholder="Search..." oninput="applyFilters('walkthrough')">
+                    </div>
+                </div>
+                <div class="filters-actions">
+                    <button class="btn btn-primary" onclick="applyFilters('walkthrough')">Apply Filters</button>
+                    <button class="btn btn-warning" onclick="clearFilters('walkthrough')">Clear Filters</button>
+                </div>
+            </div>
+        </div>
+
+
+        <!-- Stats display -->
+        <div class="stats-display">
+            <div class="stat-item">
+                <div>Smarts</div>
+                <span class="stat-value" id="walkthroughSmartsValue">0</span>
+            </div>
+            <div class="stat-item">
+                <div>Poise</div>
+                <span class="stat-value" id="walkthroughPoiseValue">0</span>
+            </div>
+            <div class="stat-item">
+                <div>Empathy</div>
+                <span class="stat-value" id="walkthroughEmpathyValue">0</span>
+            </div>
+            <div class="stat-item">
+                <div>Charm</div>
+                <span class="stat-value" id="walkthroughCharmValue">0</span>
+            </div>
+            <div class="stat-item">
+                <div>Sass</div>
+                <span class="stat-value" id="walkthroughSassValue">0</span>
+            </div>
+        </div>
+
+
+        <!-- Character grid -->
+        <div class="character-grid" id="walkthroughCharacterGrid">
+            <!-- Walkthrough characters will be populated here -->
         </div>
     </div>
 </div>
-<div class="collections-controls">
-    <button id="collectionsSpoilerToggle" class="toggle-btn" onclick="toggleCollectionsSpoilers()">
-        Spoilers: OFF
-    </button>
-    <button id="collectionsDlcToggle" class="toggle-btn" onclick="toggleCollectionsDLC()">
-        Show DLC: OFF
-    </button>
-    <button id="resetCollections" class="btn btn-danger" onclick="resetCollections()">
-        Reset Collections
-    </button>
-</div>
-                
-                <div class="collections-summary" id="collectionsSummary">
-                    <div class="collections-stat">
-                        <span class="stat-number">0</span>
-                        <span class="stat-label">Collected</span>
-                    </div>
-                    <div class="collections-stat">
-                        <span class="stat-number">0</span>
-                        <span class="stat-label">Total</span>
-                    </div>
-                    <div class="collections-stat">
-                        <span class="stat-number">0%</span>
-                        <span class="stat-label">Complete</span>
-                    </div>
-                </div>
-            </div>
-            
-            <div class="collections-grid" id="collectionsGrid">
-                <!-- Collections will be populated here -->
-            </div>
-        </div>
-        
-        <div id="achievements-tab" class="tab-content">
-            <div class="coming-soon">
-                <h2>Achievements</h2>
-                <p>Track your progress with special achievements and milestones coming soon!</p>
-            </div>
-        </div>
-        
-        <div id="speedrunning-tab" class="tab-content">
-            <div class="coming-soon">
-                <h2>Speedrunning</h2>
-                <p>Tools and timers for speedrunning Date Everything coming soon!</p>
-            </div>
-        </div>
 
-<!-- Enhanced Walkthrough Tab Section with Bi-Directional Auto-Sync -->
-<!-- Replace the walkthrough tab content in your index.html with this -->
-
-<div id="walkthrough-tab" class="tab-content">
-    <!-- Filters Section for Walkthrough -->
-    <div class="filters-section">
-        <div class="filters-header">
-            <h3>Character Guide Filters & Sorting</h3>
-            <button class="filters-toggle" onclick="toggleFilters('walkthrough')">Show Filters</button>
-        </div>
-        <div class="filters-content" id="walkthrough-filters">
-            <div class="filters-grid">
-                <div class="filter-group">
-                    <label>Sort By:</label>
-                    <select id="walkthrough-sort" onchange="applyFilters('walkthrough')">
-                        <option value="dex">Dex Number</option>
-                        <option value="name">By Name</option>
-                        <option value="stat">Stat Type</option>
-                        <option value="relationship">Relationship</option>
-                    </select>
-                </div>
-                <div class="filter-group">
-                    <label>Filter by Stat:</label>
-                    <select id="walkthrough-stat-filter" onchange="applyFilters('walkthrough')">
-                        <option value="">All Stats</option>
-                        <option value="smarts">Smarts</option>
-                        <option value="poise">Poise</option>
-                        <option value="empathy">Empathy</option>
-                        <option value="charm">Charm</option>
-                        <option value="sass">Sass</option>
-                        <option value="choosable">Choosable</option>
-                    </select>
-                </div>
-                <div class="filter-group">
-                    <label>Filter by Relationship:</label>
-                    <select id="walkthrough-relationship-filter" onchange="applyFilters('walkthrough')">
-                        <option value="">All Relationships</option>
-                        <option value="love">Love</option>
-                        <option value="friend">Friend</option>
-                        <option value="hate">Hate</option>
-                        <option value="none">None</option>
-                        <option value="not-met">Not Met</option>
-                        <option value="hide-completed">Hide Completed</option>
-                    </select>
-                </div>
-                <div class="filter-group">
-                    <label>Filter by Story Status:</label>
-                    <select id="walkthrough-story-filter" onchange="applyFilters('walkthrough')">
-                        <option value="">All Stories</option>
-                        <option value="incomplete">Story Incomplete</option>
-                        <option value="complete">Story Complete</option>
-                        <option value="realizable">Realizable</option>
-                    </select>
-                </div>
-                <div class="filter-group">
-                    <label>Search Name:</label>
-                    <input type="text" id="walkthrough-name-search" placeholder="Search..." oninput="applyFilters('walkthrough')">
-                </div>
-            </div>
-            <div class="filters-actions">
-                <button class="btn btn-primary" onclick="applyFilters('walkthrough')">Apply Filters</button>
-                <button class="btn btn-warning" onclick="clearFilters('walkthrough')">Clear Filters</button>
-            </div>
-        </div>
-    </div>
-
-
-    <!-- Stats display -->
-    <div class="stats-display">
-        <div class="stat-item">
-            <div>Smarts</div>
-            <span class="stat-value" id="walkthroughSmartsValue">0</span>
-        </div>
-        <div class="stat-item">
-            <div>Poise</div>
-            <span class="stat-value" id="walkthroughPoiseValue">0</span>
-        </div>
-        <div class="stat-item">
-            <div>Empathy</div>
-            <span class="stat-value" id="walkthroughEmpathyValue">0</span>
-        </div>
-        <div class="stat-item">
-            <div>Charm</div>
-            <span class="stat-value" id="walkthroughCharmValue">0</span>
-        </div>
-        <div class="stat-item">
-            <div>Sass</div>
-            <span class="stat-value" id="walkthroughSassValue">0</span>
-        </div>
-    </div>
-
-
-    <!-- Character grid -->
-    <div class="character-grid" id="walkthroughCharacterGrid">
-        <!-- Walkthrough characters will be populated here -->
     </div>
 </div>
 
+    <script>
+        // Track if popup has been shown using a simple variable
+        let popupShown = false;
 
+        function showPopup() {
+            if (!popupShown) {
+                const overlay = document.getElementById('popupOverlay');
+                overlay.classList.add('show');
+                popupShown = true;
+            }
+        }
 
+        function closePopup() {
+            const overlay = document.getElementById('popupOverlay');
+            overlay.classList.remove('show');
+        }
+
+        // Show popup when page loads for the first time
+        window.addEventListener('load', function() {
+            // Small delay to ensure smooth animation
+            setTimeout(showPopup, 500);
+        });
+
+        // Close popup when clicking outside of it
+        document.getElementById('popupOverlay').addEventListener('click', function(e) {
+            if (e.target === this) {
+                closePopup();
+            }
+        });
+
+        // Close popup with Escape key
+        document.addEventListener('keydown', function(e) {
+            if (e.key === 'Escape') {
+                closePopup();
+            }
+        });
+    </script>
+
+<script src="settings.js"></script>
 <script src="data.js"></script>
 <script src="collectables.js"></script>
 <script src="walkthroughInteractions.js"></script>
