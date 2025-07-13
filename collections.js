@@ -397,23 +397,22 @@ function getCollectionsStats() {
 // Function to update collections summary
 function updateCollectionsSummary() {
     const stats = getCollectionsStats();
-    const summaryEl = document.getElementById('collectionsSummary');
     
-    if (summaryEl) {
-        summaryEl.innerHTML = `
-            <div class="collections-stat">
-                <span class="stat-number">${stats.collected}</span>
-                <span class="stat-label">Collected</span>
-            </div>
-            <div class="collections-stat">
-                <span class="stat-number">${stats.total}</span>
-                <span class="stat-label">Total</span>
-            </div>
-            <div class="collections-stat">
-                <span class="stat-number">${stats.percentage}%</span>
-                <span class="stat-label">Complete</span>
-            </div>
-        `;
+    // Update the individual summary elements that exist in the HTML
+    const totalEl = document.getElementById('totalCollectibles');
+    const collectedEl = document.getElementById('collectedCount');
+    const rateEl = document.getElementById('collectionRate');
+    
+    if (totalEl) {
+        totalEl.textContent = stats.total;
+    }
+    
+    if (collectedEl) {
+        collectedEl.textContent = stats.collected;
+    }
+    
+    if (rateEl) {
+        rateEl.textContent = stats.percentage;
     }
 }
 

@@ -168,7 +168,7 @@ const characters = [
         requirements: { smarts: 100, poise: 0, empathy: 70, charm: 0, sass: 80 }, 
         locationRequirement: 'none',
         storyRequirements: {},
-        realizationDependencies: [], // Empty per your list
+        realizationDependencies: [29], // Empty per your list
         bidirectionalDependencies: []
     },
     { 
@@ -288,7 +288,7 @@ const characters = [
         requirements: { smarts: 90, poise: 50, empathy: 80, charm: 15, sass: 15 }, 
         locationRequirement: 'none',
         storyRequirements: {},
-        realizationDependencies: [35, 38, 41], // Freddy, Miranda, Friar Errol
+        realizationDependencies: [32, 35, 38, 41], // Freddy, Miranda, Friar Errol
         bidirectionalDependencies: []
     },
     { 
@@ -296,7 +296,7 @@ const characters = [
         requirements: { smarts: 80, poise: 80, empathy: 80, charm: 5, sass: 5 }, 
         locationRequirement: 'none',
         storyRequirements: {},
-        realizationDependencies: [35, 36, 41], // Freddy, Stefan, Friar Errol
+        realizationDependencies: [32, 35, 36, 41], // Freddy, Stefan, Friar Errol
         bidirectionalDependencies: []
     },
     { 
@@ -304,7 +304,7 @@ const characters = [
         requirements: { smarts: 0, poise: 0, empathy: 70, charm: 90, sass: 90 }, 
         locationRequirement: 'none',
         storyRequirements: {},
-        realizationDependencies: [26], // Gaia
+        realizationDependencies: [26, 32], // Gaia
         bidirectionalDependencies: []
     },
     { 
@@ -312,7 +312,7 @@ const characters = [
         requirements: { smarts: 100, poise: 0, empathy: 0, charm: 50, sass: 100 }, 
         locationRequirement: 'none',
         storyRequirements: {},
-        realizationDependencies: [], // Empty per your list
+        realizationDependencies: [32], // Empty per your list
         bidirectionalDependencies: []
     },
     { 
@@ -328,7 +328,7 @@ const characters = [
         requirements: { smarts: 70, poise: 70, empathy: 70, charm: 40, sass: 0 }, 
         locationRequirement: 'none',
         storyRequirements: {},
-        realizationDependencies: [36], // Stefan
+        realizationDependencies: [32, 36], // Stefan
         bidirectionalDependencies: []
     },
     { 
@@ -336,7 +336,7 @@ const characters = [
         requirements: { smarts: 80, poise: 15, empathy: 85, charm: 60, sass: 10 }, 
         locationRequirement: 'none',
         storyRequirements: {},
-        realizationDependencies: [11, 26, 92], // Abel, Gaia, Holly
+        realizationDependencies: [11, 26, 32, 92], // Abel, Gaia, Holly
         bidirectionalDependencies: []
     },
     { 
@@ -344,7 +344,7 @@ const characters = [
         requirements: { smarts: 70, poise: 80, empathy: 80, charm: 10, sass: 10 }, 
         locationRequirement: 'none',
         storyRequirements: {},
-        realizationDependencies: [34, 54, 61, 85, 91], // Sinclaire, Jerry, Maggie, Beau, Memoria
+        realizationDependencies: [32, 34, 54, 61, 85, 91], // Sinclaire, Jerry, Maggie, Beau, Memoria
         bidirectionalDependencies: []
     },
     { 
@@ -352,7 +352,7 @@ const characters = [
         requirements: { smarts: 75, poise: 20, empathy: 55, charm: 50, sass: 50 }, 
         locationRequirement: 'none',
         storyRequirements: {},
-        realizationDependencies: [79], // Bobby
+        realizationDependencies: [26, 32, 79], // Bobby
         bidirectionalDependencies: []
     },
     { 
@@ -688,7 +688,7 @@ const characters = [
         requirements: { smarts: 50, poise: 50, empathy: 50, charm: 50, sass: 50 }, 
         locationRequirement: 'none',
         storyRequirements: {},
-        realizationDependencies: [], // Empty per your list
+        realizationDependencies: [26], // Empty per your list
         bidirectionalDependencies: []
     },
     { 

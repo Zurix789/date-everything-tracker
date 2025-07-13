@@ -997,53 +997,6 @@ function toggleCharacterDetails(charId) {
     }
 }
 
-        let displayMode = localStorage.getItem('displayMode') || 'auto';
-
-        function updateModeDisplay() {
-            const button = document.querySelector('.display-mode-toggle');
-            const indicator = document.getElementById('modeIndicator');
-            
-            // Remove all mode classes
-            document.body.classList.remove('force-desktop-mode', 'force-mobile-mode');
-            
-            switch(displayMode) {
-                case 'desktop':
-                    document.body.classList.add('force-desktop-mode');
-                    button.innerHTML = '<span class="icon">🖥️</span><span class="text">Desptop Mode</span>';
-                    indicator.textContent = 'Mobile Mode (Forced)';
-                    break;
-                case 'mobile':
-                    document.body.classList.add('force-mobile-mode');
-                    button.innerHTML = '<span class="icon">📱</span><span class="text">Mobile Mode</span>';
-                    indicator.textContent = 'Desktop Mode (Forced)';
-                    break;
-                default:
-                    button.innerHTML = '<span class="icon">⚙️</span><span class="text">Auto Mode</span>';
-                    indicator.textContent = 'Auto Mode (Responsive)';
-            }
-        }
-
-        function toggleDisplayMode() {
-            switch(displayMode) {
-                case 'auto':
-                    displayMode = 'desktop';
-                    break;
-                case 'desktop':
-                    displayMode = 'mobile';
-                    break;
-                case 'mobile':
-                    displayMode = 'auto';
-                    break;
-            }
-            
-            localStorage.setItem('displayMode', displayMode);
-            updateModeDisplay();
-        }
-
-        // Initialize on page load
-        document.addEventListener('DOMContentLoaded', function() {
-            updateModeDisplay();
-        });
 
 // Update relationship stats
 function updateRelationshipStats() {
